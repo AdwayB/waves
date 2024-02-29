@@ -9,20 +9,20 @@
     "typescript": "tsc -p tsconfig.json ",
     "prepare": "husky install",
     "rimraf": "rm -rf node_modules && yarn cache clean",
-    "lint": "eslint . --fix --quiet --cache",
+    "lint": "eslint . --fix --quiet --cache && prettier --write .",
     "lint:scss": "stylelint \"*/src/**/*.scss\" --quiet --cache",
-    "format": "prettier --loglevel error --cache --write \"*/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "format": "prettier --loglevel error --cache --write \"*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "runChecks": "yarn format && yarn lint && yarn typescript && yarn lint:scss",
     "versionCheck": "yarn outdated"
   },
   "lint-staged": {
-    "*/src/**/*.{js,jsx,ts,tsx,json}": [
+    "*.{js,jsx,ts,tsx,json}": [
       "eslint --fix --quiet --cache"
     ],
-    "*/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --loglevel error --write --cache"
+    "*.{js,jsx,ts,tsx,json,css,scss,md,less,html,cjs,yml,yaml,mjs}": [
+      "prettier --write --cache"
     ],
-    "*/src/**/*.{css,scss}": [
+    "*.{scss,css}": [
       "stylelint --quiet --cache"
     ]
   },
@@ -52,12 +52,17 @@
     "css-modules": "^0.3.0",
     "dayjs": "^1.11.10",
     "eslint": "^8.57.0",
+    "eslint-plugin-html": "^8.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.2",
     "mini-css-extract-plugin": "^2.8.1",
     "node-sass": "^9.0.0",
+    "postcss-scss": "^4.0.9",
     "prettier": "^3.2.5",
     "sass-loader": "^14.1.1",
     "source-map-loader": "^5.0.0",
