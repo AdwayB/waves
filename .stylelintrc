@@ -1,0 +1,33 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "property-no-vendor-prefix": null,
+    "selector-pseudo-element-no-unknown": null,
+    "declaration-property-value-allowed-list": {
+      "font": ["unset"],
+      "font-weight": ["/.*weight/"],
+      "font-size": ["/.*size/"],
+      "line-height": ["/.*line-*/"]
+    },
+    "color-named": "never",
+    "color-no-hex": true,
+    "color-no-invalid-hex": true,
+    "function-disallowed-list": ["rgb", "hwb", "lch"],
+    "selector-attribute-operator-disallowed-list": ["class", "id"],
+    "custom-property-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Expected custom property name to be kebab-case"
+      }
+    ],
+    "number-max-precision": 2,
+    "no-descending-specificity": null,
+    "custom/font-style-mixin-checker": true,
+    "custom/no-ant-prefix": true
+  },
+  "unit-allowed-list": ["%", "px", "rem", "vh", "vw", "lvh", "dvh", "svh"],
+  "cache": true,
+  "fix": true,
+  "overrides": []
+}

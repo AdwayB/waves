@@ -1,0 +1,75 @@
+{
+  "name": "waves",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "AdwayB <adwaybyju@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn && set NODE_OPTIONS=--max_old_space_size=12288  && webpack serve --open --config webpack.config.js --progress --no-cache",
+    "typescript": "tsc -p tsconfig.json ",
+    "prepare": "husky install",
+    "rimraf": "rm -rf node_modules && yarn cache clean",
+    "lint": "eslint . --fix --quiet --cache",
+    "lint:scss": "stylelint \"*/src/**/*.scss\" --quiet --cache",
+    "format": "prettier --loglevel error --cache --write \"*/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "runChecks": "yarn format && yarn lint && yarn typescript && yarn lint:scss",
+    "versionCheck": "yarn outdated"
+  },
+  "lint-staged": {
+    "*/src/**/*.{js,jsx,ts,tsx,json}": [
+      "eslint --fix --quiet --cache"
+    ],
+    "*/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --loglevel error --write --cache"
+    ],
+    "*/src/**/*.{css,scss}": [
+      "stylelint --quiet --cache"
+    ]
+  },
+  "dependencies": {
+    "core-js": "^3.36.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.2",
+    "regenerator-runtime": "^0.14.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/core-js": "^2.5.8",
+    "@types/css-modules": "^1.0.5",
+    "@types/http-errors": "^2.0.4",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/regenerator-runtime": "^0.13.5",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.10.0",
+    "css-modules": "^0.3.0",
+    "dayjs": "^1.11.10",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.2",
+    "mini-css-extract-plugin": "^2.8.1",
+    "node-sass": "^9.0.0",
+    "prettier": "^3.2.5",
+    "sass-loader": "^14.1.1",
+    "source-map-loader": "^5.0.0",
+    "style-loader": "^3.3.4",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard-scss": "^13.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.90.3",
+    "webpack-bundle-analyzer": "^4.10.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.2"
+  }
+}
