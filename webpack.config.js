@@ -1,17 +1,18 @@
 const webpack = require('webpack');
 require('webpack-dev-server');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'development',
   watch: true,
-  entry: path.resolve(__dirname, './src/index.tsx'),
+  entry: './src/index.tsx',
   output: {
     publicPath: '/',
-    path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
+    path: path.resolve(__dirname, '.dist'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -19,6 +20,10 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      // favicon: 'public/favicon.ico'
+    }),
     // new ForkTsCheckerWebpackPlugin(),
     // new BundleAnalyzerPlugin(), // Uncomment this line to show bundle analysis in web
     new MiniCssExtractPlugin(),
@@ -29,7 +34,6 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    hot: true,
     port: 3001,
     compress: true,
     host: '127.0.0.1',
@@ -43,6 +47,7 @@ module.exports = {
       {
         test: /\.(ts|tsx|js|jsx|json)$/,
         loader: 'ts-loader',
+        exclude: /node_modules/,
         options: {
           transpileOnly: true,
           compilerOptions: {

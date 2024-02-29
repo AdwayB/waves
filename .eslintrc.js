@@ -51,7 +51,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        moduleDirectory: ['node_modules', 'packages/web/src/'],
+        moduleDirectory: ['node_modules', 'src/'],
       },
     },
   },

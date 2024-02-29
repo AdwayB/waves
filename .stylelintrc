@@ -4,12 +4,6 @@
   "rules": {
     "property-no-vendor-prefix": null,
     "selector-pseudo-element-no-unknown": null,
-    "declaration-property-value-allowed-list": {
-      "font": ["unset"],
-      "font-weight": ["/.*weight/"],
-      "font-size": ["/.*size/"],
-      "line-height": ["/.*line-*/"]
-    },
     "color-named": "never",
     "color-no-hex": true,
     "color-no-invalid-hex": true,
@@ -22,12 +16,15 @@
       }
     ],
     "number-max-precision": 2,
-    "no-descending-specificity": null,
-    "custom/font-style-mixin-checker": true,
-    "custom/no-ant-prefix": true
+    "no-descending-specificity": null
   },
   "unit-allowed-list": ["%", "px", "rem", "vh", "vw", "lvh", "dvh", "svh"],
   "cache": true,
   "fix": true,
-  "overrides": []
+  "overrides": [
+    {
+      "files": "./src/styles/colors.scss",
+      "rules": { "color-no-invalid-hex": null, "color-no-hex": null, "color-named": null }
+    }
+  ]
 }

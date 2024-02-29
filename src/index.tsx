@@ -1,12 +1,15 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import 'core-js';
 import 'regenerator-runtime/runtime';
-import * as ReactDOM from 'react-dom';
-import Banner from './components/Banner/Banner';
+import { App } from './App';
 import './styles/global.scss';
 
-ReactDOM.render(
-  <div>
-    <Banner name="Max" />
-  </div>,
-  document.getElementById('app'),
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
 );
