@@ -4,6 +4,9 @@
     "module": "ES2015",
     "lib": ["ES2015", "dom"],
     "jsx": "react-jsx",
+    "paths": {
+      "@waves/component-library/*": ["./packages/component-library/*"]
+    },
     "sourceMap": false,
     "strict": true,
     "noEmit": false,

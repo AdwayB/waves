@@ -28,7 +28,7 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-export const Button: FC<ButtonProps> = (props) => {
+const Button: FC<ButtonProps> = (props) => {
   const { primary = false, size = 'medium', backgroundColor, label = 'Button' } = props;
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
@@ -49,3 +49,5 @@ Button.defaultProps = {
   size: 'medium',
   onClick: undefined,
 };
+
+export { Button };

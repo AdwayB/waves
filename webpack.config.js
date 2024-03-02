@@ -8,10 +8,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   mode: 'development',
   watch: true,
-  entry: './packages/src/index.tsx',
+  entry: ['./packages/src/index.tsx', './packages/component-library/index.ts'],
   output: {
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: '[name].bundle.[hash].js',
     path: path.resolve(__dirname, '.dist'),
   },
   resolve: {
