@@ -23,8 +23,24 @@
   "fix": true,
   "overrides": [
     {
-      "files": "./src/styles/colors.scss",
-      "rules": { "color-no-invalid-hex": null, "color-no-hex": null, "color-named": null }
+      "files": "./packages/src/styles/colors.scss",
+      "rules": {
+        "color-no-invalid-hex": null,
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "selector-class-pattern": null
+      }
+    },
+    {
+      "files": "./packages/component-library/**/*.scss",
+      "rules": {
+        "color-no-invalid-hex": null,
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "selector-class-pattern": null
+      }
     }
   ]
 }

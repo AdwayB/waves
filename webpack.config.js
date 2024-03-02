@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   mode: 'development',
   watch: true,
-  entry: './src/index.tsx',
+  entry: './packages/src/index.tsx',
   output: {
     publicPath: '/',
     filename: 'bundle.js',
@@ -95,7 +95,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jp(e*)g|svg|woff(2)?|ttf|eot|pdf|gif|cur)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(png|jp(e*)g|svg|woff(2)?|ttf|eot|pdf|gif|svg|cur)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
             loader: 'url-loader',
@@ -104,6 +104,14 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.svg/,
+        use: [{ loader: 'file-loader' }],
+      },
+      {
+        test: /\.mdx?$/,
+        use: [{ loader: 'ts-loader' }, { loader: '@mdx-js/loader' }],
       },
     ],
   },
