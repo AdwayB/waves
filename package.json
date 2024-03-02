@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn && webpack serve --open --config webpack.config.js --progress --hot",
-    "typescript": "tsc -p tsconfig.json ",
+    "typescript": "tsc -p tsconfig.json --noEmit",
     "prepare": "husky install",
     "rimraf": "rm -rf node_modules && yarn cache clean",
     "lint": "eslint . --fix --quiet --cache && prettier --write .",
