@@ -6,12 +6,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: 'development',
   watch: true,
+  mode: 'development',
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
   entry: ['./packages/src/index.tsx', './packages/component-library/index.ts'],
   output: {
     publicPath: '/',
-    filename: '[name].bundle.[hash].js',
+    filename: '[name].bundle.[contenthash].js',
     path: path.resolve(__dirname, '.dist'),
   },
   resolve: {
@@ -22,21 +28,16 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html',
-      // favicon: 'public/favicon.ico'
+      favicon: './packages/src/assets/favicon.png',
     }),
-    // new ForkTsCheckerWebpackPlugin(),
-    // new BundleAnalyzerPlugin(), // Uncomment this line to show bundle analysis in web
+    // new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin(),
   ],
-  cache: {
-    type: 'filesystem',
-    maxAge: 604800000,
-  },
   devServer: {
     historyApiFallback: true,
-    port: 3001,
+    port: 3000,
     compress: true,
-    host: '127.0.0.1',
+    host: 'localhost',
     client: {
       overlay: false,
     },
@@ -69,7 +70,7 @@ module.exports = {
               modules: {
                 localIdentName: '[name]__[local]--[hash:base64:5]',
               },
-              sourceMap: true, //TODO: Modify this on production. Make sourcemap false
+              sourceMap: true,
             },
           },
           {
@@ -96,18 +97,17 @@ module.exports = {
       },
       {
         test: /\.(png|jp(e*)g|svg|woff(2)?|ttf|eot|pdf|gif|svg|cur)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[hash][ext][query]',
+        },
       },
       {
         test: /\.svg/,
-        use: [{ loader: 'file-loader' }],
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[hash][ext][query]',
+        },
       },
       {
         test: /\.mdx?$/,

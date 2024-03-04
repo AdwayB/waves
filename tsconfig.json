@@ -9,8 +9,6 @@
     },
     "sourceMap": false,
     "strict": true,
-    "noEmit": false,
-    "noImplicitReturns": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,7 +17,6 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "noImplicitThis": false,
-    "preserveSymlinks": false,
     "allowSyntheticDefaultImports": true
   },
   "include": ["./packages/**/*"]

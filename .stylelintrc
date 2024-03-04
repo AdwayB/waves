@@ -33,7 +33,7 @@
       }
     },
     {
-      "files": "./packages/component-library/**/*.scss",
+      "files": "./packages/component-library/**/*.css",
       "rules": {
         "color-no-invalid-hex": null,
         "color-no-hex": null,

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './button.scss';
+import './button.css';
 
 /**
  * Primary UI component for user interaction
