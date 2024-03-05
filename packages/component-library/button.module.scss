@@ -1,0 +1,52 @@
+@import './variables';
+
+.storybook-button {
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  outline: none;
+  border: 0;
+  border-radius: 3em;
+  cursor: pointer;
+  display: inline-block;
+  height: unset;
+  padding: 0.2rem 0.8rem;
+}
+.storybook-button--primary {
+  color: $white;
+  background-color: $waves-violet;
+  &:not(:disabled) {
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background: $waves-med-violet;
+      border-color: $waves-med-violet;
+    }
+  }
+}
+.storybook-button--secondary {
+  color: $waves-dark-violet;
+  border: 1px solid $waves-dark-violet;
+  background-color: transparent;
+  &:not(:disabled) {
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background: $secondary-button-hover;
+      border-color: $waves-med-violet;
+    }
+  }
+}
+.storybook-button--link {
+  color: $waves-dark-violet;
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+}
+.storybook-button--link-light {
+  color: $waves-purple;
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+}
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';

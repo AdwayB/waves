@@ -1,10 +1,13 @@
 import Banner from './components/Banner/Banner';
-import { Button } from '../component-library';
+import { Button } from '../src/components';
+
 const App = () => {
   return (
     <>
       <Banner name="Test!!" />
-      <Button label="Button" primary backgroundColor="magenta" onClick={() => {}} size="medium" />
+      <div>
+        <Button label="Button" buttonType="primary" onClick={() => {}} />
+      </div>
     </>
   );
 };

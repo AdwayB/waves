@@ -1,5 +1,29 @@
+@import './colors.scss';
+
+$primary: $waves-med-violet !default;
+// $secondary: $gray-600 !default;
+// $success: $green !default;
+// $info: $cyan !default;
+// $warning: $yellow !default;
+// $danger: $red !default;
+// $light: $gray-100 !default;
+// $dark: $gray-900 !default;
+
+$theme-colors: (
+  'primary': $primary,
+  // 'secondary': $secondary,
+  // 'success': $success,
+  // 'info': $info,
+  // 'warning': $warning,
+  // 'danger': $danger,
+  // 'light': $light,
+  // 'dark': $dark,
+) !default;
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
 html {
-  font-size: 10px;
+  font-size: 16px;
 }
 
 body {

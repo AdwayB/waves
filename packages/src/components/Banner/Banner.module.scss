@@ -1,12 +1,14 @@
 @import '../../styles/colors';
 
 .banner {
-  background-color: $moccasin;
+  background-color: $waves-purple;
+  opacity: 0.9;
+  border-radius: 1rem;
   box-sizing: border-box;
   padding: 2rem;
   text-align: center;
 
   &__text {
-    color: $dark-red;
+    color: $waves-dark-blue;
   }
 }

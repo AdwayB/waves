@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "rimraf": "rm -rf node_modules && yarn cache clean",
     "lint": "eslint . --fix --quiet --cache && prettier --write .",
-    "lint:scss": "stylelint \"*/src/**/*.scss\" --quiet --cache",
+    "lint:scss": "stylelint \"**/*.scss\" --quiet --cache",
     "format": "prettier --loglevel error --cache --write \"*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "runChecks": "yarn format && yarn lint && yarn typescript && yarn lint:scss",
     "versionCheck": "yarn outdated",
@@ -29,8 +29,12 @@
     ]
   },
   "dependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "@types/react-bootstrap": "^0.32.36",
+    "bootstrap": "^5.3.3",
     "core-js": "^3.36.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
     "regenerator-runtime": "^0.14.1"

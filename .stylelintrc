@@ -23,23 +23,18 @@
   "fix": true,
   "overrides": [
     {
-      "files": "./packages/src/styles/colors.scss",
+      "files": [
+        "./packages/src/styles/colors.scss",
+        "./packages/component-library/**/*.scss",
+        "./packages/src/components/**/*.scss"
+      ],
       "rules": {
         "color-no-invalid-hex": null,
         "color-no-hex": null,
         "color-named": null,
         "function-disallowed-list": null,
-        "selector-class-pattern": null
-      }
-    },
-    {
-      "files": "./packages/component-library/**/*.css",
-      "rules": {
-        "color-no-invalid-hex": null,
-        "color-no-hex": null,
-        "color-named": null,
-        "function-disallowed-list": null,
-        "selector-class-pattern": null
+        "selector-class-pattern": null,
+        "no-invalid-position-at-import-rule": null
       }
     }
   ]

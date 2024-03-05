@@ -10,20 +10,20 @@ interface ButtonProps extends BSButtonProps {
 }
 
 const Button: FC<ButtonProps> = (props) => {
-  const { buttonType = 'primary', size = 'sm', label = ' ' } = props;
+  const { buttonType = 'primary', size = 'lg', label = ' ' } = props;
 
   const getClassName = () => {
     switch (buttonType) {
       case 'primary':
-        return `${styles.storybookButtonPrimary}`;
+        return `${styles.buttonPrimary}`;
       case 'secondary':
-        return `${styles.storybookButtonSecondary}`;
+        return `${styles.buttonSecondary}`;
       case 'link':
-        return `${styles.storybookButtonLink}`;
+        return `${styles.buttonLink}`;
       case 'link-light':
-        return `${styles.storybookButtonLinkLight}`;
+        return `${styles.buttonLinkLight}`;
       default:
-        return `${styles.storybookButtonPrimary}`;
+        return `${styles.buttonPrimary}`;
     }
   };
 
@@ -31,7 +31,7 @@ const Button: FC<ButtonProps> = (props) => {
     <BSButton
       {...props}
       variant={buttonType === 'link-light' ? 'link' : buttonType}
-      className={[`${styles.storybookButton}`, getClassName()].join(' ')}
+      className={[`${styles.button}`, getClassName()].join(' ')}
       size={size}
     >
       {label}
