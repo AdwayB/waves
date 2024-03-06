@@ -15,7 +15,7 @@
         "message": "Expected custom property name to be kebab-case"
       }
     ],
-    "number-max-precision": 2,
+    "number-max-precision": 3,
     "no-descending-specificity": null
   },
   "unit-allowed-list": ["%", "px", "rem", "vh", "vw", "lvh", "dvh", "svh"],

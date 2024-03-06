@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Button as BSButton, ButtonProps as BSButtonProps } from 'react-bootstrap';
 import styles from './button.module.scss';
 
 interface ButtonProps extends BSButtonProps {
-  label: string;
+  label: ReactNode;
   buttonType: 'primary' | 'secondary' | 'link' | 'link-light';
   size?: 'sm' | 'lg';
   onClick: () => void;

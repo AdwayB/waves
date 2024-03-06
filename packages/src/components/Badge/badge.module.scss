@@ -1,0 +1,51 @@
+@import '../../styles/variables.scss';
+
+.badge-container {
+  margin-left: 10px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.125rem 0.3rem;
+  border-radius: 0.5rem;
+}
+
+.pill {
+  border-radius: 2rem;
+  padding: 0.2rem 0.6rem;
+}
+
+.primary {
+  background-color: $waves-med-violet;
+  color: $white;
+}
+
+.secondary {
+  background-color: $secondary-button-hover;
+  color: $waves-dark-violet;
+}
+
+.danger {
+  background-color: $danger-alert-color;
+  color: $white;
+}
+
+.warning {
+  background-color: $warning-alert-color;
+  color: $white;
+}
+
+.light {
+  background-color: transparent;
+  color: $primary-alert-color;
+}
+
+.dark {
+  background-color: transparent;
+  color: $waves-dark-violet;
+}

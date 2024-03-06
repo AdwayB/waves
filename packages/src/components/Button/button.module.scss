@@ -10,8 +10,11 @@
   --bs-btn-padding-x: 0.8rem !important;
   --bs-btn-padding-y: 0.2rem !important;
   cursor: pointer;
-  display: inline-block;
   height: unset;
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .button--primary {
