@@ -1,88 +1,105 @@
 @import '../../styles/variables.scss';
 
-.button {
-  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  outline: none;
-  border: 0;
-  --bs-btn-font-size: 1rem !important;
-  --bs-btn-font-weight: 600 !important;
-  --bs-btn-border-radius: 3em !important;
-  --bs-btn-padding-x: 0.8rem !important;
-  --bs-btn-padding-y: 0.2rem !important;
-  cursor: pointer;
-  height: unset;
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+.button-wrapper {
+  :global(.MuiButton-root) {
+    outline: none;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 3em;
+    padding: 0.2rem 0.8rem;
+    cursor: pointer;
+    height: unset;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    text-transform: none;
+  }
 }
 
-.button--primary {
-  --bs-btn-color: #e8e6e3 !important;
-  --bs-btn-bg: #430694 !important;
-  --bs-btn-border-color: #430694 !important;
-  --bs-btn-hover-color: var(--bs-btn-color) !important;
-  --bs-btn-hover-bg: #22055a !important;
-  --bs-btn-hover-border-color: #22055a !important;
-  --bs-btn-focus-shadow-rgb: #22055a !important;
-  --bs-btn-active-color: var(--bs-btn-color) !important;
-  --bs-btn-active-bg: #22055a !important;
-  --bs-btn-active-border-color: #22055a !important;
-  --bs-btn-active-shadow: none;
-  --bs-btn-disabled-color: var(--bs-btn-color) !important;
-  --bs-btn-disabled-bg: #430694 !important;
-  --bs-btn-disabled-border-color: #430694 !important;
+.primary {
+  :global(.MuiButton-colorPrimary) {
+    color: $white;
+    background-color: $waves-violet;
+    &:not(:disabled) {
+      border: 1px solid $waves-violet;
+      &:hover,
+      &:active,
+      &:focus-visible {
+        background: $waves-med-violet;
+        border-color: $waves-med-violet;
+      }
+    }
+    &:disabled {
+      pointer-events: visible;
+      cursor: not-allowed;
+    }
+  }
 }
 
-.button--secondary {
-  --bs-btn-color: #120249 !important;
-  --bs-btn-bg: transparent !important;
-  --bs-btn-border-color: #120249 !important;
-  --bs-btn-hover-color: var(--bs-btn-color) !important;
-  --bs-btn-hover-bg: #43069410 !important;
-  --bs-btn-hover-border-color: #22055a !important;
-  --bs-btn-focus-shadow-rgb: #22055a !important;
-  --bs-btn-active-color: var(--bs-btn-color) !important;
-  --bs-btn-active-bg: #4306941a !important;
-  --bs-btn-active-border-color: #22055a !important;
-  --bs-btn-active-shadow: none;
-  --bs-btn-disabled-color: var(--bs-btn-color) !important;
-  --bs-btn-disabled-bg: #430694 !important;
-  --bs-btn-disabled-border-color: #430694 !important;
+.secondary {
+  :global(.MuiButton-colorSecondary) {
+    color: $waves-dark-violet;
+    background-color: transparent;
+    &:not(:disabled) {
+      border: 2px solid $waves-dark-violet;
+      &:hover,
+      &:active,
+      &:focus-visible {
+        background: $secondary-button-hover;
+      }
+    }
+    &:disabled {
+      pointer-events: visible;
+      cursor: not-allowed;
+    }
+  }
 }
-.button--link {
-  --bs-btn-color: #120249 !important;
-  --bs-btn-bg: transparent !important;
-  --bs-btn-border-color: transparent !important;
-  --bs-btn-hover-color: var(--bs-btn-color) !important;
-  --bs-btn-hover-bg: transparent !important;
-  --bs-btn-hover-border-color: transparent !important;
-  --bs-btn-focus-shadow-rgb: none !important;
-  --bs-btn-active-color: var(--bs-btn-color) !important;
-  --bs-btn-active-bg: transparent !important;
-  --bs-btn-active-border-color: transparent !important;
-  --bs-btn-active-shadow: none;
-  --bs-btn-disabled-color: var(--bs-btn-color) !important;
-  --bs-btn-disabled-bg: transparent !important;
-  --bs-btn-disabled-border-color: transparent !important;
-  text-decoration: underline;
-  border: none;
-}
-.button--link-light {
-  --bs-btn-color: #9d5ad7 !important;
-  --bs-btn-bg: transparent !important;
-  --bs-btn-border-color: transparent !important;
-  --bs-btn-hover-color: var(--bs-btn-color) !important;
-  --bs-btn-hover-bg: transparent !important;
-  --bs-btn-hover-border-color: transparent !important;
-  --bs-btn-focus-shadow-rgb: none !important;
-  --bs-btn-active-color: var(--bs-btn-color) !important;
-  --bs-btn-active-bg: transparent !important;
-  --bs-btn-active-border-color: transparent !important;
-  --bs-btn-active-shadow: none;
-  --bs-btn-disabled-color: var(--bs-btn-color) !important;
-  --bs-btn-disabled-bg: transparent !important;
-  --bs-btn-disabled-border-color: transparent !important;
-  text-decoration: underline;
-  border: none;
+
+.text {
+  :global(.MuiButton-textPrimary) {
+    color: $waves-dark-violet;
+    background-color: transparent;
+    border: transparent;
+    text-decoration: underline;
+    &:not(:disabled) {
+      &:hover,
+      &:active,
+      &:focus-visible {
+        color: $waves-violet;
+        text-decoration: underline;
+        background: none;
+      }
+    }
+    &:disabled {
+      text-decoration: underline;
+      background-color: transparent;
+      pointer-events: visible;
+      cursor: not-allowed;
+    }
+  }
+
+  :global(.MuiButton-textSecondary) {
+    color: $waves-purple;
+    background-color: transparent;
+    border: transparent;
+    text-decoration: underline;
+    &:not(:disabled) {
+      &:hover,
+      &:active,
+      &:focus-visible {
+        color: $waves-violet;
+        text-decoration: underline;
+        background: none;
+      }
+    }
+    &:disabled {
+      text-decoration: underline;
+      background-color: transparent;
+      pointer-events: visible;
+      cursor: not-allowed;
+    }
+  }
 }

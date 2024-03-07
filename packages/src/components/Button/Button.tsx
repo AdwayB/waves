@@ -1,41 +1,35 @@
 import { FC, ReactNode } from 'react';
-import { Button as BSButton, ButtonProps as BSButtonProps } from 'react-bootstrap';
+import { Button as MButton, ButtonProps as MButtonProps } from '@mui/material';
 import styles from './button.module.scss';
 
-interface ButtonProps extends BSButtonProps {
+interface ButtonProps extends Omit<MButtonProps, 'style'> {
   label: ReactNode;
-  buttonType: 'primary' | 'secondary' | 'link' | 'link-light';
-  size?: 'sm' | 'lg';
+  buttonType?: 'primary' | 'secondary';
   onClick: () => void;
+  className?: string;
 }
 
 const Button: FC<ButtonProps> = (props) => {
-  const { buttonType = 'primary', size = 'lg', label = ' ' } = props;
+  const { variant = 'contained', buttonType = 'primary', label = ' ', onClick, className } = props;
 
-  const getClassName = () => {
-    switch (buttonType) {
-      case 'primary':
-        return `${styles.buttonPrimary}`;
-      case 'secondary':
-        return `${styles.buttonSecondary}`;
-      case 'link':
-        return `${styles.buttonLink}`;
-      case 'link-light':
-        return `${styles.buttonLinkLight}`;
-      default:
-        return `${styles.buttonPrimary}`;
+  const getWrapperClassName = () => {
+    if (!!variant) {
+      switch (variant) {
+        case 'text':
+          return `${styles.button} ${styles[variant]} ${styles.buttonWrapper}`;
+        default:
+          return `${styles.button} ${styles[buttonType ?? '']} ${styles[variant]} ${styles.buttonWrapper}`;
+      }
     }
+    return `${styles.button} ${styles[buttonType ?? '']} ${styles[variant]} ${styles.buttonWrapper}`;
   };
 
   return (
-    <BSButton
-      {...props}
-      variant={buttonType === 'link-light' ? 'link' : buttonType}
-      className={[`${styles.button}`, getClassName()].join(' ')}
-      size={size}
-    >
-      {label}
-    </BSButton>
+    <div className={getWrapperClassName()}>
+      <MButton {...props} variant={variant} color={buttonType} className={className} onClick={onClick}>
+        {label}
+      </MButton>
+    </div>
   );
 };
 

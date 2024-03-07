@@ -11,9 +11,7 @@
     "selector-attribute-operator-disallowed-list": ["class", "id"],
     "custom-property-pattern": [
       "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
-      {
-        "message": "Expected custom property name to be kebab-case"
-      }
+      { "message": "Expected custom property name to be kebab-case" }
     ],
     "number-max-precision": 3,
     "no-descending-specificity": null
@@ -23,11 +21,7 @@
   "fix": true,
   "overrides": [
     {
-      "files": [
-        "./packages/src/styles/colors.scss",
-        "./packages/component-library/**/*.scss",
-        "./packages/src/components/**/*.scss"
-      ],
+      "files": ["./packages/src/styles/colors.scss", "./packages/component-library/**/*.scss"],
       "rules": {
         "color-no-invalid-hex": null,
         "color-no-hex": null,
@@ -35,6 +29,14 @@
         "function-disallowed-list": null,
         "selector-class-pattern": null,
         "no-invalid-position-at-import-rule": null
+      }
+    },
+    {
+      "files": "./packages/src/components/**/*.scss",
+      "rules": {
+        "selector-class-pattern": null,
+        "selector-pseudo-element-no-unknown": null,
+        "selector-pseudo-class-no-unknown": null
       }
     }
   ]

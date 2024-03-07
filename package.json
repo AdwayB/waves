@@ -29,12 +29,15 @@
     ]
   },
   "dependencies": {
-    "@types/bootstrap": "^5.2.10",
-    "@types/react-bootstrap": "^0.32.36",
-    "bootstrap": "^5.3.3",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.12",
+    "@mui/icons-material": "^5.15.12",
+    "@mui/material": "^5.15.12",
+    "@mui/styles": "^5.15.12",
+    "@mui/x-date-pickers": "^6.19.6",
     "core-js": "^3.36.0",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
     "regenerator-runtime": "^0.14.1"
@@ -52,11 +55,13 @@
     "@storybook/react": "^7.6.17",
     "@storybook/react-webpack5": "^7.6.17",
     "@storybook/test": "^7.6.17",
+    "@types/bootstrap": "^5.2.10",
     "@types/core-js": "^2.5.8",
     "@types/css-modules": "^1.0.5",
     "@types/html-webpack-plugin": "^3.2.9",
     "@types/http-errors": "^2.0.4",
     "@types/react": "^18.2.61",
+    "@types/react-bootstrap": "^0.32.36",
     "@types/react-dom": "^18.2.19",
     "@types/react-router-dom": "^5.3.3",
     "@types/regenerator-runtime": "^0.13.5",
@@ -64,6 +69,7 @@
     "@typescript-eslint/parser": "^7.1.0",
     "@waves/component-library": "./packages/component-library/",
     "babel-loader": "^9.1.3",
+    "bootstrap": "^5.3.3",
     "css-loader": "^6.10.0",
     "css-modules": "^0.3.0",
     "dayjs": "^1.11.10",
@@ -87,6 +93,7 @@
     "postcss-scss": "^4.0.9",
     "prettier": "^3.2.5",
     "prop-types": "^15.8.1",
+    "react-bootstrap": "^2.10.1",
     "sass-loader": "^14.1.1",
     "source-map-loader": "^5.0.0",
     "storybook": "^7.6.17",
@@ -100,5 +107,6 @@
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.2"
-  }
+  },
+  "peerDependencies": {}
 }

@@ -14,21 +14,39 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  --bs-alert-border-color: transparent !important;
+  :global(.MuiAlert-action) {
+    padding-top: 0;
+  }
 }
 
-.primary {
-  --bs-alert-bg: #c99fee !important;
+.info {
+  background-color: $primary-alert-color !important;
+  border-color: $primary-alert-color !important;
+  :global(.MuiAlert-icon) {
+    display: none;
+  }
 }
 
 .success {
-  --bs-alert-bg: #64c585 !important;
+  background-color: $success-alert-color !important;
+  border-color: $success-alert-color !important;
+  :global(.MuiAlert-icon) {
+    color: $success-icon-color !important;
+  }
 }
 
-.danger {
-  --bs-alert-bg: #e27c7c !important;
+.error {
+  background-color: $danger-alert-color !important;
+  border-color: $danger-alert-color !important;
+  :global(.MuiAlert-icon) {
+    color: $danger-icon-color !important;
+  }
 }
 
 .warning {
-  --bs-alert-bg: #f5d16f !important;
+  background-color: $warning-alert-color !important;
+  border-color: $warning-alert-color !important;
+  :global(.MuiAlert-icon) {
+    color: $warning-icon-color !important;
+  }
 }

@@ -1,39 +1,30 @@
 import { FC, ReactNode } from 'react';
-import { AlertProps as BSAlertProps, Alert as BSAlert } from 'react-bootstrap';
+import { Collapse, Alert as MAlert, AlertProps as MAlertProps } from '@mui/material';
 import styles from './alert.module.scss';
-import { Icon } from '../IconComponents';
+import { Close } from '@mui/icons-material';
 
-interface AlertProps extends BSAlertProps {
-  variant?: 'primary' | 'success' | 'danger' | 'warning';
+interface AlertProps extends MAlertProps {
+  visible: boolean;
   className?: string;
   children: ReactNode;
 }
 
 const Alert: FC<AlertProps> = (props) => {
-  const {
-    variant = 'primary',
-    dismissible = true,
-    closeLabel = 'Close',
-    show,
-    onClose = () => {},
-    className,
-    children,
-  } = props;
+  const { visible, severity = 'info', variant = 'outlined', onClose = () => {}, className, children } = props;
+
   return (
     <div className={styles.alertContainer}>
-      <BSAlert
-        variant={variant}
-        dismissible={dismissible}
-        closeLabel={closeLabel}
-        show={show}
-        onClose={onClose}
-        className={`${styles.alert} ${styles[variant]} ${className}`}
-      >
-        <>
-          <Icon type={variant === 'primary' ? null : variant} />
+      <Collapse in={visible}>
+        <MAlert
+          action={<Close className={styles.close} onClick={(e) => onClose(e)} />}
+          severity={severity}
+          variant={variant}
+          onClose={onClose}
+          className={`${styles.alert} ${styles[severity ?? '']} ${className}`}
+        >
           {children}
-        </>
-      </BSAlert>
+        </MAlert>
+      </Collapse>
     </div>
   );
 };
