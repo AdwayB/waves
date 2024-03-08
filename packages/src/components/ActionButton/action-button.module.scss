@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.primary {
+  :global(.MuiFab-primary) {
+    background-color: $waves-dark-violet;
+    &:hover {
+      background-color: $waves-violet;
+    }
+  }
+}
+
+.secondary {
+  :global(.MuiFab-secondary) {
+    background-color: $waves-purple;
+    &:hover {
+      background-color: $waves-violet;
+    }
+  }
+}

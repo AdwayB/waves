@@ -29,4 +29,18 @@ const Alert: FC<AlertProps> = (props) => {
   );
 };
 
+// Example Usage
+{
+  /* <Alert
+  severity="warning"
+  visible={show}
+  onClose={(e) => {
+    e.stopPropagation();
+    setShow(false);
+  }}
+>
+  Sample Alert Here
+</Alert>; */
+}
+
 export { Alert, AlertProps };

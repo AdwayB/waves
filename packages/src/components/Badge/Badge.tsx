@@ -29,4 +29,19 @@ const Badge: FC<BadgeProps> = (props) => {
   );
 };
 
+// Example Usage
+//  <Button
+//    label={
+//      <>
+//        <Badge content={count} variant="standard" type="success">
+//          Toggle Alert
+//        </Badge>
+//      </>
+//    }
+//    buttonType="primary"
+//    onClick={() => {
+//      setShow(!show);
+//    }}
+//  />;
+
 export { Badge, BadgeProps };

@@ -1,48 +1,24 @@
-const webpack = require('webpack');
-require('webpack-dev-server');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  watch: true,
-  mode: 'development',
-  cache: {
-    type: 'filesystem',
-    buildDependencies: {
-      config: [__filename],
-    },
-  },
-  entry: ['./packages/src/index.tsx', './packages/component-library/index.ts'],
   output: {
     publicPath: '/',
     filename: '[name].bundle.[contenthash].js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, '.dist'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  devtool: 'source-map',
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html',
-      favicon: './packages/src/assets/favicon.png',
+      favicon: path.resolve(__dirname, '../packages/src/assets/favicon.png'),
     }),
-    // new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin(),
   ],
-  devServer: {
-    historyApiFallback: true,
-    port: 3000,
-    compress: true,
-    host: 'localhost',
-    client: {
-      overlay: false,
-    },
-  },
-  watchOptions: { ignored: /node_modules/ },
   module: {
     rules: [
       {

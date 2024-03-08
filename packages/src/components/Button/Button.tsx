@@ -33,4 +33,17 @@ const Button: FC<ButtonProps> = (props) => {
   );
 };
 
+// Example Usage
+//  <Button
+//    label={
+//      <>
+//          Toggle Alert
+//      </>
+//    }
+//    buttonType="primary"
+//    onClick={() => {
+//      setShow(!show);
+//    }}
+//  />;
+
 export { Button, ButtonProps };

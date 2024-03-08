@@ -1,15 +1,23 @@
 import Banner from './components/Banner/Banner';
-import { Alert, Badge, Button, Icon } from '../src/components';
+import { ActionButton, Alert, Badge, Button, Checkbox, Icon } from '../src/components';
 import { useEffect, useState } from 'react';
 import './styles/app.scss';
+import AddIcon from '@mui/icons-material/Add';
 
 const App = () => {
   const [show, setShow] = useState<boolean>(false);
+  const [openCheck, setOpenCheck] = useState<boolean>(false);
+  const [closeCheck, setCloseCheck] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     if (show) {
       setCount((prevCount) => prevCount + 1);
+      setOpenCheck(true);
+      setCloseCheck(false);
+    } else {
+      setOpenCheck(false);
+      setCloseCheck(true);
     }
   }, [show]);
 
@@ -45,6 +53,35 @@ const App = () => {
         <div style={{ height: '20px' }}>
           <Icon type={'logo'} />
         </div>
+      </div>
+      <div>
+        <Checkbox
+          direction="row"
+          items={[
+            {
+              type: 'primary',
+              checked: openCheck,
+              label: 'Primary Alert Open',
+              onClick: () => {
+                setShow(true);
+              },
+            },
+            {
+              type: 'secondary',
+              checked: closeCheck,
+              label: 'Secondary Alert Close',
+              onClick: () => {
+                setShow(false);
+              },
+            },
+          ]}
+        />
+      </div>
+      <div>
+        test this{' '}
+        <ActionButton onClick={() => {}} type="primary">
+          <AddIcon />
+        </ActionButton>
       </div>
     </div>
   );

@@ -1,0 +1,37 @@
+@import '../../styles/variables.scss';
+
+.checkbox-wrapper {
+  width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0.2rem;
+  :global(.MuiCheckbox-root) {
+    input {
+      border: 1px solid $waves-dark-violet;
+    }
+  }
+}
+
+.row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.column {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.primary {
+  :global(.MuiCheckbox-colorPrimary) {
+    color: $waves-dark-violet !important;
+  }
+}
+
+.secondary {
+  :global(.MuiCheckbox-colorSecondary) {
+    color: $waves-purple !important;
+  }
+}
