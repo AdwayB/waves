@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+.radio-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0.2rem;
+}
+
+.row {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.column {
+  flex-direction: column !important;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.primary {
+  :global(.MuiRadio-colorPrimary) {
+    color: $waves-dark-violet !important;
+  }
+}
+
+.secondary {
+  :global(.MuiRadio-colorSecondary) {
+    color: $waves-purple !important;
+  }
+}

@@ -1,0 +1,22 @@
+@import '../../styles/variables.scss';
+
+.select-wrapper {
+  min-width: 100px;
+  width: inherit;
+  padding: 0 0.2rem;
+  :global(.MuiFormControl-root) {
+    width: inherit;
+  }
+  :global(.MuiOutlinedInput-root) {
+    fieldset {
+      border-color: $waves-dark-violet !important;
+    }
+  }
+  :global(.MuiInputLabel-root) {
+    color: $waves-dark-violet !important;
+  }
+}
+
+:global(.MuiMenu-list) {
+  background-color: $waves-dark-violet !important;
+}

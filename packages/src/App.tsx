@@ -1,5 +1,5 @@
 import Banner from './components/Banner/Banner';
-import { ActionButton, Alert, Badge, Button, Checkbox, Icon } from '../src/components';
+import { ActionButton, Alert, Badge, Button, Checkbox, Icon, Radio, Select } from '../src/components';
 import { useEffect, useState } from 'react';
 import './styles/app.scss';
 import AddIcon from '@mui/icons-material/Add';
@@ -76,12 +76,59 @@ const App = () => {
             },
           ]}
         />
+        <Radio
+          items={[
+            {
+              value: 'open',
+              type: 'primary',
+              label: 'Primary Alert Open',
+            },
+            {
+              value: 'close',
+              type: 'secondary',
+              label: 'Secondary Alert Close',
+            },
+          ]}
+          value={openCheck ? 'open' : 'close'}
+          onChange={(e) => {
+            if (e?.target.value == 'open') {
+              setShow(true);
+              console.log('open');
+            } else {
+              setShow(false);
+              console.log('close');
+            }
+          }}
+        />
       </div>
       <div>
-        test this{' '}
+        test this
         <ActionButton onClick={() => {}} type="primary">
           <AddIcon />
         </ActionButton>
+      </div>
+      <div style={{ width: '200px', paddingTop: '10px' }}>
+        <Select
+          label={'Test This Too'}
+          value={openCheck ? 'open' : 'close'}
+          onChange={(e: any) => {
+            if (e?.target.value == 'open') {
+              setShow(true);
+            } else {
+              setShow(false);
+            }
+          }}
+          options={[
+            {
+              value: 'open',
+              label: 'open',
+            },
+            {
+              value: 'close',
+              label: 'close',
+            },
+          ]}
+        />
       </div>
     </div>
   );
