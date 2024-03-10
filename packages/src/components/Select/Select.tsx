@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
-import { Box, Chip, FormControl, InputLabel, Select as MSelect, MenuItem, OutlinedInput } from '@mui/material';
+import { Chip } from '../Chip';
+import { Box, FormControl, InputLabel, Select as MSelect, MenuItem, OutlinedInput } from '@mui/material';
 import styles from './select.module.scss';
 
 interface SelectOptionProps {
@@ -8,7 +9,7 @@ interface SelectOptionProps {
 }
 
 interface SelectProps {
-  value?: string;
+  value?: string[];
   onChange?: (event: unknown, child?: ReactNode) => void;
   options: SelectOptionProps[];
   label?: string;
@@ -27,9 +28,9 @@ const Select: FC<SelectProps> = (props) => {
       return renderValue;
     } else if (style === 'chip') {
       // eslint-disable-next-line react/display-name
-      return (selected: any) => (
+      return (selected: string[]) => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {selected?.map((value: any) => <Chip key={value} label={value} />)}
+          {selected?.map((value: string) => <Chip key={value} label={value} />)}
         </Box>
       );
     }

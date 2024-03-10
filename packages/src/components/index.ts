@@ -3,6 +3,7 @@ export * from './ActionButton';
 export * from './Badge';
 export * from './Button';
 export * from './Checkbox';
+export * from './Chip';
 export * from './IconComponents';
 export * from './Radio';
 export * from './Select';

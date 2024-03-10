@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.primary {
+  :global(.MuiChip-colorPrimary) {
+    background-color: $waves-dark-violet;
+    color: $actual-white;
+  }
+}
+
+.secondary {
+  :global(.MuiChip-colorSecondary) {
+    background-color: $waves-purple;
+    color: $actual-white;
+  }
+}
+
+.outlined {
+  :global(.MuiChip-colorPrimary) {
+    font-weight: 700;
+    border: 2px solid $waves-dark-violet;
+    color: $waves-dark-violet;
+  }
+
+  :global(.MuiChip-colorSecondary) {
+    font-weight: 700;
+    border: 2px solid $waves-purple;
+    color: $waves-purple;
+  }
+}

@@ -110,7 +110,8 @@ const App = () => {
       <div style={{ width: '200px', paddingTop: '10px' }}>
         <Select
           label={'Test This Too'}
-          value={openCheck ? 'open' : 'close'}
+          style="chip"
+          value={openCheck ? ['open'] : ['close']}
           onChange={(e: any) => {
             if (e?.target.value == 'open') {
               setShow(true);
