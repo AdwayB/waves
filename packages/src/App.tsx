@@ -1,5 +1,5 @@
 import Banner from './components/Banner/Banner';
-import { ActionButton, Alert, Badge, Button, Checkbox, Icon, Radio, Select } from '../src/components';
+import { ActionButton, Alert, Badge, Button, Checkbox, Icon, Radio, Select, Switch } from '../src/components';
 import { useEffect, useState } from 'react';
 import './styles/app.scss';
 import AddIcon from '@mui/icons-material/Add';
@@ -129,6 +129,19 @@ const App = () => {
               label: 'close',
             },
           ]}
+        />
+      </div>
+      <div>
+        <Switch
+          label={'Toggle Alert'}
+          checked={openCheck}
+          onChange={(e) => {
+            if (e?.target.checked) {
+              setShow(true);
+            } else {
+              setShow(false);
+            }
+          }}
         />
       </div>
     </div>

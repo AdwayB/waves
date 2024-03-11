@@ -7,3 +7,4 @@ export * from './Chip';
 export * from './IconComponents';
 export * from './Radio';
 export * from './Select';
+export * from './Switch';

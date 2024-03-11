@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.switch-wrapper {
+  padding-left: 0.2rem;
+}
+
+.primary {
+  :global(.MuiSwitch-switchBase) {
+    color: $waves-dark-violet !important;
+  }
+  :global(.MuiSwitch-track) {
+    background-color: $waves-med-violet !important;
+  }
+}
+
+.secondary {
+  :global(.MuiSwitch-switchBase) {
+    color: $waves-purple !important;
+  }
+  :global(.MuiSwitch-track) {
+    background-color: $switch-secondary-bg !important;
+  }
+}
