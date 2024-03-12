@@ -3809,8 +3809,8 @@
     loupe "^2.3.6"
     pretty-format "^29.5.0"
 
-"@waves/component-library@./packages/component-library/":
-  version "1.0.1"
+"@waves/component-library@./packages/src/components":
+  version "0.0.0"
 
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"

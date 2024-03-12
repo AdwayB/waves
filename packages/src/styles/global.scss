@@ -4,6 +4,12 @@
 @import '@fontsource/roboto/700.css';
 @import './colors.scss';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   scroll-behavior: smooth;
   font-synthesis: none;
@@ -18,7 +24,7 @@ html {
 
 body {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   padding: 0;
   margin: 0;
 }

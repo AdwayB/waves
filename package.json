@@ -68,7 +68,7 @@
     "@types/regenerator-runtime": "^0.13.5",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "@waves/component-library": "./packages/component-library/",
+    "@waves/component-library": "./packages/src/components",
     "babel-loader": "^9.1.3",
     "bootstrap": "^5.3.3",
     "css-loader": "^6.10.0",

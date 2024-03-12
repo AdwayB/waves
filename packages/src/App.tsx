@@ -6,6 +6,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  Divider,
   Icon,
   Menu,
   Radio,
@@ -15,7 +16,6 @@ import {
 import { useEffect, useState } from 'react';
 import './styles/app.scss';
 import AddIcon from '@mui/icons-material/Add';
-import { Divider } from './components/Divider';
 
 const App = () => {
   const [show, setShow] = useState<boolean>(false);
