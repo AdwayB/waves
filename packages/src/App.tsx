@@ -1,8 +1,21 @@
 import Banner from './components/Banner/Banner';
-import { ActionButton, Alert, Badge, Button, Checkbox, Icon, Radio, Select, Switch } from '../src/components';
+import {
+  ActionButton,
+  Alert,
+  Avatar,
+  Badge,
+  Button,
+  Checkbox,
+  Icon,
+  Menu,
+  Radio,
+  Select,
+  Switch,
+} from '../src/components';
 import { useEffect, useState } from 'react';
 import './styles/app.scss';
 import AddIcon from '@mui/icons-material/Add';
+import { Divider } from './components/Divider';
 
 const App = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -55,6 +68,14 @@ const App = () => {
         </div>
       </div>
       <div>
+        <Menu
+          items={[
+            { label: 'Open Alert', onClick: () => setShow(true) },
+            { label: 'Close Alert', onClick: () => setShow(false) },
+          ]}
+        />
+      </div>
+      <div>
         <Checkbox
           direction="row"
           items={[
@@ -76,6 +97,10 @@ const App = () => {
             },
           ]}
         />
+        test divider primary
+        <Divider />
+        test divider secondary
+        <Divider type="secondary" />
         <Radio
           items={[
             {
@@ -142,6 +167,40 @@ const App = () => {
               setShow(false);
             }
           }}
+        />
+      </div>
+      <div>
+        Avatar with icon
+        <Avatar name="test">
+          <AddIcon />
+        </Avatar>
+      </div>
+      <div>
+        Avatar with Name not strict
+        <Avatar name="Adway Byju">Adway Byju</Avatar>
+      </div>
+      <div>
+        Avatar with Name strict
+        <Avatar name="Adway Byju" strict>
+          Adway Byju
+        </Avatar>
+      </div>
+      <div>
+        Avatar Group
+        <Avatar
+          grouped
+          max={5}
+          total={12}
+          items={[
+            { name: 'Adway Byju', src: 'https://picsum.photos/200/300' },
+            { name: 'Adway Byju', src: 'https://picsum.photos/200/400' },
+            { name: 'Adway Byju', src: 'https://picsum.photos/200/500' },
+            { name: 'Adway Byju' },
+            { name: 'Adway Byju' },
+            { name: 'Adway Byju' },
+            { name: 'Adway Byju' },
+            { name: 'Adway Byju' },
+          ]}
         />
       </div>
     </div>

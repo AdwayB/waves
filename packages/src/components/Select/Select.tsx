@@ -63,6 +63,9 @@ const Select: FC<SelectProps> = (props) => {
                   background: '#430694 !important',
                   color: 'white !important',
                 },
+                '& .MuiMenu-list': {
+                  background: '#120249',
+                },
               },
             },
           }}

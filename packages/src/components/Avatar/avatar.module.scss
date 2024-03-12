@@ -1,0 +1,20 @@
+@import '../../styles/variables.scss';
+
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.primary {
+  :global(.MuiAvatar-root) {
+    background-color: $waves-med-violet;
+    color: $white;
+  }
+}
+
+.secondary {
+  :global(.MuiAvatar-root) {
+    background-color: $waves-purple;
+    color: $white;
+  }
+}

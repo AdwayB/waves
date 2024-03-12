@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.divider-wrapper {
+  :global(.MuiDivider-root) {
+    opacity: 0.6;
+  }
+}
+
+.primary {
+  :global(.MuiDivider-root) {
+    border: 1px solid $waves-dark-violet;
+  }
+}
+
+.secondary {
+  :global(.MuiDivider-root) {
+    border: 1px solid $waves-purple;
+  }
+}
