@@ -1,1 +1,59 @@
 @import '../../styles/variables.scss';
+
+.primary {
+  :global(.MuiFormControl-root) {
+    :global(.Mui-focused) {
+      color: $waves-dark-violet;
+    }
+  }
+  :global(.MuiFormLabel-root) {
+    color: $waves-dark-violet;
+  }
+
+  :global(.MuiInputBase-root) {
+    fieldset {
+      border-color: $waves-dark-violet !important;
+    }
+  }
+
+  :global(.MuiIconButton-edgeEnd) {
+    color: $waves-dark-violet;
+  }
+
+  :global(.MuiInputBase-input) {
+    color: $waves-dark-violet;
+  }
+
+  :global(.MuiInputBase-input::placeholder) {
+    color: $waves-dark-violet;
+  }
+}
+
+.secondary {
+  :global(.MuiFormControl-root) {
+    :global(.Mui-focused) {
+      color: $waves-purple;
+    }
+  }
+  :global(.MuiFormLabel-root) {
+    color: $waves-purple;
+  }
+
+  :global(.MuiInputBase-root) {
+    fieldset {
+      border-color: $waves-purple !important;
+    }
+  }
+
+  :global(.MuiIconButton-edgeEnd) {
+    color: $waves-purple;
+  }
+
+  :global(.MuiInputBase-input) {
+    color: $waves-violet;
+  }
+
+  :global(.MuiInputBase-input::placeholder) {
+    color: $waves-purple;
+  }
+}

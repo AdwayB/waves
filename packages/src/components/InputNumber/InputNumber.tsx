@@ -4,6 +4,7 @@ import { FormControl, FormHelperText, InputAdornment, InputLabel, OutlinedInput 
 
 interface InputNumberProps {
   type?: 'primary' | 'secondary';
+  size?: 'small' | 'medium';
   id?: string;
   label?: string;
   defaultValue?: number;
@@ -21,6 +22,7 @@ interface InputNumberProps {
 const InputNumber: FC<InputNumberProps> = (props) => {
   const {
     type = 'primary',
+    size = 'small',
     id = 'input-number',
     label,
     defaultValue,
@@ -44,6 +46,7 @@ const InputNumber: FC<InputNumberProps> = (props) => {
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
+              size={size}
               id={id}
               startAdornment={<InputAdornment position="start">{prefixText}</InputAdornment>}
               label={label}
@@ -65,6 +68,7 @@ const InputNumber: FC<InputNumberProps> = (props) => {
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
+              size={size}
               id={id}
               endAdornment={<InputAdornment position="end">{suffixText}</InputAdornment>}
               label={label}
@@ -86,6 +90,7 @@ const InputNumber: FC<InputNumberProps> = (props) => {
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
+              size={size}
               id={id}
               label={label}
               defaultValue={defaultValue}

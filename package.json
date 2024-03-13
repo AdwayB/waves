@@ -112,5 +112,7 @@
     "webpack-dev-server": "^5.0.2",
     "webpack-merge": "^5.10.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@mui/system": "^5.15.13"
+  }
 }
