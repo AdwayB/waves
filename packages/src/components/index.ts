@@ -8,6 +8,8 @@ export * from './Chip';
 export * from './Divider';
 export * from './Error';
 export * from './IconComponents';
+export * from './InputField';
+export * from './InputNumber';
 export * from './Loading';
 export * from './Menu';
 export * from './Radio';

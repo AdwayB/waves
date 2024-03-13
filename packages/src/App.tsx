@@ -8,6 +8,7 @@ import {
   Checkbox,
   Divider,
   Icon,
+  InputNumber,
   Menu,
   Radio,
   Select,
@@ -37,6 +38,22 @@ const App = () => {
   return (
     <div className="app-container">
       <Banner name="Test!!" />
+      <div style={{ width: '300px' }}>
+        <InputNumber
+          label="Set Count"
+          value={count}
+          onChange={(e) => {
+            const inputValue = e.target.value.trim();
+            if (inputValue === '') {
+              setCount(0);
+            } else {
+              setCount(parseInt(inputValue));
+            }
+          }}
+          type="secondary"
+          suffixText="bottom"
+        />
+      </div>
       <div>
         <Button
           label={
