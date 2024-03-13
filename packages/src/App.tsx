@@ -6,6 +6,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  DatePicker,
   Divider,
   Icon,
   InputField,
@@ -20,6 +21,7 @@ import { useEffect, useState } from 'react';
 import './styles/app.scss';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const App = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -27,6 +29,7 @@ const App = () => {
   const [closeCheck, setCloseCheck] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [bannerText, setBannerText] = useState<string>('Test!');
+  const [date, setDate] = useState<Dayjs>(dayjs());
 
   useEffect(() => {
     if (show) {
@@ -43,6 +46,17 @@ const App = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="app-container">
         <Banner name={bannerText} />
+        <div style={{ width: '300px' }}>
+          <DatePicker
+            label="Set Date"
+            value={date}
+            onChange={(date) => setDate(date)}
+            size="small"
+            id="input-date-picker"
+            style="secondary"
+            required
+          />
+        </div>
         <div style={{ width: '300px' }}>
           <InputNumber
             label="Set Count"

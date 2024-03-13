@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 import { Menu as MMenu, MenuItem as MMenuItem, IconButton } from '@mui/material';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Colors } from '../../helpers/colors';
 
 interface MenuItem {
   label?: ReactNode;
@@ -22,35 +23,35 @@ const Menu: FC<MenuProps> = (props) => {
       case 'primary':
         return {
           '& .MuiMenuItem-root': {
-            color: 'white',
+            color: Colors.actualWhite,
             '&:hover': {
-              background: '#430694',
-              color: 'white',
+              background: Colors.wavesViolet,
+              color: Colors.actualWhite,
             },
           },
           '& .Mui-selected': {
-            background: '#430694 !important',
-            color: 'white !important',
+            background: `${Colors.wavesViolet} !important`,
+            color: `${Colors.actualWhite} !important`,
           },
           '& .MuiMenu-list': {
-            background: '#120249',
+            background: Colors.wavesDarkViolet,
           },
         };
       case 'secondary':
         return {
           '& .MuiMenuItem-root': {
-            color: 'white',
+            color: Colors.actualWhite,
             '&:hover': {
-              background: '#9d5ad7',
-              color: 'white',
+              background: Colors.wavesPurple,
+              color: Colors.actualWhite,
             },
           },
           '& .Mui-selected': {
-            background: '#9d5ad7 !important',
-            color: 'white !important',
+            background: `${Colors.wavesPurple} !important`,
+            color: `${Colors.actualWhite} !important`,
           },
           '& .MuiMenu-list': {
-            background: '#8142d3',
+            background: Colors.menuBGSecondary,
           },
         };
     }
@@ -75,9 +76,9 @@ const Menu: FC<MenuProps> = (props) => {
             aria-label="more"
             id="long-button"
             sx={{
-              color: type === 'primary' ? '#120249' : '#8142d3',
+              color: type === 'primary' ? Colors.wavesDarkViolet : Colors.menuBGSecondary,
               '&:hover': {
-                backgroundColor: type === 'primary' ? '#43069477' : '#8142d344',
+                backgroundColor: type === 'primary' ? Colors.menuBGPrimaryHover : Colors.menuBGSecondaryHover,
               },
             }}
             {...bindTrigger(popupState)}

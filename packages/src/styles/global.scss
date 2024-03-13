@@ -8,6 +8,31 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 200px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #464646;
+    border-radius: 2rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 2rem;
+    background-color: #777;
+  }
+
+  ::-moz-selection {
+    color: $white;
+    background: $waves-purple;
+  }
+
+  ::selection {
+    color: $white;
+    background: $waves-purple;
+  }
 }
 
 :root {
@@ -16,6 +41,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: fixed #120249 url('../assets/error.png') center/cover no-repeat;
 }
 
 html {

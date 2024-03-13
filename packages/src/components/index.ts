@@ -5,6 +5,7 @@ export * from './Badge';
 export * from './Button';
 export * from './Checkbox';
 export * from './Chip';
+export * from './DatePicker';
 export * from './Divider';
 export * from './Error';
 export * from './IconComponents';

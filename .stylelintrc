@@ -38,6 +38,14 @@
         "selector-pseudo-element-no-unknown": null,
         "selector-pseudo-class-no-unknown": null
       }
+    },
+    {
+      "files": "./packages/src/styles/global.scss",
+      "rules": {
+        "color-no-hex": null,
+        "color-no-invalid-hex": null,
+        "color-named": null
+      }
     }
   ]
 }

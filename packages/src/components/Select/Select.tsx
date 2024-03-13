@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 import { Chip } from '../Chip';
 import { Box, FormControl, InputLabel, Select as MSelect, MenuItem, OutlinedInput } from '@mui/material';
 import styles from './select.module.scss';
+import { Colors } from '../../helpers/colors';
 
 interface SelectOptionProps {
   label: string;
@@ -53,18 +54,18 @@ const Select: FC<SelectProps> = (props) => {
             PaperProps: {
               sx: {
                 '& .MuiMenuItem-root': {
-                  color: 'white',
+                  color: Colors.actualWhite,
                   '&:hover': {
-                    background: '#430694',
-                    color: 'white',
+                    background: Colors.wavesViolet,
+                    color: Colors.actualWhite,
                   },
                 },
                 '& .Mui-selected': {
-                  background: '#430694 !important',
-                  color: 'white !important',
+                  background: `${Colors.wavesViolet} !important`,
+                  color: `${Colors.actualWhite} !important`,
                 },
                 '& .MuiMenu-list': {
-                  background: '#120249',
+                  background: Colors.wavesDarkViolet,
                 },
               },
             },
