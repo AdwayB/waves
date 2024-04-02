@@ -2,6 +2,8 @@
 @import '@fontsource/roboto/400.css';
 @import '@fontsource/roboto/500.css';
 @import '@fontsource/roboto/700.css';
+@import url('https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import './colors.scss';
 
 * {
@@ -41,7 +43,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: fixed #120249 url('../assets/error.png') center/cover no-repeat;
+  font-family: 'Open Sans', sans-serif;
+  // background: fixed #120249 url('../assets/testBg.svg') center/cover no-repeat;
 }
 
 html {

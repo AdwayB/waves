@@ -8,9 +8,10 @@ import {
   DateCalendar as MDateCalendar,
   PickerChangeHandlerContext,
 } from '@mui/x-date-pickers';
-import { FormControl, FormHelperText, InputLabel } from '@mui/material';
+import { FormControl, FormHelperText } from '@mui/material';
 import { PickerSelectionState } from '@mui/x-date-pickers/internals';
-import { actionBarSx, datePickerPopupStyles, datePickerSlotProps } from './helper';
+import { actionBarSx, datePickerPopupStyles, datePickerSlotProps, dateCalendarSlotProps } from './helper';
+import { Colors } from '../../helpers/colors';
 
 interface DatePickerProps {
   type?: 'picker' | 'field' | 'calendar';
@@ -45,7 +46,6 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   const {
     type = 'picker',
     style = 'primary',
-    id = type === 'picker' ? 'input-date-picker' : type === 'field' ? 'input-date-field' : 'input-date-calendar',
     label,
     defaultValue,
     value,
@@ -146,7 +146,6 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     case 'calendar':
       return (
         <div className={`${styles.dateCalendarWrapper} ${styles[style]}`}>
-          <InputLabel htmlFor={id}>{label}</InputLabel>
           <MDateCalendar
             defaultValue={defaultValue}
             value={value}
@@ -158,6 +157,13 @@ const DatePicker: FC<DatePickerProps> = (props) => {
             maxDate={maxDate}
             minDate={minDate}
             className={className}
+            slotProps={dateCalendarSlotProps()}
+            sx={{
+              background: Colors.menuBGSecondary,
+              borderRadius: '1rem',
+              color: Colors.white,
+              '& .MuiTypography-root': { color: Colors.primaryAlertColor },
+            }}
           />
           <FormHelperText>{helperText}</FormHelperText>
         </div>

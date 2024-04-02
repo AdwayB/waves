@@ -14,5 +14,6 @@ export * from './InputNumber';
 export * from './Loading';
 export * from './Menu';
 export * from './Radio';
+export * from './Rating';
 export * from './Select';
 export * from './Switch';

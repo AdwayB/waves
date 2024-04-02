@@ -1,4 +1,4 @@
-import { DatePickerSlotsComponentsProps } from '@mui/x-date-pickers';
+import { DateCalendarSlotsComponentsProps, DatePickerSlotsComponentsProps } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
 import { Colors } from '../../helpers/colors';
 
@@ -71,4 +71,26 @@ const datePickerSlotProps = (helperText?: string, clearable?: boolean): DatePick
   };
 };
 
-export { datePickerPopupStyles, actionBarSx, datePickerSlotProps };
+const dateCalendarSlotProps = (): DateCalendarSlotsComponentsProps<Dayjs> => {
+  return {
+    calendarHeader: {
+      sx: { color: Colors.white, background: Colors.menuBGSecondary, borderRadius: '1rem' },
+    },
+    leftArrowIcon: { sx: { color: Colors.white } },
+    rightArrowIcon: { sx: { color: Colors.white } },
+    day: {
+      sx: {
+        color: Colors.white,
+        '&:hover': { background: Colors.wavesMedViolet, borderRadius: '1rem', color: Colors.white },
+        '&.Mui-selected': {
+          background: `${Colors.wavesMedViolet} !important`,
+          borderRadius: '1rem',
+          borderColor: Colors.menuBGSecondary,
+          color: Colors.white,
+        },
+      },
+    },
+  };
+};
+
+export { datePickerPopupStyles, actionBarSx, datePickerSlotProps, dateCalendarSlotProps };

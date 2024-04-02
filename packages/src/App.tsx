@@ -13,6 +13,7 @@ import {
   InputNumber,
   Menu,
   Radio,
+  Rating,
   Select,
   Switch,
 } from '../src/components';
@@ -46,6 +47,9 @@ const App = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="app-container">
         <Banner name={bannerText} />
+        <div>
+          <Rating value={2.3} />
+        </div>
         <div style={{ width: '300px' }}>
           <DatePicker
             label="Set Date"
