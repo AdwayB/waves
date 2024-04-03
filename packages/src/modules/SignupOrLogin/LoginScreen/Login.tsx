@@ -1,24 +1,12 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
-import styles from './signup.module.scss';
+import { ChangeEvent, FC, FormEvent, useRef, useState } from 'react';
+import styles from './login.module.scss';
 import { Button, InputField } from '../../../components';
 import { UserData, UserDataInit } from '../dataModels';
 
-const Signup: FC = () => {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+const Login: FC = () => {
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [formFields, setFormFields] = useState<UserData>(UserDataInit);
-
-  useEffect(() => {
-    if (firstName && lastName) {
-      setFormFields((previousValue) => ({
-        ...previousValue,
-        userName: `${firstName.toLowerCase()}${lastName[0].toUpperCase()}${lastName.slice(1)}${Math.floor(Math.random() * 1000)}`,
-        legalName: `${firstName[0].toUpperCase()}${firstName.slice(1)} ${lastName[0].toUpperCase()}${lastName.slice(1)}`,
-      }));
-    }
-  }, [firstName, lastName]);
 
   const checkPasswordValidity = (password: string) => {
     return password.length < 8 ||
@@ -52,9 +40,11 @@ const Signup: FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.table(formFields);
     if (passwordError || emailError) {
       return;
     }
+    alert('test');
     // add API action here
   };
 
@@ -62,36 +52,16 @@ const Signup: FC = () => {
 
   return (
     <>
-      <div className={styles.signupContainer}>
+      <div className={styles.loginContainer}>
         <div className={styles.leftContainer}>
           <span className={styles.logo}>waves</span>
           <pre className={styles.text}>
-            Welcome to <span className={styles.logoText}>waves</span>!<br /> Create an account to get started.
+            Welcome to <span className={styles.logoText}>waves</span>!<br /> Log back in to pick up where you left off.
           </pre>
         </div>
         <div className={styles.rightContainer}>
-          <span className={styles.heading}>Sign Up</span>
-          <form className={styles.signupForm} id="signupForm" ref={form} onSubmit={handleSubmit}>
-            <div className={styles.inputFieldContainer}>
-              <InputField
-                type="text"
-                label="Enter First Name"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-            </div>
-            <div className={styles.inputFieldContainer}>
-              <InputField
-                type="text"
-                label="Enter Last Name"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-            </div>
+          <span className={styles.heading}>Log In</span>
+          <form className={styles.loginForm} id="loginForm" ref={form} onSubmit={handleSubmit}>
             <div className={styles.inputFieldContainer}>
               <InputField
                 type="text"
@@ -101,16 +71,6 @@ const Signup: FC = () => {
                 onChange={handleFieldChange}
                 error={emailError}
                 helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
-                required
-              />
-            </div>
-            <div className={styles.inputFieldContainer}>
-              <InputField
-                type="text"
-                label="Enter Phone Number"
-                id="mobileNumber"
-                value={formFields.mobileNumber}
-                onChange={handleFieldChange}
                 required
               />
             </div>
@@ -131,7 +91,7 @@ const Signup: FC = () => {
               />
             </div>
             <div className={styles.buttonContainer}>
-              <Button label="Sign Up" buttonType="primary" type="submit" onClick={() => form.current?.submit()} />
+              <Button label="Log In" buttonType="primary" type="submit" onClick={() => form.current?.submit()} />
             </div>
           </form>
         </div>
@@ -140,4 +100,4 @@ const Signup: FC = () => {
   );
 };
 
-export { Signup };
+export { Login };

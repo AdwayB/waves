@@ -1,6 +1,6 @@
 @import '../../../styles/variables.scss';
 
-.signup-container {
+.login-container {
   height: 100vh;
   width: 100%;
   background: fixed $waves-dark-violet url('../../../assets/signup-login.svg') center/cover no-repeat;
@@ -35,6 +35,7 @@
   }
 
   .text {
+    text-wrap: balance;
     font:
       normal normal 700 2rem/1.5 'Open Sans',
       sans-serif;
@@ -44,9 +45,9 @@
 }
 
 .right-container {
-  min-height: 40rem;
+  min-height: 20rem;
   min-width: 30rem;
-  height: calc(100vh - 15rem);
+  height: calc(100vh - 30rem);
   width: calc(100% - 90rem);
   display: flex;
   flex-direction: column;
@@ -63,15 +64,16 @@
       normal normal 700 2rem/1.5 'Open Sans',
       sans-serif;
     color: $white;
+    margin-bottom: 1rem;
   }
 
-  .signup-form {
+  .login-form {
     margin: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem;
 
     .input-field-container {
       margin: -10px;
@@ -86,7 +88,7 @@
 }
 
 @media screen and (max-width: 1070px) {
-  .signup-container {
+  .login-container {
     flex-direction: column;
     gap: 2rem;
   }
@@ -99,7 +101,7 @@
   }
 
   .right-container {
-    .signup-form {
+    .login-form {
       .input-field-container {
         width: 35vw;
       }
