@@ -51,7 +51,9 @@ const Signup: FC = () => {
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    console.table(formFields);
     e.preventDefault();
+    e.stopPropagation();
     if (passwordError || emailError) {
       return;
     }
@@ -131,7 +133,13 @@ const Signup: FC = () => {
               />
             </div>
             <div className={styles.buttonContainer}>
-              <Button label="Sign Up" buttonType="primary" type="submit" onClick={() => form.current?.submit()} />
+              <Button
+                label="Sign Up"
+                buttonType="primary"
+                type="submit"
+                onClick={() => form.current?.submit()}
+                disabled={passwordError || emailError}
+              />
             </div>
           </form>
         </div>

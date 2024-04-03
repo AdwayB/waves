@@ -1,6 +1,8 @@
 @import '../../styles/variables.scss';
 
 .button-wrapper {
+  height: inherit;
+  width: inherit;
   :global(.MuiButton-root) {
     outline: none;
     border: 0;
@@ -9,7 +11,8 @@
     border-radius: 3em;
     padding: 0.2rem 0.8rem;
     cursor: pointer;
-    height: unset;
+    height: inherit;
+    width: inherit;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -41,10 +44,10 @@
 
 .secondary {
   :global(.MuiButton-colorSecondary) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
     background-color: transparent;
     &:not(:disabled) {
-      border: 2px solid $waves-dark-violet;
+      border: 2px solid $input-field-color;
       &:hover,
       &:active,
       &:focus-visible {
@@ -60,7 +63,7 @@
 
 .text {
   :global(.MuiButton-textPrimary) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
     background-color: transparent;
     border: transparent;
     text-decoration: underline;
