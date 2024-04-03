@@ -1,11 +1,15 @@
 .success-icon {
-  fill: #00862f !important;
+  fill: $success-icon-color !important;
 }
 
 .warning-icon {
-  fill: #c7a302 !important;
+  fill: $warning-icon-color !important;
 }
 
 .danger-icon {
-  fill: #a02c2c !important;
+  fill: $danger-icon-color !important;
+}
+
+.star-wrapper {
+  fill: $star-icon-color !important;
 }

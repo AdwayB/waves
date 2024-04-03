@@ -17,6 +17,7 @@ interface InputFieldProps {
   placeholder?: string;
   error?: boolean;
   helperText?: string;
+  required?: boolean;
   className?: string;
 }
 
@@ -34,6 +35,7 @@ const InputField: FC<InputFieldProps> = (props) => {
     placeholder,
     error = false,
     helperText = ' ',
+    required = false,
     className,
   } = props;
 
@@ -57,6 +59,7 @@ const InputField: FC<InputFieldProps> = (props) => {
             <OutlinedInput
               size={size}
               id={id}
+              name={id}
               label={label}
               type={type}
               defaultValue={defaultValue}
@@ -64,6 +67,7 @@ const InputField: FC<InputFieldProps> = (props) => {
               onChange={onChange}
               disabled={disabled}
               placeholder={placeholder}
+              required={required}
               className={className}
             />
             <FormHelperText>{helperText}</FormHelperText>
@@ -79,6 +83,7 @@ const InputField: FC<InputFieldProps> = (props) => {
             <OutlinedInput
               size={size}
               id={id}
+              name={id}
               label={label}
               value={value}
               onChange={onChange}
@@ -94,6 +99,7 @@ const InputField: FC<InputFieldProps> = (props) => {
                 </InputAdornment>
               }
             />
+            <FormHelperText>{helperText}</FormHelperText>
           </FormControl>
         </div>
       );

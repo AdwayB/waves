@@ -1,8 +1,12 @@
 @import '../../styles/variables.scss';
 
-.primary {
+.secondary {
   :global(.MuiFormControl-root) {
     :global(.Mui-focused) {
+      color: $waves-dark-violet;
+    }
+
+    :global(.MuiFormHelperText-root) {
       color: $waves-dark-violet;
     }
   }
@@ -22,6 +26,7 @@
 
   :global(.MuiInputBase-input) {
     color: $waves-dark-violet;
+    padding: 1rem 1rem;
   }
 
   :global(.MuiInputBase-input::placeholder) {
@@ -29,31 +34,39 @@
   }
 }
 
-.secondary {
+.primary {
   :global(.MuiFormControl-root) {
     :global(.Mui-focused) {
-      color: $waves-purple;
+      color: $input-field-color;
+    }
+
+    :global(.MuiFormHelperText-root) {
+      width: fit-content;
+      color: $white;
     }
   }
   :global(.MuiFormLabel-root) {
-    color: $waves-purple;
+    color: $input-field-color;
   }
 
   :global(.MuiInputBase-root) {
     fieldset {
-      border-color: $waves-purple !important;
+      border-color: $input-field-color !important;
     }
   }
 
   :global(.MuiIconButton-edgeEnd) {
-    color: $waves-purple;
+    color: $input-field-color;
   }
 
   :global(.MuiInputBase-input) {
-    color: $waves-violet;
+    appearance: unset !important;
+    background-color: transparent !important;
+    color: $input-field-color !important;
+    padding: 1rem 1rem;
   }
 
   :global(.MuiInputBase-input::placeholder) {
-    color: $waves-purple;
+    color: $input-field-color;
   }
 }

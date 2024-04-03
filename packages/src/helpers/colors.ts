@@ -22,6 +22,7 @@ enum Colors {
   successIconColor = '#00862f',
   warningIconColor = '#ed6c02',
   dangerIconColor = '#a02c2c',
+  starIconColor = '#faaf00',
 }
 
 export { Colors };

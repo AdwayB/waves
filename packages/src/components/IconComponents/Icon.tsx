@@ -1,8 +1,10 @@
 import { FC } from 'react';
+import StarRateIcon from '@mui/icons-material/StarRate';
 import styles from './icon.module.scss';
+import { Colors } from '../../helpers/colors';
 
 interface IconProps {
-  type: 'success' | 'warning' | 'danger' | 'logo' | null;
+  type: 'success' | 'warning' | 'danger' | 'logo' | 'star' | null;
 }
 
 const Success = () => {
@@ -101,6 +103,14 @@ const Logo = () => {
   );
 };
 
+const Star = () => {
+  return (
+    <div className={styles.starWrapper}>
+      <StarRateIcon sx={{ fill: Colors.starIconColor }} />
+    </div>
+  );
+};
+
 const Icon: FC<IconProps> = (props) => {
   const { type } = props;
   switch (type) {
@@ -112,6 +122,8 @@ const Icon: FC<IconProps> = (props) => {
       return <Danger />;
     case 'logo':
       return <Logo />;
+    case 'star':
+      return <Star />;
     default:
       return null;
   }
