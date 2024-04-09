@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Button as MButton, ButtonProps as MButtonProps } from '@mui/material';
+import { Button as MButton, ButtonProps as MButtonProps, CircularProgress } from '@mui/material';
 import styles from './button.module.scss';
 
 interface ButtonProps extends Omit<MButtonProps, 'style'> {
@@ -7,10 +7,11 @@ interface ButtonProps extends Omit<MButtonProps, 'style'> {
   buttonType?: 'primary' | 'secondary';
   onClick: () => void;
   className?: string;
+  loading?: boolean;
 }
 
 const Button: FC<ButtonProps> = (props) => {
-  const { variant = 'contained', buttonType = 'primary', label = ' ', onClick, className } = props;
+  const { variant = 'contained', buttonType = 'primary', label = ' ', onClick, className, loading = false } = props;
 
   const getWrapperClassName = () => {
     if (!!variant) {
@@ -27,7 +28,7 @@ const Button: FC<ButtonProps> = (props) => {
   return (
     <div className={getWrapperClassName()}>
       <MButton {...props} variant={variant} color={buttonType} className={className} onClick={onClick}>
-        {label}
+        {loading ? <CircularProgress size={28} color="inherit" /> : label}
       </MButton>
     </div>
   );

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FormControlLabel, Checkbox as MCheckbox, CheckboxProps as MCheckboxProps } from '@mui/material';
+import { FormControlLabel, FormLabel, Checkbox as MCheckbox, CheckboxProps as MCheckboxProps } from '@mui/material';
 import styles from './checkbox.module.scss';
 
 interface CheckboxItem extends MCheckboxProps {
@@ -9,16 +9,18 @@ interface CheckboxItem extends MCheckboxProps {
 }
 
 interface CheckboxProps {
+  groupLabel?: string;
   items: CheckboxItem[];
   direction?: 'row' | 'column';
   className?: string;
 }
 
 const Checkbox: FC<CheckboxProps> = (props) => {
-  const { items, direction = 'column', className } = props;
+  const { groupLabel, items, direction = 'column', className } = props;
 
   return (
     <div className={`${styles.checkboxWrapper} ${className} ${styles[direction]}`}>
+      <FormLabel className={styles.label}>{groupLabel}</FormLabel>
       {items.map((item, index) => (
         <FormControlLabel
           key={index}

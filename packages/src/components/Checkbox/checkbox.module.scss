@@ -7,8 +7,14 @@
   padding: 0 0.2rem;
   :global(.MuiCheckbox-root) {
     input {
-      border: 1px solid $waves-dark-violet;
+      border: 1px solid $input-field-color;
     }
+  }
+  :global(.MuiFormLabel-root) {
+    color: $input-field-color !important;
+  }
+  :global(.MuiTypography-root) {
+    color: $input-field-color !important;
   }
 }
 
@@ -26,7 +32,7 @@
 
 .primary {
   :global(.MuiCheckbox-colorPrimary) {
-    color: $waves-dark-violet !important;
+    color: $input-field-color !important;
   }
 }
 

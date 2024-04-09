@@ -11,9 +11,7 @@
   gap: 1rem;
 
   .logo {
-    font:
-      normal normal 700 6rem/1.5 'Lakki Reddy',
-      sans-serif;
+    font: $logo-font;
     color: $logo-text-color;
     text-shadow: $text-shadow-purple;
   }

@@ -1,3 +1,8 @@
+enum UserType {
+  Admin = 'Admin',
+  User = 'User',
+}
+
 interface UserData {
   userId?: string;
   userName: string;
@@ -9,12 +14,33 @@ interface UserData {
   type?: string;
 }
 
+interface UserLoginRequest {
+  email: string;
+  password: string;
+  type: string;
+}
+
+interface UserLoginResponse {
+  userId: string;
+  userName: string;
+  type: string;
+  token: string;
+}
+
 const UserDataInit: UserData = {
   userName: '',
   legalName: '',
   email: '',
   userPassword: '',
   mobileNumber: '',
+  type: UserType.User,
 };
 
-export { UserData, UserDataInit };
+const UserLoginInit: UserLoginRequest = {
+  email: '',
+  password: '',
+  type: UserType.User,
+};
+
+export { UserType, UserDataInit, UserLoginInit };
+export type { UserData, UserLoginRequest, UserLoginResponse };

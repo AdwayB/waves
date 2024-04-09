@@ -1,9 +1,14 @@
 @import '../../../styles/variables.scss';
 
-.login-container {
+.login-wrapper {
   height: 100vh;
   width: 100%;
   background: fixed $waves-dark-violet url('../../../assets/signup-login.svg') center/cover no-repeat;
+}
+
+.login-container {
+  height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -19,9 +24,7 @@
   text-align: center;
 
   .logo {
-    font:
-      normal normal 700 6rem/1.5 'Lakki Reddy',
-      sans-serif;
+    font: $logo-font;
     color: $logo-text-color;
     text-shadow: $text-shadow-purple;
   }

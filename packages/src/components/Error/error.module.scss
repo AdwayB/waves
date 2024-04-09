@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-evenly;
-  background: url('../../assets/error.png') center center no-repeat;
+  background: fixed $waves-dark-violet url('../../assets/error.png') center/cover no-repeat;
   padding: 1rem 5rem;
 }
 

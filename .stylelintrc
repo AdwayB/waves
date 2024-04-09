@@ -46,6 +46,12 @@
         "color-no-invalid-hex": null,
         "color-named": null
       }
+    },
+    {
+      "files": "./packages/src/styles/variables.scss",
+      "rules": {
+        "scss/operator-no-unspaced": null
+      }
     }
   ]
 }
