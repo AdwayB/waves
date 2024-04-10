@@ -20,7 +20,7 @@ interface UserLoginRequest {
   type: string;
 }
 
-interface UserLoginResponse {
+interface UserSignupLoginResponse {
   userId: string;
   userName: string;
   type: string;
@@ -43,4 +43,4 @@ const UserLoginInit: UserLoginRequest = {
 };
 
 export { UserType, UserDataInit, UserLoginInit };
-export type { UserData, UserLoginRequest, UserLoginResponse };
+export type { UserData, UserLoginRequest, UserSignupLoginResponse };

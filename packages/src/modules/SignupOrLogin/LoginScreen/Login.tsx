@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './login.module.scss';
 import { Alert, Button, Checkbox, InputField } from '../../../components';
-import { UserLoginInit, UserLoginRequest, UserType } from '../dataModels';
+import { UserLoginInit, UserLoginRequest, UserSignupLoginResponse, UserType } from '../dataModels';
 import { useMutation } from 'react-query';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -70,24 +70,24 @@ const Login: FC = () => {
   };
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
-    (formData: UserLoginRequest) => {
+    (formData: UserLoginRequest): Promise<UserSignupLoginResponse> => {
       console.table(formData);
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
-            data: {
-              token: '',
-              user: formData,
-            },
+            userId: '',
+            userName: '',
+            type: 'Admin',
+            token: '',
           });
         }, 4000);
       });
       // return axios.post(`${process.env.WAVES_SERVER_URL}/login`, formData);
     },
     {
-      onSuccess: (data: any) => {
-        localStorage.setItem('jwt', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
+      onSuccess: (data: UserSignupLoginResponse) => {
+        localStorage.setItem('jwt', data.token);
+        localStorage.setItem('type', JSON.stringify(data.type));
       },
       onError: (error) => {
         console.error('Signup failed', error);
