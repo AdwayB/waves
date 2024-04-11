@@ -16,4 +16,5 @@ export * from './Menu';
 export * from './Radio';
 export * from './Rating';
 export * from './Select';
+export * from './Sidebar';
 export * from './Switch';

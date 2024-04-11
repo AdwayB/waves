@@ -97,7 +97,7 @@ const Login: FC = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/dashboard');
+      navigate('/user');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);

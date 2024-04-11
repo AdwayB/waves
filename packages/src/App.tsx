@@ -1,9 +1,9 @@
 import './styles/app.scss';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { AppRoutes } from './routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { AppRoutes } from './Routes';
 
 const THEME = createTheme({
   typography: {

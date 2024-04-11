@@ -1,0 +1,20 @@
+@import '../../styles/variables.scss';
+
+.app-layout {
+  height: 100vh;
+  width: 100%;
+  background: fixed $waves-dark-violet url('../../assets/bg.svg') center/cover no-repeat;
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+  align-items: center;
+
+  .main {
+    height: 94%;
+    width: 100%;
+    margin-right: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 2rem;
+    background-color: $main-bg-color;
+  }
+}
