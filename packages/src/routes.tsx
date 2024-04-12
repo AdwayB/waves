@@ -1,9 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { SignupOrLogin } from './modules';
+import { SignupOrLogin, Signup, Login, Layout } from './modules';
 import { Error } from './components';
-import { Signup } from './modules/SignupOrLogin/SignupScreen';
-import { Login } from './modules/SignupOrLogin/LoginScreen';
-import { Layout } from './modules/Layout/Layout';
 
 const AppRoutes = () => {
   return (

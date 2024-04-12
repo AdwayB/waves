@@ -1,10 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import { Error } from '../../components';
+import { UserHome } from '../UserHome';
 
 const NestedRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<div style={{ fontSize: '50px', color: 'red' }}>Testing this</div>} />
+      <Route path="/" element={<UserHome />} />
       <Route
         path="/browse-events"
         element={<div style={{ fontSize: '50px', color: 'red' }}>Testing Browsing Events</div>}
