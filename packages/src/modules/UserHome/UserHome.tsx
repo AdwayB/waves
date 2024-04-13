@@ -1,3 +1,4 @@
+import { Table } from '../../components';
 import styles from './userHome.module.scss';
 
 const UserHome = () => {
@@ -42,6 +43,19 @@ const UserHome = () => {
           <span className={styles.recommendationsText}>Test Event 4</span>
           <span className={styles.recommendationsText}>Test Event 5</span>
         </div>
+        <Table
+          columns={[
+            { id: 1, title: 'Test1', name: 'test1' },
+            { id: 2, title: 'Test2', name: 'test2' },
+            { id: 3, title: 'Test3', name: 'test3' },
+          ]}
+          rows={[
+            { test1: 'test1', test2: 'test2', test3: 'test3' },
+            { test1: 'test12', test2: 'test22', test3: 'test32' },
+            { test1: 'test13', test2: 'test23', test3: 'test33' },
+          ]}
+          rowsPerPage={1}
+        />
       </div>
     </>
   );

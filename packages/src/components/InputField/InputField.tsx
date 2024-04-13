@@ -18,6 +18,7 @@ interface InputFieldProps {
   error?: boolean;
   helperText?: string;
   required?: boolean;
+  readOnly?: boolean;
   className?: string;
 }
 
@@ -36,6 +37,7 @@ const InputField: FC<InputFieldProps> = (props) => {
     error = false,
     helperText = ' ',
     required = false,
+    readOnly = false,
     className,
   } = props;
 
@@ -69,6 +71,7 @@ const InputField: FC<InputFieldProps> = (props) => {
               placeholder={placeholder}
               required={required}
               className={className}
+              readOnly={readOnly}
             />
             <FormHelperText>{helperText}</FormHelperText>
           </FormControl>
