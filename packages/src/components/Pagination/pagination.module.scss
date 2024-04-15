@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+
+.pagination {
+  background: transparent;
+
+  :global(.MuiPaginationItem-root) {
+    color: $light-white;
+  }
+
+  :global(.Mui-selected) {
+    background-color: $pagination-color !important;
+  }
+}

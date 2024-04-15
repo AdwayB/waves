@@ -70,3 +70,12 @@
     color: $input-field-color;
   }
 }
+
+.search {
+  :global(.MuiInputBase-root) {
+    fieldset {
+      border: none !important;
+      outline: none !important;
+    }
+  }
+}

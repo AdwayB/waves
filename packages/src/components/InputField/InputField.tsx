@@ -19,6 +19,7 @@ interface InputFieldProps {
   helperText?: string;
   required?: boolean;
   readOnly?: boolean;
+  isSearch?: boolean;
   className?: string;
 }
 
@@ -38,6 +39,7 @@ const InputField: FC<InputFieldProps> = (props) => {
     helperText = ' ',
     required = false,
     readOnly = false,
+    isSearch = false,
     className,
   } = props;
 
@@ -55,7 +57,7 @@ const InputField: FC<InputFieldProps> = (props) => {
   switch (type) {
     case 'text':
       return (
-        <div className={`${styles.inputFieldWrapper} ${styles[style]}`}>
+        <div className={`${styles.inputFieldWrapper} ${styles[style]} ${isSearch && styles.search}`}>
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput

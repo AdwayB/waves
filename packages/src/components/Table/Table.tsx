@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import {
   Table as MTable,
   TableBody,
@@ -7,11 +7,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   TableSortLabel,
   Box,
-  Pagination,
 } from '@mui/material';
+import styles from './table.module.scss';
+import { Pagination } from '../Pagination';
+import { Search } from '../Search';
+import { useDebounce } from '../../hooks';
 
 interface Column {
   id: number;
@@ -24,6 +26,8 @@ interface TableProps {
   columns: Column[];
   rows: Array<Record<string, string | number | boolean>>;
   rowsPerPage?: number;
+  headerAlign?: 'left' | 'center' | 'right';
+  rowAlign?: 'left' | 'center' | 'right';
   showActions?: boolean;
 }
 
@@ -33,7 +37,18 @@ interface Order {
 }
 
 const Table: FC<TableProps> = (props) => {
-  const { columns, rows, title, showActions = true, rowsPerPage = 10 } = props;
+  const {
+    columns,
+    rows,
+    title,
+    showActions = true,
+    rowsPerPage = 10,
+    headerAlign = 'center',
+    rowAlign = 'right',
+  } = props;
+
+  const [searchWord, setSearchWord] = useState<string>('');
+  const searchFilter = useDebounce(searchWord);
   const [order, setOrder] = useState<Order | null>(null);
   const [page, setPage] = useState(1);
 
@@ -46,14 +61,28 @@ const Table: FC<TableProps> = (props) => {
     setPage(newPage);
   };
 
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(e.target.value);
+    setPage(1);
+  };
+
+  const filteredData = () => {
+    return searchFilter.length === 0
+      ? rows
+      : rows.filter((row) =>
+          columns.some((column) => `${row[column.name]}`.toLowerCase() === searchFilter.toLowerCase()),
+        );
+  };
+
   const sortedData = () => {
+    const rowsToSort = filteredData();
     return order
-      ? [...rows].sort((a, b) => {
-          const valueA = String(a[order.column] || '');
-          const valueB = String(b[order.column] || '');
+      ? rowsToSort.sort((a, b) => {
+          const valueA = `${a[order.column] || ''}`;
+          const valueB = `${b[order.column] || ''}`;
           return (order.direction === 'asc' ? 1 : -1) * valueA.localeCompare(valueB);
         })
-      : rows;
+      : rowsToSort;
   };
 
   const paginatedData = () => {
@@ -62,47 +91,49 @@ const Table: FC<TableProps> = (props) => {
   };
 
   return (
-    <Box>
-      <TableContainer component={Paper}>
-        {title && (
-          <Typography variant="h6" component="div">
-            {title}
-          </Typography>
-        )}
-        <MTable>
-          <TableHead>
+    <Box className={styles.tableWrapper}>
+      <TableContainer component={Paper} className={styles.tableContainer}>
+        <div className={styles.header}>
+          {title && <span className={styles.title}>{title}</span>}
+          <div className={styles.searchWrapper}>
+            <Search value={searchWord} onChange={handleSearchChange} />
+          </div>
+        </div>
+        <MTable className={styles.table}>
+          <TableHead className={styles.tableHeader}>
             <TableRow>
               {columns.map((column) => (
-                <TableCell key={column.id}>
+                <TableCell key={column.id} align={headerAlign}>
                   <TableSortLabel
                     active={order?.column === column.name}
                     direction={order?.direction || 'asc'}
                     onClick={() => handleSort(column.name)}
+                    className={styles.sortLabel}
                   >
                     {column.title}
                   </TableSortLabel>
                 </TableCell>
               ))}
-              {showActions && <TableCell>Actions</TableCell>}
+              {showActions && <TableCell align={headerAlign}>Actions</TableCell>}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className={styles.tableBody}>
             {paginatedData().map((row, index) => (
               <TableRow key={index} hover>
                 {columns.map((column) => (
-                  <TableCell key={`${column.id}-${index}`}>{`${row[column.name] || ''}`}</TableCell>
+                  <TableCell align={rowAlign} key={`${column.id}-${index}`}>{`${row[column.name] || ''}`}</TableCell>
                 ))}
-                {showActions && <TableCell>Coming soon</TableCell>}
+                {showActions && <TableCell align={rowAlign}>Coming soon</TableCell>}
               </TableRow>
             ))}
           </TableBody>
         </MTable>
       </TableContainer>
       <Pagination
-        count={Math.ceil(rows.length / rowsPerPage)}
+        count={Math.ceil(filteredData().length / rowsPerPage)}
         page={page}
         onChange={handleChangePage}
-        color="primary"
+        className={styles.pagination}
       />
     </Box>
   );

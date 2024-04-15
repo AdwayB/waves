@@ -1,1 +1,93 @@
 @import '../../styles/variables.scss';
+
+.table-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 0.625rem;
+
+  .table-container {
+    background-color: $table-bg-color;
+    border-radius: 0.5rem;
+    backdrop-filter: blur(0.2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .title {
+        font:
+          normal normal 500 1.3rem/3 'Open Sans',
+          sans-serif;
+        color: $white;
+        padding: 0.5rem 1rem;
+      }
+
+      .search-wrapper {
+        margin: 1rem 1rem 0 0;
+      }
+    }
+
+    table {
+      width: calc(100% - 1rem);
+      margin: 0 0.5rem;
+    }
+
+    .table {
+      .table-header {
+        th {
+          border-color: $light-white;
+          transition: $hover-click-transition;
+          font-size: 1.1rem;
+        }
+
+        :global(.MuiTableCell-head) {
+          color: $white !important;
+        }
+
+        .sort-label {
+          color: $white !important;
+          :global(.MuiTableSortLabel-icon) {
+            color: $white;
+          }
+        }
+      }
+
+      .table-body {
+        :global(.MuiTableCell-root) {
+          color: $white !important;
+        }
+
+        tr {
+          transition: $hover-click-transition;
+
+          &:hover {
+            background-color: $table-row-hover-color !important;
+            border-radius: 0.5rem;
+          }
+
+          &:nth-child(even) {
+            background-color: $table-row-color;
+          }
+
+          > td {
+            border: none;
+            transition: $hover-click-transition;
+            cursor: pointer;
+            // border-right: 1px solid $light-white;
+            // &:last-child {
+            //   border-right: none;
+            // }
+          }
+        }
+      }
+    }
+  }
+}

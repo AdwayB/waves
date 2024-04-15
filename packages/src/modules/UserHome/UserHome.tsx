@@ -44,6 +44,7 @@ const UserHome = () => {
           <span className={styles.recommendationsText}>Test Event 5</span>
         </div>
         <Table
+          title="Test Table"
           columns={[
             { id: 1, title: 'Test1', name: 'test1' },
             { id: 2, title: 'Test2', name: 'test2' },
@@ -51,10 +52,27 @@ const UserHome = () => {
           ]}
           rows={[
             { test1: 'test1', test2: 'test2', test3: 'test3' },
+            { test1: 'test16', test2: 'test26', test3: 'test36' },
+            { test1: 'test19', test2: 'test29', test3: 'test39' },
+            { test1: 'test10', test2: 'test20', test3: 'test30' },
+            { test1: 'test11', test2: 'test21', test3: 'test31' },
+            { test1: 'test17', test2: 'test27', test3: 'test37' },
             { test1: 'test12', test2: 'test22', test3: 'test32' },
             { test1: 'test13', test2: 'test23', test3: 'test33' },
+            { test1: 'test14', test2: 'test24', test3: 'test34' },
+            { test1: 'test15', test2: 'test25', test3: 'test35' },
+            { test1: 'test16', test2: 'test26', test3: 'test36' },
+            { test1: 'test17', test2: 'test27', test3: 'test37' },
+            { test1: 'test18', test2: 'test28', test3: 'test38' },
+            { test1: 'test12', test2: 'test22', test3: 'test32' },
+            { test1: 'test13', test2: 'test23', test3: 'test33' },
+            { test1: 'test14', test2: 'test24', test3: 'test34' },
+            { test1: 'test15', test2: 'test25', test3: 'test35' },
+            { test1: 'test18', test2: 'test28', test3: 'test38' },
+            { test1: 'test19', test2: 'test29', test3: 'test39' },
+            { test1: 'test10', test2: 'test20', test3: 'test30' },
           ]}
-          rowsPerPage={1}
+          rowsPerPage={10}
         />
       </div>
     </>
