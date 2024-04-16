@@ -1,45 +1,7 @@
 import { FC, MouseEvent } from 'react';
-import { Card as MCard } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
+import { Card as MCard, CardMedia } from '@mui/material';
 import styles from './card.module.scss';
-import { styled } from '@mui/material/styles';
 import { Rating } from '../Rating';
-
-const StyledCard = styled(MCard)({
-  borderRadius: '1rem',
-  boxShadow: 'none',
-  position: 'relative',
-  minWidth: 200,
-  minHeight: 360,
-  '&:after': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    width: '100%',
-    height: '64%',
-    bottom: 0,
-    zIndex: 1,
-    background: 'linear-gradient(to top, #000, rgba(0,0,0,0))',
-  },
-});
-
-const StyledCardMedia = styled(CardMedia)({
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-  zIndex: 0,
-  backgroundPosition: 'top',
-});
-
-const Content = styled('div')(({ theme }) => ({
-  padding: theme.spacing(3, 2),
-  position: 'absolute',
-  zIndex: 2,
-  bottom: 0,
-  width: '100%',
-}));
 
 interface CardProps {
   bgImage?: string;
@@ -67,22 +29,21 @@ const Card: FC<CardProps> = (props) => {
       <div className={styles.cardGlow}>
         <MCard className={`${styles.card} ${className}`}>
           <CardMedia className={styles.cardMedia} image={bgImage} />
-          <Content>
-            <div className={styles.cardContent}>
-              <div className={styles.titleAndRating}>
-                <span className={styles.cardTitle}>{title}</span>
-                <span className={styles.cardRating}>
-                  <Rating precision={0.1} value={rating} />
-                </span>
-              </div>
-              <div className={styles.cardArtist}>{artist}</div>
-              <div className={styles.cardGenres}>{genres}</div>
+          <div className={styles.cardContent}>
+            <div className={styles.titleAndRating}>
+              <span className={styles.cardTitle}>{title}</span>
+              <span className={styles.cardRating}>
+                <Rating precision={0.1} value={rating} />
+              </span>
             </div>
-          </Content>
+            <div className={styles.cardArtist}>{artist}</div>
+            <div className={styles.cardGenres}>{genres}</div>
+          </div>
         </MCard>
       </div>
     </div>
   );
 };
 
-export { StyledCard, StyledCardMedia, Content, Card };
+export { Card };
+export type { CardProps };
