@@ -1,4 +1,4 @@
-import { Table } from '../../components';
+import { Card } from '../../components';
 import styles from './userHome.module.scss';
 
 const UserHome = () => {
@@ -43,7 +43,7 @@ const UserHome = () => {
           <span className={styles.recommendationsText}>Test Event 4</span>
           <span className={styles.recommendationsText}>Test Event 5</span>
         </div>
-        <Table
+        {/* <Table
           title="Test Table"
           columns={[
             { id: 1, title: 'Test1', name: 'test1' },
@@ -73,6 +73,12 @@ const UserHome = () => {
             { test1: 'test10', test2: 'test20', test3: 'test30' },
           ]}
           rowsPerPage={10}
+        /> */}
+        <Card
+          title="Test Card"
+          artist="Test Artist"
+          genres="Test Genres, Test Genres 2, Test Genres 3, Test Genres 4, Test Genres 5, Test Genres 6 , Test Genres 7, Test Genres 8, Test Genres 9, Test Genres 10"
+          rating={4.5}
         />
       </div>
     </>
