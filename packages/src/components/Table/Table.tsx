@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import {
   Table as MTable,
   TableBody,
@@ -9,11 +9,13 @@ import {
   Paper,
   TableSortLabel,
   Box,
+  CircularProgress,
 } from '@mui/material';
 import styles from './table.module.scss';
 import { Pagination } from '../Pagination';
 import { Search } from '../Search';
 import { useDebounce } from '../../hooks';
+import { Menu, MenuProps } from '../Menu';
 
 interface Column {
   id: number;
@@ -29,6 +31,10 @@ interface TableProps {
   headerAlign?: 'left' | 'center' | 'right';
   rowAlign?: 'left' | 'center' | 'right';
   showActions?: boolean;
+  menuProps?: MenuProps;
+  isLoading?: boolean;
+  friendlyScreenMessage?: boolean;
+  friendlyScreenHeight?: string;
 }
 
 interface Order {
@@ -36,7 +42,7 @@ interface Order {
   direction: 'asc' | 'desc';
 }
 
-const Table: FC<TableProps> = (props) => {
+const TableSet: FC<TableProps> = (props) => {
   const {
     columns,
     rows,
@@ -45,12 +51,34 @@ const Table: FC<TableProps> = (props) => {
     rowsPerPage = 10,
     headerAlign = 'center',
     rowAlign = 'right',
+    menuProps = {
+      items: [
+        {
+          label: 'View',
+          onClick: (id?: string | number) => {
+            console.log(`View ${id}`);
+          },
+        },
+        {
+          label: 'Edit',
+          onClick: (id?: string | number) => {
+            console.log(`Edit ${id}`);
+          },
+        },
+        {
+          label: 'Delete',
+          onClick: (id?: string | number) => {
+            console.log(`Delete ${id}`);
+          },
+        },
+      ],
+    },
   } = props;
 
   const [searchWord, setSearchWord] = useState<string>('');
   const searchFilter = useDebounce(searchWord);
   const [order, setOrder] = useState<Order | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
 
   const handleSort = (columnName: string) => {
     const isAsc = order?.column === columnName && order.direction === 'asc';
@@ -114,7 +142,11 @@ const Table: FC<TableProps> = (props) => {
                   </TableSortLabel>
                 </TableCell>
               ))}
-              {showActions && <TableCell align={headerAlign}>Actions</TableCell>}
+              {showActions && (
+                <TableCell align={headerAlign} width={150}>
+                  Actions
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody className={styles.tableBody}>
@@ -123,7 +155,11 @@ const Table: FC<TableProps> = (props) => {
                 {columns.map((column) => (
                   <TableCell align={rowAlign} key={`${column.id}-${index}`}>{`${row[column.name] || ''}`}</TableCell>
                 ))}
-                {showActions && <TableCell align={rowAlign}>Coming soon</TableCell>}
+                {showActions && (
+                  <TableCell align={rowAlign}>
+                    <Menu {...menuProps} />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
@@ -139,4 +175,56 @@ const Table: FC<TableProps> = (props) => {
   );
 };
 
-export { Table };
+const TableFriendlyScreen: FC<TableProps> = (props) => {
+  const { friendlyScreenMessage = 'No data to display!', friendlyScreenHeight = '300px' } = props;
+  return (
+    <div className={styles.tableFriendlyScreen} style={{ height: friendlyScreenHeight }}>
+      <div className={styles.tableFriendlyScreenText}>{friendlyScreenMessage}</div>
+    </div>
+  );
+};
+
+const TableLoader: FC = () => {
+  const [loaderSize, setLoaderSize] = useState('4rem');
+
+  useEffect(() => {
+    const handleResize = () => {
+      const windowSize = window.innerWidth < 1366 ? '3rem' : '4rem';
+      setLoaderSize(windowSize);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <div className={styles.tableLoaderWrapper}>
+      <div className={styles.tableLoader}>
+        <CircularProgress size={loaderSize} color="inherit" />
+      </div>
+      <Pagination count={5} page={1} onChange={() => null} disabled />
+    </div>
+  );
+};
+
+const Table: FC<TableProps> = (props) => {
+  const { isLoading = false } = props;
+
+  switch (true) {
+    case isLoading:
+      return <TableLoader />;
+    case !isLoading && props.rows.length === 0:
+      return <TableFriendlyScreen {...props} />;
+    case !isLoading && props.rows.length > 0:
+      return <TableSet {...props} />;
+    default:
+      return <TableSet {...props} />;
+  }
+};
+
+export { TableSet, TableFriendlyScreen, TableLoader, Table };
+export type { Column, TableProps, Order };

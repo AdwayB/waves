@@ -11,3 +11,13 @@
     background-color: $pagination-color !important;
   }
 }
+
+.disabled {
+  :global(.MuiPaginationItem-root) {
+    color: $disabled-text-color;
+  }
+
+  :global(.Mui-selected) {
+    background-color: $disabled-pagination-color !important;
+  }
+}

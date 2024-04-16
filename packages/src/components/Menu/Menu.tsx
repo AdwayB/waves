@@ -6,7 +6,7 @@ import { Colors } from '../../helpers/colors';
 
 interface MenuItem {
   label?: ReactNode;
-  onClick?: () => void;
+  onClick?: (id?: string | number) => void;
   divider?: boolean;
 }
 
@@ -22,6 +22,9 @@ const Menu: FC<MenuProps> = (props) => {
     switch (type) {
       case 'primary':
         return {
+          '& .MuiPaper-root': {
+            background: 'transparent',
+          },
           '& .MuiMenuItem-root': {
             color: Colors.actualWhite,
             '&:hover': {
@@ -39,6 +42,9 @@ const Menu: FC<MenuProps> = (props) => {
         };
       case 'secondary':
         return {
+          '& .MuiPaper-root': {
+            background: 'transparent',
+          },
           '& .MuiMenuItem-root': {
             color: Colors.actualWhite,
             '&:hover': {
@@ -76,7 +82,7 @@ const Menu: FC<MenuProps> = (props) => {
             aria-label="more"
             id="long-button"
             sx={{
-              color: type === 'primary' ? Colors.wavesDarkViolet : Colors.menuBGSecondary,
+              color: type === 'primary' ? Colors.white : Colors.menuBGSecondary,
               '&:hover': {
                 backgroundColor: type === 'primary' ? Colors.menuBGPrimaryHover : Colors.menuBGSecondaryHover,
               },
@@ -106,4 +112,4 @@ const Menu: FC<MenuProps> = (props) => {
 //    ]}
 //  />;
 
-export { Menu, MenuProps };
+export { Menu, MenuProps, MenuItem };

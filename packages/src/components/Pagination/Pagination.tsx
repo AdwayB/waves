@@ -7,12 +7,20 @@ interface PaginationProps {
   page: number;
   onChange: (event: ChangeEvent<unknown>, value: number) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 const Pagination: FC<PaginationProps> = (props) => {
-  const { count, page, onChange, className } = props;
+  const { count, page, onChange, className, disabled = false } = props;
 
-  return <MPagination count={count} page={page} onChange={onChange} className={`${styles.pagination} ${className}`} />;
+  return (
+    <MPagination
+      count={count}
+      page={page}
+      onChange={onChange}
+      className={`${styles.pagination} ${disabled ? styles.disabled : ''} ${className}`}
+    />
+  );
 };
 
 export { Pagination };
