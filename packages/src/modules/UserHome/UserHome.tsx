@@ -79,6 +79,7 @@ const UserHome = () => {
           artist="Test Artist"
           genres="Test Genres, Test Genres 2, Test Genres 3, Test Genres 4, Test Genres 5, Test Genres 6 , Test Genres 7, Test Genres 8, Test Genres 9, Test Genres 10"
           rating={4.5}
+          className={styles.testCard}
         />
       </div>
     </>

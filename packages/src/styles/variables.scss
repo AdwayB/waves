@@ -1,8 +1,10 @@
 @import './colors.scss';
 
 $text-shadow-purple: 0 0 10px $waves-purple;
+$text-shadow-card: 0 0 5px $waves-purple;
 $text-shadow-dark: 0 0 10px $waves-dark-blue;
 $logo-font:
   normal normal 700 6rem/1.5 'Courgette',
   cursive;
 $hover-click-transition: all 0.2s ease-in-out;
+$card-foreground-gradient: linear-gradient($card-content-gradient-top, transparent, $card-content-gradient-bottom);
