@@ -1,8 +1,9 @@
 import { Sidebar } from '../../components';
+import { isAuth } from '../../helpers';
 import { NestedRoutes } from './NestedRoutes';
 import styles from './layout.module.scss';
 
-const Layout = () => {
+const AppLayout = () => {
   return (
     <div className={styles.appLayout}>
       <div className={styles.sidebar}>
@@ -15,4 +16,5 @@ const Layout = () => {
   );
 };
 
+const Layout = isAuth(AppLayout);
 export { Layout };

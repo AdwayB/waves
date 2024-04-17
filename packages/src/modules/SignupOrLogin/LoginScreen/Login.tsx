@@ -5,6 +5,7 @@ import { UserLoginInit, UserLoginRequest, UserSignupLoginResponse, UserType } fr
 import { useMutation } from 'react-query';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { setCookie } from '../../../helpers';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const Login: FC = () => {
             userId: '',
             userName: '',
             type: 'Admin',
-            token: '',
+            token: 'testCookie',
           });
         }, 4000);
       });
@@ -86,8 +87,8 @@ const Login: FC = () => {
     },
     {
       onSuccess: (data: UserSignupLoginResponse) => {
-        localStorage.setItem('jwt', data.token);
-        localStorage.setItem('type', JSON.stringify(data.type));
+        setCookie('jwt', data.token);
+        setCookie('type', data.type.replace('"', ''));
       },
       onError: (error) => {
         console.error('Signup failed', error);

@@ -10,6 +10,7 @@ const SignupOrLogin = () => {
       <div className={styles.signupLoginContainer}>
         <span className={styles.logo}>waves</span>
         <pre className={styles.text}>A comprehensive Event Management solution.</pre>
+        <pre className={styles.subText}>Please Sign Up or Log In to continue!</pre>
         <div className={styles.buttonContainer}>
           <div className={styles.buttonWrapper}>
             <Button label="Sign Up" buttonType="primary" onClick={() => navigate('/signup')} />

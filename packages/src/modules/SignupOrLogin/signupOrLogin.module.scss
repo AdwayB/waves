@@ -16,13 +16,18 @@
     text-shadow: $text-shadow-purple;
   }
 
-  .text {
+  .text,
+  .sub-text {
     text-wrap: balance;
     font:
       normal normal 700 2rem/1.5 'Open Sans',
       sans-serif;
     color: $white;
     text-shadow: $text-shadow-purple;
+  }
+
+  .sub-text {
+    font-size: 1.5rem;
   }
 
   .button-container {
