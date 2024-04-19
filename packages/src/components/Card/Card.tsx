@@ -33,7 +33,6 @@ const sampleColors: GradientColor[] = [
   { r: 0, g: 255, b: 255 }, // BrightCyan
   { r: 255, g: 215, b: 0 }, // Gold
   { r: 173, g: 255, b: 47 }, // NeonLime
-  { r: 255, g: 255, b: 0 }, // NeonYellow
 ];
 
 const getRandomColors = (): GradientColor => {
@@ -41,7 +40,7 @@ const getRandomColors = (): GradientColor => {
 };
 
 const getFixedColors = (): GradientColor => {
-  return sampleColors[Math.floor(Math.random() * (sampleColors.length - 7))];
+  return sampleColors[Math.floor(Math.random() * (sampleColors.length - 6))];
 };
 
 const createRandomGradient = (fixedGradient: boolean): string => {

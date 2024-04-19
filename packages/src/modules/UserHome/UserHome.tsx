@@ -81,20 +81,22 @@ const UserHome = () => {
           rating={4.5}
           className={styles.testCard}
         />
-        <CardCarousel
-          items={[
-            { title: 'Test Card Carousel', artist: 'Test Artist', genres: 'Test Genres', rating: 1 },
-            { title: 'Test Card Carousel 2', artist: 'Test Artist 2', genres: 'Test Genres 2', rating: 1.5 },
-            { title: 'Test Card Carousel 3', artist: 'Test Artist 3', genres: 'Test Genres 3', rating: 2 },
-            { title: 'Test Card Carousel 4', artist: 'Test Artist 4', genres: 'Test Genres 4', rating: 2.5 },
-            { title: 'Test Card Carousel 5', artist: 'Test Artist 5', genres: 'Test Genres 5', rating: 3 },
-            { title: 'Test Card Carousel 6', artist: 'Test Artist 6', genres: 'Test Genres 6', rating: 3.5 },
-            { title: 'Test Card Carousel 7', artist: 'Test Artist 7', genres: 'Test Genres 7', rating: 4 },
-            { title: 'Test Card Carousel 8', artist: 'Test Artist 8', genres: 'Test Genres 8', rating: 4.5 },
-            { title: 'Test Card Carousel 9', artist: 'Test Artist 9', genres: 'Test Genres 9', rating: 5 },
-            { title: 'Test Card Carousel 10', artist: 'Test Artist 10', genres: 'Test Genres 10', rating: 0 },
-          ]}
-        />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CardCarousel
+            items={[
+              { title: 'Test Card Carousel', artist: 'Test Artist', genres: 'Test Genres', rating: 1 },
+              { title: 'Test Card Carousel 2', artist: 'Test Artist 2', genres: 'Test Genres 2', rating: 1.5 },
+              { title: 'Test Card Carousel 3', artist: 'Test Artist 3', genres: 'Test Genres 3', rating: 2 },
+              { title: 'Test Card Carousel 4', artist: 'Test Artist 4', genres: 'Test Genres 4', rating: 2.5 },
+              { title: 'Test Card Carousel 5', artist: 'Test Artist 5', genres: 'Test Genres 5', rating: 3 },
+              { title: 'Test Card Carousel 6', artist: 'Test Artist 6', genres: 'Test Genres 6', rating: 3.5 },
+              { title: 'Test Card Carousel 7', artist: 'Test Artist 7', genres: 'Test Genres 7', rating: 4 },
+              { title: 'Test Card Carousel 8', artist: 'Test Artist 8', genres: 'Test Genres 8', rating: 4.5 },
+              { title: 'Test Card Carousel 9', artist: 'Test Artist 9', genres: 'Test Genres 9', rating: 5 },
+              { title: 'Test Card Carousel 10', artist: 'Test Artist 10', genres: 'Test Genres 10', rating: 0 },
+            ]}
+          />
+        </div>
       </div>
     </>
   );

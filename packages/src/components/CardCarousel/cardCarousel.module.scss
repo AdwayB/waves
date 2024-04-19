@@ -3,16 +3,18 @@
 .card-container {
   aspect-ratio: 1.353;
   height: 170px;
+  margin: 0.7rem;
+
+  .card {
+    transition: none !important;
+  }
 }
 
 .active {
-  transform: scale(1.3);
-  margin: 1rem 1.5rem;
+  aspect-ratio: 1.353;
+  height: 250px;
   z-index: 2;
-}
-
-.adjacent {
-  z-index: 1;
+  margin-right: -0.05rem;
 }
 
 .card-carousel {
@@ -23,10 +25,33 @@
   align-items: center;
   justify-content: center;
   //   gap: 1rem;
-  transition: all 0.5s ease-in-out;
+  transition: none !important;
 
-  .button-container {
-    align-self: center;
-    justify-self: stretch;
+  .icon-container {
+    margin: 1rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 50%;
+    color: $white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    .icon {
+      height: 2rem;
+      width: 2rem;
+    }
+
+    &:hover {
+      background-color: $menu-bg-secondary-hover;
+    }
+    &:active {
+      background-color: $pagination-color;
+      transform: scale(0.9);
+    }
+  }
+}
+
+@media screen and (max-width: 1790px) {
+  .card-carousel {
+    width: 80%;
   }
 }
