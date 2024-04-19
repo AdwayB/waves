@@ -3,8 +3,73 @@
 .user-home-container {
   color: $white;
 
-  .test-card {
-    width: 230px;
-    height: 170px;
+  .user-home-welcome-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    text-wrap: balance;
+    white-space: wrap;
+    padding: 2rem;
+
+    .welcome-heading {
+      font:
+        normal normal 700 2rem/1.5 'Open Sans',
+        sans-serif;
+      padding-bottom: 0.5rem;
+
+      .welcome-name {
+        color: $logo-text-color;
+        text-shadow: $text-shadow-card;
+      }
+    }
+
+    .welcome-text {
+      font:
+        normal normal 500 1.5rem/1.5 'Open Sans',
+        sans-serif;
+    }
+  }
+
+  .user-home-registered-events-container,
+  .recommended-events-carousel-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .user-home-recommended-events-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+
+    .recommended-events-header {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: left;
+      text-wrap: balance;
+      white-space: wrap;
+      padding: 2rem;
+
+      .recommended-events-heading {
+        font:
+          normal normal 500 1.5rem/1.5 'Open Sans',
+          sans-serif;
+        padding-bottom: 0.2rem;
+      }
+
+      .recommended-events-text {
+        font:
+          normal normal 400 1.2rem/1.5 'Open Sans',
+          sans-serif;
+        color: $light-white;
+      }
+    }
   }
 }

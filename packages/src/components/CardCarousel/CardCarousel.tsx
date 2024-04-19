@@ -6,10 +6,12 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 interface CardCarouselProps {
   items: CardProps[];
+  uniformSize?: boolean;
+  fixedGradient?: boolean;
 }
 
 const CardCarousel: FC<CardCarouselProps> = (props) => {
-  const { items } = props;
+  const { items, uniformSize = false, fixedGradient = false } = props;
   const [startIndex, setStartIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(2);
   const [itemsToDisplay, setItemsToDisplay] = useState<number>(5);
@@ -38,6 +40,8 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
     };
   }, []);
 
+  if (items.length === 0) return null;
+
   const getDisplayItems = (): CardProps[] => {
     const displayItems = [];
     for (let i = 0; i < itemsToDisplay; i++) {
@@ -55,10 +59,12 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
   };
 
   const getCardStyle = (index: number) => {
-    if (index === activeIndex) {
-      return styles.active;
-    } else if (index === (activeIndex - 1 || activeIndex + 1)) {
-      return styles.adjacent;
+    if (!uniformSize) {
+      if (index === activeIndex) {
+        return styles.active;
+      } else if (index === (activeIndex - 1 || activeIndex + 1)) {
+        return styles.adjacent;
+      }
     }
     return '';
   };
@@ -71,9 +77,10 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
       {getDisplayItems().map((item, index) => (
         <div className={`${styles.cardContainer} ${getCardStyle(index)}`} key={index}>
           <Card
+            fixedGradient={fixedGradient}
             key={index}
             {...item}
-            className={index === activeIndex ? `${styles.active} ${styles.card}` : styles.card}
+            className={uniformSize ? '' : index === activeIndex ? `${styles.active} ${styles.card}` : styles.card}
           />
         </div>
       ))}
@@ -83,6 +90,24 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
     </div>
   );
 };
+
+// EXAMPLE USAGE
+{
+  /* <CardCarousel
+  items={[
+    { title: 'Test Card Carousel', artist: 'Test Artist', genres: 'Test Genres', rating: 1 },
+    { title: 'Test Card Carousel 2', artist: 'Test Artist 2', genres: 'Test Genres 2', rating: 1.5 },
+    { title: 'Test Card Carousel 3', artist: 'Test Artist 3', genres: 'Test Genres 3', rating: 2 },
+    { title: 'Test Card Carousel 4', artist: 'Test Artist 4', genres: 'Test Genres 4', rating: 2.5 },
+    { title: 'Test Card Carousel 5', artist: 'Test Artist 5', genres: 'Test Genres 5', rating: 3 },
+    { title: 'Test Card Carousel 6', artist: 'Test Artist 6', genres: 'Test Genres 6', rating: 3.5 },
+    { title: 'Test Card Carousel 7', artist: 'Test Artist 7', genres: 'Test Genres 7', rating: 4 },
+    { title: 'Test Card Carousel 8', artist: 'Test Artist 8', genres: 'Test Genres 8', rating: 4.5 },
+    { title: 'Test Card Carousel 9', artist: 'Test Artist 9', genres: 'Test Genres 9', rating: 5 },
+    { title: 'Test Card Carousel 10', artist: 'Test Artist 10', genres: 'Test Genres 10', rating: 0 },
+  ]}
+/>; */
+}
 
 export { CardCarousel };
 export type { CardCarouselProps };
