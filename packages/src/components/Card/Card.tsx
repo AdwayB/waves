@@ -9,6 +9,7 @@ interface CardProps {
   genres?: string;
   rating?: number;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  fixedGradient?: boolean;
   className?: string;
 }
 
@@ -18,27 +19,33 @@ type GradientColor = {
   b: number;
 };
 
-const getColors = (): GradientColor => {
-  const sampleColors = [
-    { r: 77, g: 77, b: 255, a: 1 }, // NeonBlue
-    { r: 191, g: 64, b: 191, a: 1 }, // NeonPurple
-    { r: 94, g: 0, b: 239, a: 1 }, // VividViolet
-    { r: 143, g: 0, b: 255, a: 1 }, // ElectricPurple
-    { r: 0, g: 255, b: 128, a: 1 }, // NeonGreen
-    { r: 255, g: 165, b: 0, a: 1 }, // NeonOrange
-    { r: 255, g: 0, b: 255, a: 1 }, // BrightMagenta
-    { r: 0, g: 255, b: 255, a: 1 }, // BrightCyan
-    { r: 255, g: 20, b: 147, a: 1 }, // DeepPink
-    { r: 255, g: 215, b: 0, a: 1 }, // Gold
-    { r: 255, g: 105, b: 180, a: 1 }, // HotPink
-    { r: 0, g: 191, b: 255, a: 1 }, // DeepSkyBlue
-    { r: 173, g: 255, b: 47, a: 1 }, // NeonLime
-    { r: 255, g: 255, b: 0, a: 1 }, // NeonYellow
-  ];
+const sampleColors: GradientColor[] = [
+  { r: 77, g: 77, b: 255 }, // NeonBlue
+  { r: 191, g: 64, b: 191 }, // NeonPurple
+  { r: 94, g: 0, b: 239 }, // VividViolet
+  { r: 143, g: 0, b: 255 }, // ElectricPurple
+  { r: 255, g: 0, b: 255 }, // BrightMagenta
+  { r: 255, g: 20, b: 147 }, // DeepPink
+  { r: 255, g: 105, b: 180 }, // HotPink
+  { r: 0, g: 191, b: 255 }, // DeepSkyBlue
+  { r: 0, g: 255, b: 128 }, // NeonGreen
+  { r: 255, g: 165, b: 0 }, // NeonOrange
+  { r: 0, g: 255, b: 255 }, // BrightCyan
+  { r: 255, g: 215, b: 0 }, // Gold
+  { r: 173, g: 255, b: 47 }, // NeonLime
+  { r: 255, g: 255, b: 0 }, // NeonYellow
+];
+
+const getRandomColors = (): GradientColor => {
   return sampleColors[Math.floor(Math.random() * sampleColors.length)];
 };
 
-const createRandomGradient = (): string => {
+const getFixedColors = (): GradientColor => {
+  return sampleColors[Math.floor(Math.random() * (sampleColors.length - 7))];
+};
+
+const createRandomGradient = (fixedGradient: boolean): string => {
+  const getColors = fixedGradient ? getFixedColors : getRandomColors;
   const color1 = getColors();
   const color2 = getColors();
   const color3 = getColors();
@@ -48,12 +55,12 @@ const createRandomGradient = (): string => {
 };
 
 const Card: FC<CardProps> = (props) => {
-  const { title, artist, genres, rating, onClick, className } = props;
+  const { title, artist, genres, rating, onClick, fixedGradient = false, className } = props;
 
   return (
     <div className={`${styles.cardWrapper} ${className}`} onClick={onClick}>
       <div className={styles.cardGlow}>
-        <MCard className={styles.card} style={{ background: createRandomGradient() }}>
+        <MCard className={styles.card} style={{ background: createRandomGradient(fixedGradient) }}>
           <div className={styles.cardContent}>
             <div className={styles.titleAndRating}>
               <span className={styles.cardTitle}>{title}</span>

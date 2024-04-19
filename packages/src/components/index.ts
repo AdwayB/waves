@@ -4,6 +4,7 @@ export * from './Avatar';
 export * from './Badge';
 export * from './Button';
 export * from './Card';
+export * from './CardCarousel';
 export * from './Checkbox';
 export * from './Chip';
 export * from './DatePicker';
