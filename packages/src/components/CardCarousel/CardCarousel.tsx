@@ -9,13 +9,16 @@ interface CardCarouselProps {
   uniformSize?: boolean;
   fixedGradient?: boolean;
   gradientType?: GradientType;
+  circular?: boolean;
 }
 
 const CardCarousel: FC<CardCarouselProps> = (props) => {
-  const { items, uniformSize = false, fixedGradient = false, gradientType = 'linear' } = props;
+  const { items, uniformSize = false, fixedGradient = false, gradientType = 'linear', circular = true } = props;
   const [startIndex, setStartIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(2);
   const [itemsToDisplay, setItemsToDisplay] = useState<number>(5);
+  const [leftDisabled, setLeftDisabled] = useState<boolean>(false);
+  const [rightDisabled, setRightDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,6 +44,16 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (circular) {
+      setLeftDisabled(false);
+      setRightDisabled(false);
+    } else {
+      setLeftDisabled(startIndex === 0);
+      setRightDisabled(startIndex + itemsToDisplay >= items.length);
+    }
+  }, [circular, startIndex, itemsToDisplay, items.length]);
+
   if (items.length === 0) return null;
 
   const getDisplayItems = (): CardProps[] => {
@@ -52,11 +65,21 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
   };
 
   const handleLeft = () => {
-    setStartIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    if (circular) {
+      setStartIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    } else {
+      setStartIndex((prevIndex) => Math.max(0, prevIndex - 1));
+    }
+    setLeftDisabled(startIndex === 0);
   };
 
   const handleRight = () => {
-    setStartIndex((prevIndex) => (prevIndex + 1) % items.length);
+    if (circular) {
+      setStartIndex((prevIndex) => (prevIndex + 1) % items.length);
+    } else {
+      setStartIndex((prevIndex) => Math.min(items.length - 1, prevIndex + 1));
+    }
+    setRightDisabled(startIndex === items.length - 1);
   };
 
   const getCardStyle = (index: number) => {
@@ -72,7 +95,7 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
 
   return (
     <div className={styles.cardCarousel}>
-      <div className={styles.iconContainer} onClick={handleLeft}>
+      <div className={`${styles.iconContainer} ${leftDisabled ? styles.iconDisabled : ''}`} onClick={handleLeft}>
         <NavigateBeforeIcon color="inherit" className={styles.icon} />
       </div>
       {getDisplayItems().map((item, index) => (
@@ -86,7 +109,7 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
           />
         </div>
       ))}
-      <div className={styles.iconContainer} onClick={handleRight}>
+      <div className={`${styles.iconContainer} ${rightDisabled ? styles.iconDisabled : ''}`} onClick={handleRight}>
         <NavigateNextIcon color="inherit" className={styles.icon} />
       </div>
     </div>
