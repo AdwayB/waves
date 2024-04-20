@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './cardCarousel.module.scss';
-import { Card, CardProps } from '../Card';
+import { Card, CardProps, GradientType } from '../Card';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
@@ -8,10 +8,11 @@ interface CardCarouselProps {
   items: CardProps[];
   uniformSize?: boolean;
   fixedGradient?: boolean;
+  gradientType?: GradientType;
 }
 
 const CardCarousel: FC<CardCarouselProps> = (props) => {
-  const { items, uniformSize = false, fixedGradient = false } = props;
+  const { items, uniformSize = false, fixedGradient = false, gradientType = 'linear' } = props;
   const [startIndex, setStartIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(2);
   const [itemsToDisplay, setItemsToDisplay] = useState<number>(5);
@@ -78,6 +79,7 @@ const CardCarousel: FC<CardCarouselProps> = (props) => {
         <div className={`${styles.cardContainer} ${getCardStyle(index)}`} key={index}>
           <Card
             fixedGradient={fixedGradient}
+            gradientType={gradientType}
             key={index}
             {...item}
             className={uniformSize ? '' : index === activeIndex ? `${styles.active} ${styles.card}` : styles.card}

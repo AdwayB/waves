@@ -38,6 +38,7 @@ const UserHome = () => {
           <div className={styles.recommendedEventsCarouselContainer}>
             <CardCarousel
               fixedGradient
+              gradientType="radial"
               uniformSize
               items={[
                 { title: 'Test Recommendation 1', artist: 'Test Artist 1', genres: 'Test Genre 1', rating: 1 },

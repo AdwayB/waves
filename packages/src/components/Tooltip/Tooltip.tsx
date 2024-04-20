@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { CSSProperties, FC, ReactElement } from 'react';
 import { Tooltip as MTooltip, tooltipClasses, Zoom } from '@mui/material';
 import styles from './tooltip.module.scss';
 
@@ -6,14 +6,15 @@ interface TooltipProps {
   text?: string;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   followCursor?: boolean;
+  style?: CSSProperties;
   children: ReactElement;
 }
 
 const Tooltip: FC<TooltipProps> = (props) => {
-  const { text = '', placement = 'top', followCursor = false, children } = props;
+  const { text = '', placement = 'top', followCursor = false, style = {}, children } = props;
 
   return (
-    <div className={styles.tooltipWrapper}>
+    <div className={styles.tooltipWrapper} style={style}>
       <MTooltip
         title={text}
         placement={placement}

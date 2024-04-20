@@ -2,6 +2,9 @@ import { FC, MouseEvent } from 'react';
 import { Card as MCard } from '@mui/material';
 import styles from './card.module.scss';
 import { Rating } from '../Rating';
+import { Tooltip } from '../Tooltip';
+
+type GradientType = 'linear' | 'radial';
 
 interface CardProps {
   title?: string;
@@ -9,6 +12,7 @@ interface CardProps {
   genres?: string;
   rating?: number;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  gradientType?: GradientType;
   fixedGradient?: boolean;
   className?: string;
 }
@@ -43,26 +47,34 @@ const getFixedColors = (): GradientColor => {
   return sampleColors[Math.floor(Math.random() * (sampleColors.length - 6))];
 };
 
-const createRandomGradient = (fixedGradient: boolean): string => {
+const createRandomGradient = (fixedGradient: boolean, gradientType: GradientType): string => {
   const getColors = fixedGradient ? getFixedColors : getRandomColors;
   const color1 = getColors();
   const color2 = getColors();
   const color3 = getColors();
-  const angle = Math.floor(Math.random() * 360);
 
-  return `linear-gradient(${angle}deg, rgba(${color1.r},${color1.g},${color1.b}) 0%, rgba(${color2.r},${color2.g},${color2.b}) 35%, rgba(${color3.r},${color3.g},${color3.b}) 100%)`;
+  switch (gradientType) {
+    case 'linear':
+      const angle = Math.floor(Math.random() * 360);
+      return `linear-gradient(${angle}deg, rgb(${color1.r},${color1.g},${color1.b}) 0%, rgb(${color2.r},${color2.g},${color2.b}) 35%, rgb(${color3.r},${color3.g},${color3.b}) 100%)`;
+    case 'radial':
+      const shape = Math.random() < 0.5 ? 'ellipse' : 'circle';
+      return `radial-gradient(${shape}, rgb(${color1.r},${color1.g},${color1.b}) 0%, rgb(${color2.r},${color2.g},${color2.b}) 40%, rgb(${color3.r},${color3.g},${color3.b}) 100%)`;
+  }
 };
 
 const Card: FC<CardProps> = (props) => {
-  const { title, artist, genres, rating, onClick, fixedGradient = false, className } = props;
+  const { title, artist, genres, rating, onClick, fixedGradient = false, gradientType = 'linear', className } = props;
 
   return (
     <div className={`${styles.cardWrapper} ${className}`} onClick={onClick}>
       <div className={styles.cardGlow}>
-        <MCard className={styles.card} style={{ background: createRandomGradient(fixedGradient) }}>
+        <MCard className={styles.card} style={{ background: createRandomGradient(fixedGradient, gradientType) }}>
           <div className={styles.cardContent}>
             <div className={styles.titleAndRating}>
-              <span className={styles.cardTitle}>{title}</span>
+              <Tooltip text={title} style={{ display: 'flex', width: '55%' }}>
+                <span className={styles.cardTitle}>{title}</span>
+              </Tooltip>
               <span className={styles.cardRating}>
                 <Rating precision={0.1} value={rating} />
               </span>
@@ -88,4 +100,4 @@ const Card: FC<CardProps> = (props) => {
 }
 
 export { Card };
-export type { CardProps };
+export type { GradientType, CardProps, GradientColor };
