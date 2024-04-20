@@ -8,3 +8,21 @@ $logo-font:
   cursive;
 $hover-click-transition: all 0.2s ease-in-out;
 $card-foreground-gradient: linear-gradient($card-content-gradient-top, transparent, $card-content-gradient-bottom);
+$heading-font:
+  normal normal 700 2rem/1.5 'Open Sans',
+  sans-serif;
+$subheading-font:
+  normal normal 500 1.5rem/1.5 'Open Sans',
+  sans-serif;
+$tall-text-font:
+  normal normal 400 1.2rem/1.5 'Open Sans',
+  sans-serif;
+$regular-text-font:
+  normal normal 400 1rem/1.5 'Open Sans',
+  sans-serif;
+
+// MIXINS
+@mixin default-card($height: 170px) {
+  aspect-ratio: 1.353;
+  height: $height;
+}

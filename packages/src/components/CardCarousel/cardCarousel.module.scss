@@ -50,9 +50,15 @@
   }
 
   .icon-disabled {
+    // pointer-events: none;
     cursor: not-allowed;
-    pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.4;
+
+    &:hover,
+    &:active {
+      background-color: transparent !important;
+      transform: none !important;
+    }
   }
 }
 

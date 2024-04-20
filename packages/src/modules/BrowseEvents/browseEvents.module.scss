@@ -1,0 +1,53 @@
+@import '../../styles/variables.scss';
+
+.card {
+  @include default-card(160px);
+  margin: 0.7rem;
+}
+
+.browse-events-container {
+  color: $white;
+
+  .browse-events-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    text-wrap: balance;
+    white-space: wrap;
+    padding: 2rem;
+
+    .browse-events-heading {
+      font: $heading-font;
+      padding-bottom: 0.3rem;
+    }
+
+    .browse-events-text {
+      font: $tall-text-font;
+      color: $light-white;
+    }
+  }
+
+  .browse-events-paginated-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+
+    .browse-events-cards-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .browse-events-pagination {
+      margin-right: 1rem;
+    }
+  }
+}

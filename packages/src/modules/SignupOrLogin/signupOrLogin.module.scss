@@ -19,9 +19,7 @@
   .text,
   .sub-text {
     text-wrap: balance;
-    font:
-      normal normal 700 2rem/1.5 'Open Sans',
-      sans-serif;
+    font: $heading-font;
     color: $white;
     text-shadow: $text-shadow-purple;
   }

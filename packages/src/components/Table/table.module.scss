@@ -107,9 +107,7 @@
   color: $white;
 
   .table-friendly-screen-text {
-    font:
-      normal normal 500 2rem/1.5 'Open Sans',
-      sans-serif;
+    font: $heading-font;
   }
 }
 

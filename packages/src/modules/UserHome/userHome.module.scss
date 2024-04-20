@@ -15,9 +15,7 @@
     padding: 2rem;
 
     .welcome-heading {
-      font:
-        normal normal 700 2rem/1.5 'Open Sans',
-        sans-serif;
+      font: $heading-font;
       padding-bottom: 0.5rem;
 
       .welcome-name {
@@ -27,9 +25,7 @@
     }
 
     .welcome-text {
-      font:
-        normal normal 500 1.5rem/1.5 'Open Sans',
-        sans-serif;
+      font: $subheading-font;
     }
   }
 
@@ -58,16 +54,12 @@
       padding: 2rem;
 
       .recommended-events-heading {
-        font:
-          normal normal 500 1.5rem/1.5 'Open Sans',
-          sans-serif;
+        font: $subheading-font;
         padding-bottom: 0.2rem;
       }
 
       .recommended-events-text {
-        font:
-          normal normal 400 1.2rem/1.5 'Open Sans',
-          sans-serif;
+        font: $tall-text-font;
         color: $light-white;
       }
     }

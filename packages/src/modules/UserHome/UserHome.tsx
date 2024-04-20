@@ -39,6 +39,7 @@ const UserHome = () => {
             <CardCarousel
               fixedGradient
               gradientType="radial"
+              circular={false}
               uniformSize
               items={[
                 { title: 'Test Recommendation 1', artist: 'Test Artist 1', genres: 'Test Genre 1', rating: 1 },

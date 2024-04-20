@@ -32,11 +32,17 @@ const sampleColors: GradientColor[] = [
   { r: 255, g: 20, b: 147 }, // DeepPink
   { r: 255, g: 105, b: 180 }, // HotPink
   { r: 0, g: 191, b: 255 }, // DeepSkyBlue
+  { r: 142, g: 69, b: 133 }, // Plum
+  { r: 194, g: 30, b: 86 }, // Rose
+  { r: 75, g: 0, b: 130 }, // Indigo
+  { r: 150, g: 123, b: 182 }, // SoftLavender
   { r: 0, g: 255, b: 128 }, // NeonGreen
   { r: 255, g: 165, b: 0 }, // NeonOrange
   { r: 0, g: 255, b: 255 }, // BrightCyan
-  { r: 255, g: 215, b: 0 }, // Gold
-  { r: 173, g: 255, b: 47 }, // NeonLime
+  { r: 240, g: 128, b: 128 }, // Coral
+  { r: 0, g: 128, b: 128 }, // Teal
+  { r: 255, g: 218, b: 185 }, // CreamyPeach
+  { r: 0, g: 140, b: 255 }, // AzureRadiance
 ];
 
 const getRandomColors = (): GradientColor => {
@@ -44,7 +50,7 @@ const getRandomColors = (): GradientColor => {
 };
 
 const getFixedColors = (): GradientColor => {
-  return sampleColors[Math.floor(Math.random() * (sampleColors.length - 6))];
+  return sampleColors[Math.floor(Math.random() * (sampleColors.length - 8))];
 };
 
 const createRandomGradient = (fixedGradient: boolean, gradientType: GradientType): string => {
