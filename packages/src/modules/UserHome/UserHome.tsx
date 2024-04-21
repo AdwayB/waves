@@ -2,6 +2,7 @@ import { CardCarousel } from '../../components';
 import styles from './userHome.module.scss';
 
 const UserHome = () => {
+  document.title = 'Home - Waves';
   const testRegistrations = 5 as const;
 
   return (

@@ -1,0 +1,36 @@
+@import '../../styles/variables.scss';
+
+.slider-wrapper {
+  :global(.MuiSlider-root) {
+    color: $waves-purple;
+
+    :global(.Mui-focusVisible) {
+      box-shadow: 0px 0px 12px 6px $card-hover-glow-color;
+    }
+
+    :global(.MuiSlider-thumb) {
+      &:hover {
+        box-shadow: 0px 0px 8px $card-hover-glow-color;
+      }
+    }
+
+    :global(.MuiSlider-markLabel) {
+      color: $white;
+    }
+
+    :global(.MuiSlider-markLabelActive) {
+      text-shadow: $text-shadow-purple;
+    }
+  }
+
+  .slider-label {
+    font: $strong-text-font;
+    color: $input-field-color;
+  }
+}
+
+.large-marker {
+  :global(.MuiSlider-markLabel) {
+    font-size: 1.1rem;
+  }
+}

@@ -9,10 +9,14 @@
   }
   :global(.MuiOutlinedInput-root) {
     fieldset {
-      border-color: $waves-dark-violet !important;
+      border-color: $input-field-color !important;
     }
   }
   :global(.MuiInputLabel-root) {
-    color: $waves-dark-violet !important;
+    color: $input-field-color !important;
+  }
+
+  :global(.MuiSelect-icon) {
+    color: $input-field-color !important;
   }
 }

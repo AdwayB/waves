@@ -46,6 +46,7 @@ const TestData: CardProps[] = [
 ];
 
 const BrowseEvents: FC = () => {
+  document.title = 'Browse Events - Waves';
   const [page, setPage] = useState<number>(1);
   const [pageLength, setPageLength] = useState<number>(0);
   const [displayData, setDisplayData] = useState<CardProps[]>([{}]);
@@ -89,6 +90,7 @@ const BrowseEvents: FC = () => {
           Browse all upcoming events, use the filters to narrow your results.
         </span>
       </div>
+      <div className={styles.browseEventsFilters}>{/* <EventFilter /> */}</div>
       <div className={styles.browseEventsPaginatedGroup}>
         <div className={styles.browseEventsCardsContainer}>
           {displayData.map((event, index) => (

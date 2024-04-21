@@ -3,29 +3,29 @@
 .primary {
   :global(.MuiFormControl-root) {
     :global(.Mui-focused) {
-      color: $waves-dark-violet;
+      color: $input-field-color;
     }
   }
   :global(.MuiFormLabel-root) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
   }
 
   :global(.MuiInputBase-root) {
     fieldset {
-      border-color: $waves-dark-violet !important;
+      border-color: $input-field-color !important;
     }
   }
 
   :global(.MuiIconButton-root) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
   }
 
   :global(.MuiInputBase-input) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
   }
 
   :global(.MuiInputBase-input::placeholder) {
-    color: $waves-dark-violet;
+    color: $input-field-color;
   }
 }
 

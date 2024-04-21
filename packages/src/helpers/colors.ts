@@ -23,6 +23,9 @@ enum Colors {
   warningIconColor = '#ed6c02',
   dangerIconColor = '#a02c2c',
   starIconColor = '#faaf00',
+  datepickerBackgroundColor = '#c99fee',
+  inputFieldColor = '#e3c4ff',
+  disabledTextColor = '#e8e6e355',
 }
 
 export { Colors };

@@ -2,7 +2,7 @@
 
 .primary {
   :global(.MuiChip-colorPrimary) {
-    background-color: $waves-dark-violet;
+    background-color: $waves-violet;
     color: $actual-white;
   }
 }
@@ -17,8 +17,8 @@
 .outlined {
   :global(.MuiChip-colorPrimary) {
     font-weight: 700;
-    border: 2px solid $waves-dark-violet;
-    color: $waves-dark-violet;
+    border: 2px solid $input-field-color;
+    color: $input-field-color;
   }
 
   :global(.MuiChip-colorSecondary) {

@@ -13,7 +13,7 @@ interface SelectProps {
   value?: string[];
   onChange?: (event: unknown, child?: ReactNode) => void;
   options: SelectOptionProps[];
-  label?: string;
+  label?: ReactNode;
   multiple?: boolean;
   input?: ReactNode;
   style?: 'chip' | 'text';
@@ -54,15 +54,15 @@ const Select: FC<SelectProps> = (props) => {
             PaperProps: {
               sx: {
                 '& .MuiMenuItem-root': {
-                  color: Colors.actualWhite,
+                  color: Colors.white,
                   '&:hover': {
                     background: Colors.wavesViolet,
-                    color: Colors.actualWhite,
+                    color: Colors.white,
                   },
                 },
                 '& .Mui-selected': {
                   background: `${Colors.wavesViolet} !important`,
-                  color: `${Colors.actualWhite} !important`,
+                  color: `${Colors.white} !important`,
                 },
                 '& .MuiMenu-list': {
                   background: Colors.wavesDarkViolet,
