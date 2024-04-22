@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { Menu as MMenu, MenuItem as MMenuItem, IconButton } from '@mui/material';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Colors } from '../../helpers/colors';
+import { Colors } from '../../helpers/Colors';
 
 interface MenuItem {
   label?: ReactNode;

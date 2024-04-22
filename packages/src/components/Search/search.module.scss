@@ -16,6 +16,10 @@
     width: 100%;
     height: inherit;
     margin-bottom: 1.45rem;
+
+    :global(.MuiInputBase-input) {
+      height: 35px;
+    }
   }
 
   .search-icon {

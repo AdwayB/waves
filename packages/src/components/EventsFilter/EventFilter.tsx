@@ -117,7 +117,7 @@ const EventFilter: FC<EventFilterProps> = (props) => {
       <div className={styles.selectWrapper}>
         <Select
           label="Select Genres"
-          value={['test', 'test2']}
+          value={genreArray}
           onChange={handleGenresChange}
           style="chip"
           options={genreOptions}

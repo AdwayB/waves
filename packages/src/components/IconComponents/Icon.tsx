@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import styles from './icon.module.scss';
-import { Colors } from '../../helpers/colors';
+import { Colors } from '../../helpers/Colors';
 
 interface IconProps {
   type: 'success' | 'warning' | 'danger' | 'logo' | 'star' | null;

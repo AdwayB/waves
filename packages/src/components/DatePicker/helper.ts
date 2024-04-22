@@ -1,6 +1,6 @@
 import { DateCalendarSlotsComponentsProps, DatePickerSlotsComponentsProps } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
-import { Colors } from '../../helpers/colors';
+import { Colors } from '../../helpers/Colors';
 
 const datePickerPopupStyles = () => {
   return {

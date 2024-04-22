@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { Chip } from '../Chip';
 import { Box, FormControl, InputLabel, Select as MSelect, MenuItem, OutlinedInput } from '@mui/material';
 import styles from './select.module.scss';
-import { Colors } from '../../helpers/colors';
+import { Colors } from '../../helpers/Colors';
 
 interface SelectOptionProps {
   label: string;

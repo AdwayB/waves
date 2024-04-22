@@ -4,14 +4,21 @@
   min-width: 100px;
   width: inherit;
   padding: 0 0.2rem;
+
+  :global(.MuiSelect-select) {
+    color: $input-field-color;
+  }
+
   :global(.MuiFormControl-root) {
     width: inherit;
   }
+
   :global(.MuiOutlinedInput-root) {
     fieldset {
       border-color: $input-field-color !important;
     }
   }
+
   :global(.MuiInputLabel-root) {
     color: $input-field-color !important;
   }

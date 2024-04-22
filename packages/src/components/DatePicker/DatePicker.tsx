@@ -11,7 +11,7 @@ import {
 import { FormControl, FormHelperText } from '@mui/material';
 import { PickerSelectionState } from '@mui/x-date-pickers/internals';
 import { actionBarSx, datePickerPopupStyles, datePickerSlotProps, dateCalendarSlotProps } from './helper';
-import { Colors } from '../../helpers/colors';
+import { Colors } from '../../helpers/Colors';
 
 interface DatePickerProps {
   type?: 'picker' | 'field' | 'calendar';

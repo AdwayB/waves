@@ -3,49 +3,68 @@ import styles from './sortByFilter.module.scss';
 import { Select, SelectOptionProps } from '../Select';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
+type SortMethods = 'date-asc' | 'name-asc' | 'name-desc' | 'artist-asc' | 'artist-desc' | 'rating-asc' | 'rating-desc';
+type SortLabels =
+  | 'Date Ascending'
+  | 'Name Ascending'
+  | 'Name Descending'
+  | 'Artist Ascending'
+  | 'Artist Descending'
+  | 'Rating Ascending'
+  | 'Rating Descending';
+
 interface SortByFilterProps {
-  onSortChange: (value: string) => void;
+  onSortChange: (value: SortMethods) => void;
 }
+const sortObjectMap = {
+  'date-asc': 'Date Ascending',
+  'name-asc': 'Name Ascending',
+  'name-desc': 'Name Descending',
+  'artist-asc': 'Artist Ascending',
+  'artist-desc': 'Artist Descending',
+  'rating-asc': 'Rating Ascending',
+  'rating-desc': 'Rating Descending',
+};
 
-enum SortMethods {
-  DATE_ASC = 'date-asc',
-  NAME_ASC = 'name-asc',
-  NAME_DESC = 'name-desc',
-  ARTIST_ASC = 'artist-asc',
-  ARTIST_DESC = 'artist-desc',
-}
-
-const SortByDropdown: FC<SortByFilterProps> = (props) => {
+const Sort: FC<SortByFilterProps> = (props) => {
   const { onSortChange } = props;
-  const [method, setMethod] = useState<SortMethods>(SortMethods.DATE_ASC);
+  const [method, setMethod] = useState<SortLabels>('Date Ascending');
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSortChange = (event: any) => {
     const newSort = event?.target.value as SortMethods;
-    setMethod(newSort);
+    setMethod(sortObjectMap[newSort] as SortLabels);
     onSortChange(newSort);
   };
 
   const SortOptions: SelectOptionProps[] = [
     {
-      value: SortMethods.DATE_ASC,
+      value: 'date-asc',
       label: 'Date Ascending',
     },
     {
-      value: SortMethods.NAME_ASC,
+      value: 'name-asc',
       label: 'Name Ascending',
     },
     {
-      value: SortMethods.NAME_DESC,
+      value: 'name-desc',
       label: 'Name Descending',
     },
     {
-      value: SortMethods.ARTIST_ASC,
+      value: 'artist-asc',
       label: 'Artist Ascending',
     },
     {
-      value: SortMethods.ARTIST_DESC,
+      value: 'artist-desc',
       label: 'Artist Descending',
+    },
+    {
+      value: 'rating-asc',
+      label: 'Rating Ascending',
+    },
+    {
+      value: 'rating-desc',
+      label: 'Rating Descending',
     },
   ];
 
@@ -61,5 +80,5 @@ const SortByDropdown: FC<SortByFilterProps> = (props) => {
   );
 };
 
-export { SortMethods, SortByDropdown };
-export type { SortByFilterProps };
+export { Sort };
+export type { SortByFilterProps, SortMethods, SortLabels };
