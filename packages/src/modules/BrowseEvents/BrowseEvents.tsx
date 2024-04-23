@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import styles from './browseEvents.module.scss';
 import { Card, CardProps, EventFilter, FilterTypes, Pagination, Search, Sort, SortMethods } from '../../components';
 import { Event, EventTestData, UserTestData, calculateDistance } from '../../helpers';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const BrowseEvents: FC = () => {
   document.title = 'Browse Events - Waves';
@@ -39,6 +39,17 @@ const BrowseEvents: FC = () => {
   }, []);
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation([position.coords.latitude, position.coords.longitude]);
+      },
+      (error) => {
+        console.error('Error obtaining location', error);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
     setGenres((prev) => [...prev, ...EventData.map((event) => event.EventGenres).flat()]);
   }, [EventData]);
 
@@ -51,95 +62,103 @@ const BrowseEvents: FC = () => {
           artist: artistInfo?.LegalName || 'Unknown Artist',
           genres: event.EventGenres.join(','),
           rating: Math.floor(Math.random() * 5) + 1,
+          startDate: dayjs(event.EventStartDate),
         };
       });
     },
     [UserData],
   );
 
-  const filterData = useCallback(() => {
-    let result = EventData;
+  const dateFilter = (events: Event[], startDate?: Dayjs | null, endDate?: Dayjs | null) => {
+    if (!startDate && !endDate) return events;
 
-    if (filters.startDate || filters.endDate) {
-      result = result.filter((event) => {
-        const eventDate = dayjs(event.EventStartDate);
-        return (
-          (!filters.startDate || eventDate.isAfter(filters.startDate, 'day')) &&
-          (!filters.endDate || eventDate.isBefore(filters.endDate, 'day'))
-        );
+    return events.filter((event) => {
+      const eventDate = dayjs(event.EventStartDate);
+      if (startDate && endDate) return eventDate.isAfter(startDate, 'day') && eventDate.isBefore(endDate, 'day');
+      if (startDate) return eventDate.isAfter(startDate, 'day');
+      if (endDate) return eventDate.isBefore(endDate, 'day');
+    });
+  };
+
+  const distanceFilter = (events: Event[], distance?: number, userLocation?: [number, number] | null) => {
+    if (!userLocation) {
+      alert('User location not found. Please refresh the page and try again.');
+      return events;
+    }
+
+    if (distance) {
+      return events.filter((event) => {
+        const xCoord = event.EventLocation.Coordinates[0];
+        const yCoord = event.EventLocation.Coordinates[1];
+        const dist = calculateDistance(userLocation, [xCoord, yCoord]);
+        return dist <= distance;
       });
     }
 
-    if (filters.distance) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
-        },
-        (error) => {
-          console.error('Error obtaining location', error);
-        },
-      );
+    return events;
+  };
 
-      if (!userLocation) alert('Error: User location not found.');
+  const genreFilter = (events: Event[], genres?: string[]) => {
+    if (genres?.length === 0) return events;
 
-      result = result.filter((event) => {
-        if (!!userLocation && filters.distance && event.EventLocation.Coordinates) {
-          const [eventLat, eventLon] = event.EventLocation.Coordinates;
-          const distance = calculateDistance(userLocation, [eventLat, eventLon]);
-          return distance <= filters.distance;
-        }
-        return true;
-      });
+    return events.filter((event) => event.EventGenres.some((genre) => genres?.includes(genre)));
+  };
+
+  const getSearchResults = (cardData: CardProps[], search?: string) => {
+    if (!search || search.length === 0) return cardData;
+
+    return cardData.filter(
+      (card) =>
+        card.title?.toLowerCase().includes(search.toLowerCase()) ||
+        card.artist?.toLowerCase().includes(search.toLowerCase()),
+    );
+  };
+
+  const sortResult = (cardData: CardProps[], sort: SortMethods) => {
+    switch (sort) {
+      case 'date-asc':
+        return cardData.sort((a, b) => dayjs(a.startDate).unix() - dayjs(b.startDate).unix());
+      case 'name-asc':
+        return cardData.sort((a, b) => a.title?.localeCompare(b.title ?? '') ?? 1);
+      case 'name-desc':
+        return cardData.sort((a, b) => b.title?.localeCompare(a.title ?? '') ?? 1);
+      case 'artist-asc':
+        return cardData.sort((a, b) => a.artist?.localeCompare(b.artist ?? '') ?? 1);
+      case 'artist-desc':
+        return cardData.sort((a, b) => b.artist?.localeCompare(a.artist ?? '') ?? 1);
+      case 'rating-asc':
+        return cardData.sort((a, b) => (a.rating ?? 0) - (b.rating ?? 0));
+      case 'rating-desc':
+        return cardData.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+      default:
+        return cardData;
     }
-
-    if (filters?.genres && filters.genres.length > 0) {
-      result = result.filter((event) => event.EventGenres.some((genre) => filters?.genres?.includes(genre)));
-    }
-
-    result.sort((a, b) => {
-      return dayjs(a.EventStartDate).isBefore(b.EventStartDate, 'day') ? -1 : 1;
-    });
-
-    var intermediateResult = mapCardData(result);
-
-    if (searchTerm) {
-      intermediateResult = intermediateResult.filter(
-        (card) =>
-          card.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.artist?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.genres?.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
-
-    intermediateResult.sort((a, b) => {
-      switch (sortMethod) {
-        case 'name-asc':
-          return a.title?.localeCompare(b.title ?? '') ?? 0;
-        case 'name-desc':
-          return b.title?.localeCompare(a.title ?? '') ?? 0;
-        case 'artist-asc':
-          return a.artist?.localeCompare(b.artist ?? '') ?? 0;
-        case 'artist-desc':
-          return b.artist?.localeCompare(a.artist ?? '') ?? 0;
-        case 'rating-asc':
-          return (a.rating ?? 0) - (b.rating ?? 0) ?? 0;
-        case 'rating-desc':
-          return (b.rating ?? 0) - (a.rating ?? 0) ?? 0;
-        default:
-          return 0;
-      }
-    });
-
-    setDisplayData(intermediateResult.slice((page - 1) * pageLength, page * pageLength));
-  }, [EventData, filters, mapCardData, page, pageLength, searchTerm, sortMethod, userLocation]);
-
-  useEffect(() => {
-    filterData();
-  }, [filters, filterData]);
+  };
 
   const handlePageChange = (e: ChangeEvent<unknown>, v: number) => {
     setPage(v);
   };
+
+  const handlePagination = useCallback(
+    (cardData: CardProps[], pageLength: number) => {
+      const startIndex = (page - 1) * pageLength;
+      return cardData.slice(startIndex, startIndex + pageLength);
+    },
+    [page],
+  );
+
+  useEffect(() => {
+    let events = EventData;
+    events = dateFilter(events, filters.startDate, filters.endDate);
+    events = distanceFilter(events, filters.distance, userLocation);
+    events = genreFilter(events, genres);
+
+    let mappedEvents = mapCardData(events);
+    mappedEvents = getSearchResults(mappedEvents, searchTerm);
+    mappedEvents = sortResult(mappedEvents, sortMethod);
+
+    setDisplayData(handlePagination(mappedEvents, pageLength));
+  }, [EventData, genres, filters, handlePagination, mapCardData, pageLength, searchTerm, sortMethod, userLocation]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearchChange = (e: any) => {

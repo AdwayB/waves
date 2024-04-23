@@ -3,6 +3,7 @@ import { Card as MCard } from '@mui/material';
 import styles from './card.module.scss';
 import { Rating } from '../Rating';
 import { Tooltip } from '../Tooltip';
+import dayjs, { Dayjs } from 'dayjs';
 
 type GradientType = 'linear' | 'radial';
 
@@ -11,6 +12,7 @@ interface CardProps {
   artist?: string;
   genres?: string;
   rating?: number;
+  startDate?: Dayjs | null;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   gradientType?: GradientType;
   fixedGradient?: boolean;
@@ -70,7 +72,17 @@ const createRandomGradient = (fixedGradient: boolean, gradientType: GradientType
 };
 
 const Card: FC<CardProps> = (props) => {
-  const { title, artist, genres, rating, onClick, fixedGradient = false, gradientType = 'linear', className } = props;
+  const {
+    title,
+    artist,
+    genres,
+    rating,
+    startDate = dayjs(),
+    onClick,
+    fixedGradient = false,
+    gradientType = 'linear',
+    className,
+  } = props;
 
   return (
     <div className={`${styles.cardWrapper} ${className}`} onClick={onClick}>
@@ -78,7 +90,7 @@ const Card: FC<CardProps> = (props) => {
         <MCard className={styles.card} style={{ background: createRandomGradient(fixedGradient, gradientType) }}>
           <div className={styles.cardContent}>
             <div className={styles.titleAndRating}>
-              <Tooltip text={title} style={{ display: 'flex', width: '55%' }}>
+              <Tooltip text={`${title}: ${startDate?.format('DD/MM/YYYY')}`} style={{ display: 'flex', width: '55%' }}>
                 <span className={styles.cardTitle}>{title}</span>
               </Tooltip>
               <span className={styles.cardRating}>
