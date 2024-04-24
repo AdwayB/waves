@@ -66,7 +66,7 @@ const Select: FC<SelectProps> = (props) => {
                 },
                 '& .MuiMenu-list': {
                   background: Colors.wavesDarkViolet,
-                  height: '20rem',
+                  maxHeight: '20rem',
                   overflow: 'auto',
                 },
               },

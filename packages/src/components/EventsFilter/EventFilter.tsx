@@ -71,19 +71,15 @@ const EventFilter: FC<EventFilterProps> = (props) => {
 
   const sliderMarks: SliderMarks[] = [
     { value: 0, label: '' },
-    { value: 10, label: '10' },
-    { value: 20, label: '20' },
-    { value: 30, label: '30' },
-    { value: 40, label: '40' },
     { value: 50, label: '50' },
-    { value: 60, label: '60' },
-    { value: 70, label: '70' },
-    { value: 80, label: '80' },
-    { value: 90, label: '90' },
     { value: 100, label: '100' },
+    { value: 150, label: '150' },
     { value: 200, label: '200' },
+    { value: 250, label: '250' },
     { value: 300, label: '300' },
+    { value: 350, label: '350' },
     { value: 400, label: '400' },
+    { value: 450, label: '450' },
     { value: 500, label: '500' },
   ];
 
@@ -111,7 +107,7 @@ const EventFilter: FC<EventFilterProps> = (props) => {
         onChange={handleDistanceChange}
         marks={sliderMarks}
         min={0}
-        max={100}
+        max={500}
         steps={null}
         className={styles.slider}
       />
