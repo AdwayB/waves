@@ -1,4 +1,5 @@
 interface User {
+  Id?: string;
   UserId: string;
   Username: string;
   Password: string;

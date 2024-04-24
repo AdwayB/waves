@@ -8,6 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 type GradientType = 'linear' | 'radial';
 
 interface CardProps {
+  eventId?: string;
   title?: string;
   artist?: string;
   genres?: string;
@@ -78,6 +79,7 @@ const getBackground = (fixedGradient: boolean, gradientType: GradientType, stati
 
 const Card: FC<CardProps> = (props) => {
   const {
+    eventId,
     title,
     artist,
     genres,
@@ -99,7 +101,10 @@ const Card: FC<CardProps> = (props) => {
         >
           <div className={styles.cardContent}>
             <div className={styles.titleAndRating}>
-              <Tooltip text={`${title}: ${startDate?.format('DD/MM/YYYY')}`} style={{ display: 'flex', width: '55%' }}>
+              <Tooltip
+                text={`${eventId ? title + ': ' + startDate?.format('DD/MM/YYYY') : title}`}
+                style={{ display: 'flex', width: '55%' }}
+              >
                 <span className={styles.cardTitle}>{title}</span>
               </Tooltip>
               <span className={styles.cardRating}>

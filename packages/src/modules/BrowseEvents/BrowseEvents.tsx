@@ -64,6 +64,7 @@ const BrowseEvents: FC = () => {
       return eventData.map((event) => {
         const artistInfo = UserData.find((user) => user.UserId === event.EventCreatedBy);
         return {
+          eventId: event.EventId,
           title: event.EventName,
           artist: artistInfo?.LegalName || 'Unknown Artist',
           genres: event.EventGenres.join(', '),
