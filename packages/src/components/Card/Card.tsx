@@ -16,6 +16,7 @@ interface CardProps {
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   gradientType?: GradientType;
   fixedGradient?: boolean;
+  staticBackground?: boolean;
   className?: string;
 }
 
@@ -55,7 +56,11 @@ const getFixedColors = (): GradientColor => {
   return sampleColors[Math.floor(Math.random() * (sampleColors.length - 8))];
 };
 
-const createRandomGradient = (fixedGradient: boolean, gradientType: GradientType): string => {
+const getBackground = (fixedGradient: boolean, gradientType: GradientType, staticBackground: boolean): string => {
+  if (staticBackground) {
+    return 'linear-gradient(69deg, rgb(191,64,191) 0%, rgb(94,0,239) 35%, rgb(143,0,255) 100%)';
+  }
+
   const getColors = fixedGradient ? getFixedColors : getRandomColors;
   const color1 = getColors();
   const color2 = getColors();
@@ -81,13 +86,17 @@ const Card: FC<CardProps> = (props) => {
     onClick,
     fixedGradient = false,
     gradientType = 'linear',
+    staticBackground = false,
     className,
   } = props;
 
   return (
     <div className={`${styles.cardWrapper} ${className}`} onClick={onClick}>
       <div className={styles.cardGlow}>
-        <MCard className={styles.card} style={{ background: createRandomGradient(fixedGradient, gradientType) }}>
+        <MCard
+          className={styles.card}
+          style={{ background: getBackground(fixedGradient, gradientType, staticBackground) }}
+        >
           <div className={styles.cardContent}>
             <div className={styles.titleAndRating}>
               <Tooltip text={`${title}: ${startDate?.format('DD/MM/YYYY')}`} style={{ display: 'flex', width: '55%' }}>

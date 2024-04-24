@@ -53,20 +53,21 @@ const EventFilter: FC<EventFilterProps> = (props) => {
 
   const handleDateChange = (value: Dayjs, type: 'startDate' | 'endDate') => {
     setFilters((prev) => ({ ...prev, [type]: value }));
-    onFilterChange({ ...filters, [type]: value });
   };
 
   const handleDistanceChange = (e: Event, value: number | number[]) => {
     setFilters((prev) => ({ ...prev, distance: value as number }));
-    onFilterChange({ ...filters, distance: value as number });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleGenresChange = (e: any) => {
-    setGenreArray((prev) => [...prev, e.target.value]);
-    setFilters((prev) => ({ ...prev, genres: genreArray }));
-    onFilterChange({ ...filters, genres: genreArray });
+    setGenreArray(e.target.value);
+    setFilters((prev) => ({ ...prev, genres: e.target.value }));
   };
+
+  useEffect(() => {
+    onFilterChange(filters);
+  }, [filters, onFilterChange]);
 
   const sliderMarks: SliderMarks[] = [
     { value: 0, label: '' },

@@ -366,7 +366,7 @@ const EventTestData: Event[] = [
     EventTotalSeats: 120,
     EventRegisteredSeats: 40,
     EventTicketPrice: 55.0,
-    EventGenres: ['Folk'],
+    EventGenres: ['Folk', 'Indie'],
     EventCollab: ['3'],
     EventStartDate: '2024-12-01T00:00:00Z',
     EventEndDate: '2024-12-02T23:59:59Z',

@@ -11,12 +11,13 @@ const BrowseEvents: FC = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [pageLength, setPageLength] = useState<number>(0);
+  const [pageLength, setPageLength] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(0);
   const [filters, setFilters] = useState<FilterTypes>({ startDate: null, endDate: null, distance: 0, genres: [] });
-  const [searchTerm, setSearchTerm] = useState<string>();
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortMethod, setSortMethod] = useState<SortMethods>('date-asc');
+  const [mappedCardData, setMappedCardData] = useState<CardProps[]>([{}]);
   const [displayData, setDisplayData] = useState<CardProps[]>([{}]);
-  const pageCount = Math.ceil(displayData.length / pageLength);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,19 +40,24 @@ const BrowseEvents: FC = () => {
   }, []);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
-      },
-      (error) => {
-        console.error('Error obtaining location', error);
-      },
-    );
-  }, []);
+    setPageCount(Math.ceil(mappedCardData.length / pageLength));
+  }, [mappedCardData, pageLength]);
 
   useEffect(() => {
-    setGenres((prev) => [...prev, ...EventData.map((event) => event.EventGenres).flat()]);
+    const genreArray: string[] = [];
+    EventData.forEach((event) => {
+      event.EventGenres.forEach((genre) => {
+        if (!genreArray.includes(genre)) genreArray.push(genre);
+      });
+    });
+    setGenres(genreArray.sort());
   }, [EventData]);
+
+  useEffect(() => {
+    const start = (page - 1) * pageLength;
+    const end = start + pageLength;
+    setDisplayData(mappedCardData.slice(start, end));
+  }, [mappedCardData, page, pageLength]);
 
   const mapCardData = useCallback(
     (eventData: Event[]): CardProps[] => {
@@ -60,7 +66,7 @@ const BrowseEvents: FC = () => {
         return {
           title: event.EventName,
           artist: artistInfo?.LegalName || 'Unknown Artist',
-          genres: event.EventGenres.join(','),
+          genres: event.EventGenres.join(', '),
           rating: Math.floor(Math.random() * 5) + 1,
           startDate: dayjs(event.EventStartDate),
         };
@@ -81,11 +87,19 @@ const BrowseEvents: FC = () => {
   };
 
   const distanceFilter = (events: Event[], distance?: number, userLocation?: [number, number] | null) => {
+    if (!distance) return events;
     if (!userLocation) {
-      alert('User location not found. Please refresh the page and try again.');
-      return events;
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          console.error('Error obtaining location', error);
+        },
+      );
     }
 
+    if (!userLocation) return events;
     if (distance) {
       return events.filter((event) => {
         const xCoord = event.EventLocation.Coordinates[0];
@@ -94,18 +108,17 @@ const BrowseEvents: FC = () => {
         return dist <= distance;
       });
     }
-
     return events;
   };
 
   const genreFilter = (events: Event[], genres?: string[]) => {
-    if (genres?.length === 0) return events;
+    if (genres?.length === 0 || !genres) return events;
 
     return events.filter((event) => event.EventGenres.some((genre) => genres?.includes(genre)));
   };
 
   const getSearchResults = (cardData: CardProps[], search?: string) => {
-    if (!search || search.length === 0) return cardData;
+    if (!search || search.length === 0 || search === '') return cardData;
 
     return cardData.filter(
       (card) =>
@@ -139,26 +152,18 @@ const BrowseEvents: FC = () => {
     setPage(v);
   };
 
-  const handlePagination = useCallback(
-    (cardData: CardProps[], pageLength: number) => {
-      const startIndex = (page - 1) * pageLength;
-      return cardData.slice(startIndex, startIndex + pageLength);
-    },
-    [page],
-  );
-
   useEffect(() => {
     let events = EventData;
     events = dateFilter(events, filters.startDate, filters.endDate);
     events = distanceFilter(events, filters.distance, userLocation);
-    events = genreFilter(events, genres);
+    events = genreFilter(events, filters.genres);
 
     let mappedEvents = mapCardData(events);
     mappedEvents = getSearchResults(mappedEvents, searchTerm);
     mappedEvents = sortResult(mappedEvents, sortMethod);
 
-    setDisplayData(handlePagination(mappedEvents, pageLength));
-  }, [EventData, genres, filters, handlePagination, mapCardData, pageLength, searchTerm, sortMethod, userLocation]);
+    setMappedCardData(mappedEvents);
+  }, [EventData, genres, filters, mapCardData, pageLength, searchTerm, sortMethod, userLocation]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearchChange = (e: any) => {
@@ -167,6 +172,7 @@ const BrowseEvents: FC = () => {
   };
 
   const handleSortChange = (sort: SortMethods) => {
+    console.log(sort);
     setSortMethod(sort);
     setPage(1);
   };
@@ -183,7 +189,7 @@ const BrowseEvents: FC = () => {
         <EventFilter onFilterChange={setFilters} genres={genres} />
         <div className={styles.searchSortWrapper}>
           <span className={styles.searchWrapper}>
-            <Search value="" onChange={handleSearchChange} />
+            <Search value={searchTerm} onChange={handleSearchChange} />
           </span>
           <span className={styles.sortWrapper}>
             <Sort onSortChange={handleSortChange} />
@@ -194,7 +200,15 @@ const BrowseEvents: FC = () => {
         <div className={styles.browseEventsCardsContainer}>
           {displayData.map((event, index) => (
             <div className={styles.card} key={index}>
-              <Card key={index} title={event.title} artist={event.artist} genres={event.genres} rating={event.rating} />
+              <Card
+                key={index}
+                title={event.title}
+                artist={event.artist}
+                genres={event.genres}
+                rating={event.rating}
+                startDate={event.startDate}
+                staticBackground
+              />
             </div>
           ))}
         </div>

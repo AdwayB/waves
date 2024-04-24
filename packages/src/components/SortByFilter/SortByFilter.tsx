@@ -17,13 +17,13 @@ interface SortByFilterProps {
   onSortChange: (value: SortMethods) => void;
 }
 const sortObjectMap = {
-  'date-asc': 'Date Ascending',
-  'name-asc': 'Name Ascending',
-  'name-desc': 'Name Descending',
-  'artist-asc': 'Artist Ascending',
-  'artist-desc': 'Artist Descending',
-  'rating-asc': 'Rating Ascending',
-  'rating-desc': 'Rating Descending',
+  'Date Ascending': 'date-asc',
+  'Name Ascending': 'name-asc',
+  'Name Descending': 'name-desc',
+  'Artist Ascending': 'artist-asc',
+  'Artist Descending': 'artist-desc',
+  'Rating Ascending': 'rating-asc',
+  'Rating Descending': 'rating-desc',
 };
 
 const Sort: FC<SortByFilterProps> = (props) => {
@@ -32,9 +32,9 @@ const Sort: FC<SortByFilterProps> = (props) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSortChange = (event: any) => {
-    const newSort = event?.target.value as SortMethods;
-    setMethod(sortObjectMap[newSort] as SortLabels);
-    onSortChange(newSort);
+    const newSort = event?.target.value as SortLabels;
+    setMethod(newSort);
+    onSortChange(sortObjectMap[newSort] as SortMethods);
   };
 
   const SortOptions: SelectOptionProps[] = [
