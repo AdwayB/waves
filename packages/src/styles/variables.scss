@@ -26,6 +26,9 @@ $strong-text-font:
 $bold-text-font:
   normal normal 700 1rem/1.5 'Open Sans',
   sans-serif;
+$subtext-font:
+  normal italic 400 1.2rem/1.5 'Open Sans',
+  sans-serif;
 
 // MIXINS
 @mixin default-card($height: 170px) {

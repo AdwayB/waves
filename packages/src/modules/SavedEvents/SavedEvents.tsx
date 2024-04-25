@@ -1,13 +1,23 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import styles from './browseEvents.module.scss';
-import { CardProps, EventFilter, FilterTypes, PaginatedCards, Search, Sort, SortMethods } from '../../components';
+import styles from './savedEvents.module.scss';
 import { Event, EventTestData, UserTestData, calculateDistance } from '../../helpers';
+import {
+  CardProps,
+  EventFilter,
+  FilterTypes,
+  PaginatedCards,
+  Search,
+  Sort,
+  SortMethods,
+  Tooltip,
+} from '../../components';
 import dayjs, { Dayjs } from 'dayjs';
 
-const BrowseEvents: FC = () => {
-  document.title = 'Browse Events - Waves';
+const SavedEvents: FC = () => {
+  document.title = 'Saved Events - Waves';
   const EventData = EventTestData;
   const UserData = UserTestData;
+  const [savedEventsNumber, setSavedEventsNumber] = useState<number>(0);
   const [genres, setGenres] = useState<string[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -155,6 +165,7 @@ const BrowseEvents: FC = () => {
 
   useEffect(() => {
     let events = EventData;
+    setSavedEventsNumber(events.length);
     events = dateFilter(events, filters.startDate, filters.endDate);
     events = distanceFilter(events, filters.distance, userLocation);
     events = genreFilter(events, filters.genres);
@@ -179,14 +190,23 @@ const BrowseEvents: FC = () => {
   };
 
   return (
-    <div className={styles.browseEventsContainer}>
-      <div className={styles.browseEventsHeader}>
-        <span className={styles.browseEventsHeading}>Browse All Events</span>
-        <span className={styles.browseEventsText}>
-          Browse all upcoming events, use the filters to narrow your results.
-        </span>
+    <div className={styles.savedEventsContainer}>
+      <div className={styles.savedEventsHeader}>
+        <div className={styles.savedEventsHeadingGroup}>
+          <Tooltip
+            text="Events are automatically removed from your saved events after their completion."
+            placement="right"
+          >
+            <span className={styles.savedEventsHeading}>
+              You have <span className={styles.savedEventsCount}>{savedEventsNumber}</span> Saved Events.
+            </span>
+          </Tooltip>
+          <span className={styles.savedEventsText}>
+            View all your saved events, use the filters to narrow your results.
+          </span>
+        </div>
       </div>
-      <div className={styles.browseEventsFilters}>
+      <div className={styles.savedEventsFilters}>
         <EventFilter onFilterChange={setFilters} genres={genres} />
         <div className={styles.searchSortWrapper}>
           <span className={styles.searchWrapper}>
@@ -201,4 +221,5 @@ const BrowseEvents: FC = () => {
     </div>
   );
 };
-export { BrowseEvents };
+
+export { SavedEvents };

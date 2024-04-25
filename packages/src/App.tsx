@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider, createTheme } from '@mui/material';
-import { AppRoutes } from './Routes';
+import { AppRoutes } from './routes';
 
 const THEME = createTheme({
   typography: {

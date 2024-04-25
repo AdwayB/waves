@@ -1,6 +1,6 @@
 import { Sidebar } from '../../components';
 import { isAuth } from '../../helpers';
-import { NestedRoutes } from './NestedRoutes';
+import { NestedRoutes } from '../../routes';
 import styles from './layout.module.scss';
 
 const AppLayout = () => {

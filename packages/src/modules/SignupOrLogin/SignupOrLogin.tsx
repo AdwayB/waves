@@ -1,11 +1,20 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './signupOrLogin.module.scss';
-import { Button } from '../../components';
+import { Button, Loading } from '../../components';
+import { getCookie } from '../../helpers';
 
 const SignupOrLogin = () => {
   const navigate = useNavigate();
+  const jwt = getCookie('jwt');
 
-  return (
+  useEffect(() => {
+    if (jwt) navigate('/user');
+  });
+
+  return jwt ? (
+    <Loading loading />
+  ) : (
     <>
       <div className={styles.signupLoginContainer}>
         <span className={styles.logo}>waves</span>

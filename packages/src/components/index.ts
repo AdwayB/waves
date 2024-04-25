@@ -16,6 +16,7 @@ export * from './InputField';
 export * from './InputNumber';
 export * from './Loading';
 export * from './Menu';
+export * from './PaginatedCards';
 export * from './Pagination';
 export * from './Radio';
 export * from './Rating';
