@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Dayjs } from 'dayjs';
-import styles from './date-picker.module.scss';
+import styles from './datePicker.module.scss';
 import {
   DateValidationError,
   DatePicker as MDatePicker,
@@ -18,6 +18,7 @@ interface DatePickerProps {
   style?: 'primary' | 'secondary';
   id?: string;
   label?: string;
+  views?: ('day' | 'month' | 'year')[];
   defaultValue?: Dayjs;
   value?: Dayjs | null;
   onChange?: (value: Dayjs, context?: unknown) => void;
@@ -47,6 +48,7 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     type = 'picker',
     style = 'primary',
     label,
+    views = ['day', 'month', 'year'],
     defaultValue,
     value,
     onChange,
@@ -91,6 +93,7 @@ const DatePicker: FC<DatePickerProps> = (props) => {
             <MDatePicker
               label={label}
               readOnly={readOnly}
+              views={views}
               defaultValue={defaultValue}
               value={value}
               onChange={handleChange}

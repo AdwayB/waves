@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Banner from './components/Banner/Banner';
 import {
   ActionButton,
   Alert,
@@ -42,7 +41,20 @@ const Refer = () => {
 
   return (
     <>
-      <Banner name={bannerText} />
+      <div
+        style={{
+          width: '100%',
+          height: '300px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: '2rem',
+          backgroundColor: '#c99fee',
+          color: '#010320',
+        }}
+      >
+        {bannerText}
+      </div>
       <div>
         <Rating value={2.3} />
         <Icon type={'star'} />
