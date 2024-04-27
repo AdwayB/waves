@@ -18,7 +18,6 @@
     "storybook": "storybook dev -p 6006"
   },
   "lint-staged": {
-    "progress": "true",
     "*.{js,jsx,ts,tsx,json}": [
       "eslint --fix --quiet --cache"
     ],

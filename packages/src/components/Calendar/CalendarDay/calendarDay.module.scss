@@ -1,1 +1,50 @@
 @import '../../../styles/variables.scss';
+
+.current-date {
+  border: 2px solid $current-date-border-color;
+}
+
+.selected-date {
+  background-color: $menu-bg-secondary-hover;
+}
+
+.calendar-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $hover-click-transition;
+
+  .date-header {
+    aspect-ratio: 1;
+    height: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0.5rem 0.7rem;
+
+    .date-number {
+      font: $normal-text-font;
+
+      &:hover {
+        color: $input-field-color;
+      }
+    }
+
+    .date-events-chips-container {
+      height: 15px;
+      width: 50px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+
+    &:hover {
+      background-color: $menu-bg-secondary-hover;
+    }
+  }
+}

@@ -1,6 +1,11 @@
 import { FC } from 'react';
 import { Dayjs } from 'dayjs';
 import styles from './calendarHeader.module.scss';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { Tooltip } from '../../Tooltip';
 
 interface CalendarHeaderProps {
   currentDate: Dayjs;
@@ -15,19 +20,27 @@ const CalendarHeader: FC<CalendarHeaderProps> = (props) => {
 
   return (
     <div className={styles.calendarHeader}>
-      <div className={styles.changeIcon} onClick={onPrevYear}>
-        <i className="fas fa-angle-double-left"></i>
-      </div>
-      <div className={styles.changeIcon} onClick={onPrevMonth}>
-        <i className="fas fa-angle-left"></i>
-      </div>
+      <Tooltip text="View Previous Year">
+        <div className={styles.changeIcon} onClick={onPrevYear}>
+          <SkipPreviousIcon color="inherit" className={styles.skipIcon} />
+        </div>
+      </Tooltip>
+      <Tooltip text="View Previous Month">
+        <div className={styles.changeIcon} onClick={onPrevMonth}>
+          <ArrowLeftIcon color="inherit" className={styles.icon} />
+        </div>
+      </Tooltip>
       <span className={styles.currentDate}>{currentDate.format('MMMM YYYY')}</span>
-      <div className={styles.changeIcon} onClick={onNextMonth}>
-        <i className="fas fa-angle-right"></i>
-      </div>
-      <div className={styles.changeIcon} onClick={onNextYear}>
-        <i className="fas fa-angle-double-right"></i>
-      </div>
+      <Tooltip text="View Next Month">
+        <div className={styles.changeIcon} onClick={onNextMonth}>
+          <ArrowRightIcon color="inherit" className={styles.icon} />
+        </div>
+      </Tooltip>
+      <Tooltip text="View Next Year">
+        <div className={styles.changeIcon} onClick={onNextYear}>
+          <SkipNextIcon color="inherit" className={styles.skipIcon} />
+        </div>
+      </Tooltip>
     </div>
   );
 };

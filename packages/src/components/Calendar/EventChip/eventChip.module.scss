@@ -1,1 +1,15 @@
 @import '../../../styles/variables.scss';
+
+.chip {
+  height: 0.312rem;
+  width: 0.312rem;
+  border-radius: 50%;
+}
+
+.primary {
+  background-color: $success-alert-color;
+}
+
+.secondary {
+  background-color: $warning-alert-color;
+}

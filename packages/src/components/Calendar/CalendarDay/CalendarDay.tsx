@@ -2,27 +2,39 @@ import { useState, useRef, FC } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { gsap } from 'gsap';
 import styles from './calendarDay.module.scss';
-import { CalendarEvent } from '../../../helpers';
 import { EventChip } from '../EventChip/EventChip';
-import { EventCard } from '../EventCard/EventCard';
+import { DateHighlight } from '../types';
 
 interface CalendarDayProps {
+  date: Dayjs | null;
   currentDate: Dayjs;
-  registeredEvents?: CalendarEvent[];
-  savedEvents?: CalendarEvent[];
-  onEventClick?: (eventId: string) => void;
+  selectedDate: Dayjs | null;
+  primaryHighlights?: DateHighlight[];
+  secondaryHighlights?: DateHighlight[];
+  primaryHighlightColor?: string;
+  secondaryHighlightColor?: string;
+  onDateChange?: (date: Dayjs) => void;
 }
 
 const CalendarDay: FC<CalendarDayProps> = (props) => {
-  const { currentDate, registeredEvents, savedEvents, onEventClick } = props;
-  const [isExpanded, setIsExpanded] = useState(false);
+  const {
+    date,
+    currentDate,
+    selectedDate,
+    primaryHighlights,
+    secondaryHighlights,
+    primaryHighlightColor,
+    secondaryHighlightColor,
+    onDateChange,
+  } = props;
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const dateRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => {
     setIsExpanded(true);
     gsap.to(dateRef.current, {
-      scale: 1.2,
-      duration: 0.3,
+      scale: 1.3,
+      duration: 0.1,
       ease: 'power2.inOut',
     });
   };
@@ -31,45 +43,92 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
     setIsExpanded(false);
     gsap.to(dateRef.current, {
       scale: 1,
-      duration: 0.3,
+      duration: 0.2,
       ease: 'power2.inOut',
     });
   };
 
-  const events = [...(registeredEvents ?? []), ...(savedEvents ?? [])];
+  const handleDateClick = () => {
+    onDateChange && onDateChange(date ?? dayjs());
+  };
+
+  const getDate = (): number | null => date && date.date();
+  const isCurrentDate = (): boolean => (getDate() ? getDate() === currentDate.date() : false);
+  const isSelectedDate = (): boolean => (getDate() ? getDate() === selectedDate?.date() : false);
+
+  const hexColorRegex = /#[a-fA-F0-9]{6}/ || /#[a-fA-F0-9]{3}/;
+  const getHighlightColor = (primary: boolean = true): string | undefined => {
+    if (primary) {
+      if (primaryHighlightColor && primaryHighlightColor.match(hexColorRegex)) {
+        return primaryHighlightColor;
+      }
+    } else if (secondaryHighlightColor && secondaryHighlightColor.match(hexColorRegex)) {
+      return secondaryHighlightColor;
+    }
+  };
 
   const getDateClassName = () => {
+    const groupedClassName = `${styles.calendarDate}`;
     if (isExpanded) {
-      if (currentDate.isSame(dayjs(), 'day')) {
-        return `${styles.calendarDate} ${styles.expanded} ${styles.currentDay}`;
-      }
-      return `${styles.calendarDate} ${styles.expanded}`;
+      groupedClassName.concat(` ${styles.expanded}`);
     }
-    return `${styles.calendarDate}`;
+    return groupedClassName;
+  };
+
+  const getPrimaryHighlights = () => {
+    const mapArray = [];
+    var number = primaryHighlights && primaryHighlights.find((highlight) => highlight.date.date() === getDate())?.count;
+
+    while (number && number > 0) {
+      mapArray.push(1);
+      number--;
+    }
+    return mapArray;
+  };
+
+  const getSecondaryHighlights = () => {
+    const mapArray = [];
+    var number =
+      secondaryHighlights && secondaryHighlights.find((highlight) => highlight.date.date() === getDate())?.count;
+
+    while (number && number > 0) {
+      mapArray.push(1);
+      number--;
+    }
+    return mapArray;
   };
 
   return (
-    <div ref={dateRef} className={getDateClassName()} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div className={styles.dateHeader}>
-        <span className={styles.dateNumber}>{currentDate.date()}</span>
-        <div className={styles.dateEventsChipsContainer}>
-          {events.map((event) => (
-            <EventChip
-              key={event.EventId}
-              event={event}
-              isRegistered={registeredEvents?.some((e) => e.EventId === event.EventId) ?? false}
-              onEventClick={onEventClick}
-            />
-          ))}
-        </div>
+    <div
+      ref={dateRef}
+      className={getDateClassName()}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleDateClick}
+    >
+      <div
+        className={`${styles.dateHeader} ${isCurrentDate() && styles.currentDate} ${isSelectedDate() && styles.selectedDate}`}
+      >
+        <span className={styles.dateNumber}>{getDate()}</span>
+        {(getPrimaryHighlights().length > 0 || getSecondaryHighlights().length > 0) && (
+          <div className={styles.dateEventsChipsContainer}>
+            {getPrimaryHighlights().map((item, index) => (
+              <EventChip
+                key={`primary-${item}-${index}`}
+                isPrimary={true}
+                primaryHighlightColor={getHighlightColor()}
+              />
+            ))}
+            {getSecondaryHighlights().map((item, index) => (
+              <EventChip
+                key={`secondary${item}-${index}`}
+                isPrimary={false}
+                secondaryHighlightColor={getHighlightColor(false)}
+              />
+            ))}
+          </div>
+        )}
       </div>
-      {isExpanded && (
-        <div className={styles.dateEventsCardsContainer}>
-          {events.map((event) => (
-            <EventCard key={event.EventId} event={event} onEventClick={onEventClick} />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

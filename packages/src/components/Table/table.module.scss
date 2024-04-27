@@ -101,9 +101,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: $table-bg-color;
-  border-radius: 0.5rem;
-  backdrop-filter: blur(0.2rem);
+  @include table-background-style;
   color: $white;
 
   .table-friendly-screen-text {

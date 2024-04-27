@@ -17,6 +17,9 @@ $subheading-font:
 $tall-text-font:
   normal normal 400 1.2rem/1.5 'Open Sans',
   sans-serif;
+$normal-text-font:
+  normal normal 400 1.1rem/1.5 'Open Sans',
+  sans-serif;
 $regular-text-font:
   normal normal 400 1rem/1.5 'Open Sans',
   sans-serif;
@@ -34,4 +37,10 @@ $subtext-font:
 @mixin default-card($height: 170px) {
   aspect-ratio: 1.353;
   height: $height;
+}
+
+@mixin table-background-style($blur: 0.2rem) {
+  background-color: $table-bg-color;
+  border-radius: 0.5rem;
+  backdrop-filter: blur($blur);
 }

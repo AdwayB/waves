@@ -66,14 +66,14 @@
     color: $input-field-color;
     background-color: transparent;
     border: transparent;
-    text-decoration: underline;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
     &:not(:disabled) {
       &:hover,
       &:active,
       &:focus-visible {
-        color: $waves-violet;
-        text-decoration: underline;
-        background: none;
+        text-decoration: none;
+        background: $disabled-pagination-color;
       }
     }
     &:disabled {

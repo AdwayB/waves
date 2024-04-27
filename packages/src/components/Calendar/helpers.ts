@@ -1,5 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { CalendarEvent } from '../../helpers';
+import { Dayjs } from 'dayjs';
 
 const getCalendarDays = (date: Dayjs) => {
   const monthStart = date.startOf('month');
@@ -19,10 +18,4 @@ const getCalendarDays = (date: Dayjs) => {
   return days;
 };
 
-const filterEventsByDate = (events: CalendarEvent[], date: Dayjs): CalendarEvent[] => {
-  return events.filter(
-    (event) => dayjs(event.EventStartDate).isSame(date, 'day') || dayjs(event.EventEndDate).isSame(date, 'day'),
-  );
-};
-
-export { getCalendarDays, filterEventsByDate };
+export { getCalendarDays };
