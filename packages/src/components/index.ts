@@ -11,6 +11,7 @@ export * from './Chip';
 export * from './DatePicker';
 export * from './Divider';
 export * from './Error';
+export * from './EventCard';
 export * from './EventsFilter';
 export * from './IconComponents';
 export * from './InputField';

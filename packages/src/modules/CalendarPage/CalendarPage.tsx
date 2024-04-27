@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Calendar, Tabs } from '../../components';
+import { Calendar, EventCard, Tabs } from '../../components';
 import { DateHighlight } from '../../helpers';
 import dayjs from 'dayjs';
 import styles from './calendarPage.module.scss';
@@ -34,6 +34,25 @@ const testSecondaryHighlights: DateHighlight[] = [
   },
 ];
 
+const getEventCards = (upcoming: boolean = true) => {
+  return upcoming ? (
+    <EventCard
+      title="Test Event"
+      artist="Test Artist"
+      startDate={dayjs()}
+      endDate={dayjs().add(1, 'day').add(13, 'hours')}
+    />
+  ) : (
+    <EventCard
+      title="Test Event"
+      artist="Test Artist"
+      startDate={dayjs().subtract(1, 'day')}
+      endDate={dayjs().add(1, 'day').add(13, 'hours')}
+      type="secondary"
+    />
+  );
+};
+
 const CalendarPage: FC = () => {
   return (
     <div className={styles.calendarPageContainer}>
@@ -45,8 +64,8 @@ const CalendarPage: FC = () => {
         <div className={styles.eventsContainer}>
           <Tabs
             tabs={[
-              { tabTitle: 'Upcoming', tabContent: 'upcoming' },
-              { tabTitle: 'Past', tabContent: 'past' },
+              { tabTitle: 'Registered', tabContent: getEventCards() },
+              { tabTitle: 'Saved', tabContent: getEventCards(false) },
             ]}
           />
         </div>

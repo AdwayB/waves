@@ -1,0 +1,131 @@
+@import '../../styles/variables.scss';
+
+.graphic {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+
+  .circle {
+    aspect-ratio: 1;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .line {
+    height: 2px;
+    width: 100%;
+  }
+}
+
+.event-card-wrapper {
+  min-width: 24rem;
+  width: fit-content;
+  transition: $hover-click-transition;
+
+  .event-card {
+    min-width: 24rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    text-wrap: pretty;
+    white-space: wrap;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    .event-card-title {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: flex-start;
+      gap: 1rem;
+
+      .event-card-title-text {
+        font: $subheading-font;
+        font-weight: 700;
+      }
+
+      .event-card-artist-text {
+        font: $regular-text-font;
+        font-weight: 700;
+        opacity: 0.9;
+      }
+    }
+
+    .event-card-dates {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .date-label {
+        font: $regular-text-font;
+        font-weight: 600;
+        opacity: 0.9;
+
+        .event-date {
+          font-weight: 700;
+          opacity: 1;
+        }
+      }
+    }
+
+    .event-card-times {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .event-time {
+        font: $regular-text-font;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.primary {
+  background-color: $registered-event-card;
+  color: $registered-event-card-text;
+
+  .graphic {
+    .circle {
+      background-color: $registered-event-card-text;
+    }
+
+    .line {
+      background-color: $registered-event-card-text;
+    }
+  }
+}
+
+.secondary {
+  background-color: $saved-event-card;
+  color: $saved-event-card-text;
+
+  .graphic {
+    .circle {
+      background-color: $saved-event-card-text;
+    }
+
+    .line {
+      background-color: $saved-event-card-text;
+    }
+  }
+}
