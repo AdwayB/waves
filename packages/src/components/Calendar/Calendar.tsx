@@ -18,13 +18,22 @@ interface CalendarProps {
 const Calendar: FC<CalendarProps> = (props) => {
   const { rootDate, primaryHighlights, secondaryHighlights, onDateChange, className } = props;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(rootDate ? dayjs(rootDate) : dayjs());
-  const currentDate = rootDate ? dayjs(rootDate) : dayjs();
+  const [currentDate, setCurrentDate] = useState<Dayjs>(rootDate ? dayjs(rootDate) : dayjs());
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const calendarDays = getCalendarDays(currentDate);
+
+  const handleViewChange = (date: Dayjs) => {
+    setCurrentDate(date);
+  };
 
   const handleDateChange = (date: Dayjs) => {
     setSelectedDate(date);
     if (onDateChange) onDateChange(date);
+  };
+
+  const handleClickToday = () => {
+    handleViewChange(dayjs());
+    handleDateChange(dayjs());
   };
 
   return (
@@ -32,10 +41,10 @@ const Calendar: FC<CalendarProps> = (props) => {
       <div className={styles.calendar}>
         <CalendarHeader
           currentDate={currentDate}
-          onPrevMonth={() => handleDateChange(currentDate.subtract(1, 'month'))}
-          onNextMonth={() => handleDateChange(currentDate.add(1, 'month'))}
-          onPrevYear={() => handleDateChange(currentDate.subtract(1, 'year'))}
-          onNextYear={() => handleDateChange(currentDate.add(1, 'year'))}
+          onPrevMonth={() => handleViewChange(currentDate.subtract(1, 'month'))}
+          onNextMonth={() => handleViewChange(currentDate.add(1, 'month'))}
+          onPrevYear={() => handleViewChange(currentDate.subtract(1, 'year'))}
+          onNextYear={() => handleViewChange(currentDate.add(1, 'year'))}
         />
         <div className={styles.calendarBody}>
           <div className={styles.weekDayContainer}>
@@ -61,12 +70,7 @@ const Calendar: FC<CalendarProps> = (props) => {
           </div>
           <div className={styles.calendarFooter}>
             <span className={styles.buttonWrapper}>
-              <Button
-                label="Today"
-                buttonType="secondary"
-                onClick={() => handleDateChange(dayjs())}
-                className={styles.todayButton}
-              />
+              <Button label="Today" buttonType="secondary" onClick={handleClickToday} className={styles.todayButton} />
             </span>
           </div>
         </div>

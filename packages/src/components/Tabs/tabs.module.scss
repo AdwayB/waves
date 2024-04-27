@@ -1,0 +1,20 @@
+@import '../../styles/variables.scss';
+
+.tabs-container {
+  height: 100%;
+  width: 100%;
+
+  .tabs {
+    :global(.MuiTabs-indicator) {
+      height: 3px;
+      background-color: $menu-bg-secondary;
+    }
+
+    :global(.MuiButtonBase-root) {
+      height: 5rem;
+      font-size: 1.4rem;
+      color: $input-field-color;
+      text-transform: capitalize;
+    }
+  }
+}

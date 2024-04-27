@@ -1,5 +1,57 @@
 @import '../../styles/variables.scss';
 
-.calendar-container {
-  width: 47.5rem;
+.calendar-page-container {
+  color: $white;
+
+  .calendar-page-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    text-wrap: balance;
+    white-space: wrap;
+    padding: 2rem;
+
+    .calendar-page-heading {
+      font: $heading-font;
+      padding-bottom: 0.3rem;
+    }
+
+    .calendar-page-text {
+      font: $tall-text-font;
+      color: $light-white;
+    }
+  }
+
+  .calendar-and-events-container {
+    height: 44rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0 1rem;
+    @include table-background-style(0.5rem);
+    border-radius: 2rem;
+
+    .events-container {
+      width: 58rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .calendar-container {
+      width: 41rem;
+
+      .calendar {
+        height: 44rem;
+      }
+    }
+  }
 }

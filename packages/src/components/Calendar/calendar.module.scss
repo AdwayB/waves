@@ -1,7 +1,7 @@
 @import '../../styles/variables.scss';
 
-$grid-column-gap: 3rem;
-$grid-row-gap: 2rem;
+$grid-column-gap: 2rem;
+$grid-row-gap: 1.7rem;
 
 .calendar-wrapper {
   width: inherit;
@@ -46,6 +46,7 @@ $grid-row-gap: 2rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-top: 1rem;
 
     .today-button {
       opacity: 0.9;

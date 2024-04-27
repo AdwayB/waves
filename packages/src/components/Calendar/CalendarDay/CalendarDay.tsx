@@ -52,9 +52,9 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
     onDateChange && onDateChange(date ?? dayjs());
   };
 
-  const getDate = (): number | null => date && date.date();
-  const isCurrentDate = (): boolean => (getDate() ? getDate() === currentDate.date() : false);
-  const isSelectedDate = (): boolean => (getDate() ? getDate() === selectedDate?.date() : false);
+  const getDateNumber = (): number | null => date && date.date();
+  const isCurrentDate = (): boolean => (getDateNumber() ? getDateNumber() === currentDate.date() : false);
+  const isSelectedDate = (): boolean => (getDateNumber() ? getDateNumber() === selectedDate?.date() : false);
 
   const hexColorRegex = /#[a-fA-F0-9]{6}/ || /#[a-fA-F0-9]{3}/;
   const getHighlightColor = (primary: boolean = true): string | undefined => {
@@ -67,7 +67,7 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
     }
   };
 
-  const getDateClassName = () => {
+  const getDateNumberClassName = () => {
     const groupedClassName = `${styles.calendarDate}`;
     if (isExpanded) {
       groupedClassName.concat(` ${styles.expanded}`);
@@ -77,7 +77,7 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
 
   const getPrimaryHighlights = () => {
     const mapArray = [];
-    var number = primaryHighlights && primaryHighlights.find((highlight) => highlight.date.date() === getDate())?.count;
+    var number = primaryHighlights && primaryHighlights.find((highlight) => highlight.date.isSame(date, 'day'))?.count;
 
     while (number && number > 0) {
       mapArray.push(1);
@@ -89,7 +89,7 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
   const getSecondaryHighlights = () => {
     const mapArray = [];
     var number =
-      secondaryHighlights && secondaryHighlights.find((highlight) => highlight.date.date() === getDate())?.count;
+      secondaryHighlights && secondaryHighlights.find((highlight) => highlight.date.isSame(date, 'day'))?.count;
 
     while (number && number > 0) {
       mapArray.push(1);
@@ -101,7 +101,7 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
   return (
     <div
       ref={dateRef}
-      className={getDateClassName()}
+      className={getDateNumberClassName()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleDateClick}
@@ -109,7 +109,7 @@ const CalendarDay: FC<CalendarDayProps> = (props) => {
       <div
         className={`${styles.dateHeader} ${isCurrentDate() && styles.currentDate} ${isSelectedDate() && styles.selectedDate}`}
       >
-        <span className={styles.dateNumber}>{getDate()}</span>
+        <span className={styles.dateNumber}>{getDateNumber()}</span>
         {(getPrimaryHighlights().length > 0 || getSecondaryHighlights().length > 0) && (
           <div className={styles.dateEventsChipsContainer}>
             {getPrimaryHighlights().map((item, index) => (
