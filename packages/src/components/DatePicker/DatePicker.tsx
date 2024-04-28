@@ -48,7 +48,7 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     type = 'picker',
     style = 'primary',
     label,
-    views = ['day', 'month', 'year'],
+    views = ['day'],
     defaultValue,
     value,
     onChange,

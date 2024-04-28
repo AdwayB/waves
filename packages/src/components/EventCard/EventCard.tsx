@@ -1,8 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styles from './eventCard.module.scss';
 import { Dayjs } from 'dayjs';
+import { gsap } from 'gsap';
+import { throttle } from '../../helpers';
 
 interface EventCardProps {
+  eventId?: string;
   title?: string;
   artist?: string;
   startDate?: Dayjs;
@@ -12,10 +15,53 @@ interface EventCardProps {
 }
 
 const EventCard: FC<EventCardProps> = (props) => {
-  const { title, artist, startDate, endDate, type = 'primary', className } = props;
+  const { eventId, title, artist, startDate, endDate, type = 'primary', className } = props;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = ref.current;
+    if (!card) return;
+
+    const handleHover = (event: MouseEvent) => {
+      const { clientX, clientY } = event;
+      const { left, top, width, height } = card!.getBoundingClientRect();
+      const x = (clientX - (left + width / 2)) / 10;
+      const y = -((clientY - (top + height / 2)) / 10);
+
+      gsap.to(card!, {
+        scale: 1.1,
+        rotationY: x,
+        rotationX: y,
+        ease: 'inOut',
+        transformPerspective: 2000,
+        transformOrigin: 'center center',
+      });
+    };
+
+    const resetNormal = () => {
+      gsap.to(card, {
+        scale: 1,
+        rotationY: 0,
+        rotationX: 0,
+        ease: 'power1.easeOut',
+        transformPerspective: 2000,
+        transformOrigin: 'center center',
+      });
+    };
+
+    const throttledHandleHover = throttle(handleHover, 20);
+
+    card!.addEventListener('mousemove', throttledHandleHover);
+    card!.addEventListener('mouseleave', resetNormal);
+
+    return () => {
+      card!.removeEventListener('mousemove', throttledHandleHover);
+      card!.removeEventListener('mouseleave', resetNormal);
+    };
+  }, []);
 
   return (
-    <div className={`${styles.eventCardWrapper} ${className}`}>
+    <div ref={ref} className={`${styles.eventCardWrapper} ${className}`} key={eventId}>
       <div className={`${styles.eventCard} ${type === 'primary' ? styles.primary : styles.secondary}`}>
         <div className={styles.eventCardTitle}>
           <span className={styles.eventCardTitleText}>{title}</span>

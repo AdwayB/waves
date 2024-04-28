@@ -1,0 +1,14 @@
+@import '../../../styles/variables.scss';
+
+.saved-events-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  overflow: auto;
+  padding: 1rem;
+}

@@ -4,12 +4,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { AppRoutes } from './routes';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 const THEME = createTheme({
   typography: {
     fontFamily: '"Open Sans", "Helvetica", "Arial", sans-serif',
   },
 });
+
+dayjs.extend(utc);
 
 const App = () => {
   const queryClient = new QueryClient();

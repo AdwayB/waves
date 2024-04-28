@@ -1,8 +1,10 @@
-import { FC } from 'react';
-import { Calendar, EventCard, Tabs } from '../../components';
+import { FC, useState } from 'react';
+import { Calendar, Tabs } from '../../components';
 import { DateHighlight } from '../../helpers';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import styles from './calendarPage.module.scss';
+import { RegisteredEventsTab } from './RegisteredEvents/RegisteredEventsTab';
+import { SavedEventsTab } from './SavedEvents/SavedEventsTab';
 
 const testPrimaryHighlights: DateHighlight[] = [
   {
@@ -34,26 +36,14 @@ const testSecondaryHighlights: DateHighlight[] = [
   },
 ];
 
-const getEventCards = (upcoming: boolean = true) => {
-  return upcoming ? (
-    <EventCard
-      title="Test Event"
-      artist="Test Artist"
-      startDate={dayjs()}
-      endDate={dayjs().add(1, 'day').add(13, 'hours')}
-    />
-  ) : (
-    <EventCard
-      title="Test Event"
-      artist="Test Artist"
-      startDate={dayjs().subtract(1, 'day')}
-      endDate={dayjs().add(1, 'day').add(13, 'hours')}
-      type="secondary"
-    />
-  );
-};
-
 const CalendarPage: FC = () => {
+  document.title = 'Calendar - Waves';
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
+
+  const handleDateChange = (date: Dayjs) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div className={styles.calendarPageContainer}>
       <div className={styles.calendarPageHeader}>
@@ -64,8 +54,8 @@ const CalendarPage: FC = () => {
         <div className={styles.eventsContainer}>
           <Tabs
             tabs={[
-              { tabTitle: 'Registered', tabContent: getEventCards() },
-              { tabTitle: 'Saved', tabContent: getEventCards(false) },
+              { tabTitle: 'Registered', tabContent: <RegisteredEventsTab date={selectedDate} /> },
+              { tabTitle: 'Saved', tabContent: <SavedEventsTab date={selectedDate} /> },
             ]}
           />
         </div>
@@ -73,6 +63,7 @@ const CalendarPage: FC = () => {
           <Calendar
             primaryHighlights={testPrimaryHighlights}
             secondaryHighlights={testSecondaryHighlights}
+            onDateChange={handleDateChange}
             className={styles.calendar}
           />
         </div>

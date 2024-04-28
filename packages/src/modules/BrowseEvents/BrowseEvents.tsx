@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import styles from './browseEvents.module.scss';
 import { CardProps, EventFilter, FilterTypes, PaginatedCards, Search, Sort, SortMethods } from '../../components';
-import { Event, EventTestData, UserTestData, calculateDistance } from '../../helpers';
+import { Event, EventTestData, UserTestData, calculateDistance, getCardData } from '../../helpers';
 import dayjs, { Dayjs } from 'dayjs';
 
 const BrowseEvents: FC = () => {
@@ -59,22 +59,7 @@ const BrowseEvents: FC = () => {
     setDisplayData(mappedCardData.slice(start, end));
   }, [mappedCardData, page, pageLength]);
 
-  const mapCardData = useCallback(
-    (eventData: Event[]): CardProps[] => {
-      return eventData.map((event) => {
-        const artistInfo = UserData.find((user) => user.UserId === event.EventCreatedBy);
-        return {
-          eventId: event.EventId,
-          title: event.EventName,
-          artist: artistInfo?.LegalName || 'Unknown Artist',
-          genres: event.EventGenres.join(', '),
-          rating: Math.floor(Math.random() * 5) + 1,
-          startDate: dayjs(event.EventStartDate),
-        };
-      });
-    },
-    [UserData],
-  );
+  const mapCardData = useCallback((events: Event[]) => getCardData(events, UserData), [UserData]);
 
   const dateFilter = (events: Event[], startDate?: Dayjs | null, endDate?: Dayjs | null) => {
     if (!startDate && !endDate) return events;
@@ -164,7 +149,7 @@ const BrowseEvents: FC = () => {
     mappedEvents = sortResult(mappedEvents, sortMethod);
 
     setMappedCardData(mappedEvents);
-  }, [EventData, genres, filters, mapCardData, pageLength, searchTerm, sortMethod, userLocation]);
+  }, [EventData, genres, filters, mapCardData, pageLength, searchTerm, sortMethod, userLocation, UserData]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearchChange = (e: any) => {

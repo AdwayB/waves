@@ -24,6 +24,7 @@
   min-width: 24rem;
   width: fit-content;
   transition: $hover-click-transition;
+  will-change: transform;
 
   .event-card {
     min-width: 24rem;
@@ -95,9 +96,9 @@
     }
   }
 
-  &:hover {
-    transform: scale(1.1);
-  }
+  // &:hover {
+  //   transform: scale(1.1);
+  // }
 }
 
 .primary {

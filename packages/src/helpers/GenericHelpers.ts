@@ -1,3 +1,22 @@
+import dayjs, { Dayjs } from 'dayjs';
+import { CardProps, EventCardProps } from '../components';
+import { User, Event } from './Responses';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Method = (...args: any[]) => void;
+
+const throttle = (method: Method, delay: number): Method => {
+  let x = 0;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (...args: any[]): void => {
+    const now = Date.now();
+    if (now - x >= delay) {
+      method(...args);
+      x = now;
+    }
+  };
+};
+
 const calculateDistance = (coords1: [number, number], coords2: [number, number]): number => {
   const [lat1, lon1] = coords1;
   const [lat2, lon2] = coords2;
@@ -15,4 +34,63 @@ const calculateDistance = (coords1: [number, number], coords2: [number, number])
   return R * c;
 };
 
-export { calculateDistance };
+const getCardData = (eventData: Event[], userData: User[]): CardProps[] => {
+  return eventData.map((event) => {
+    const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+    return {
+      eventId: event.EventId,
+      title: event.EventName,
+      artist: artistInfo?.LegalName || 'Unknown Artist',
+      genres: event.EventGenres.join(', '),
+      rating: Math.floor(Math.random() * 5) + 1,
+      startDate: dayjs(event.EventStartDate),
+    };
+  });
+};
+
+const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
+  const filteredEvents = eventData.filter((event) => date.utc().isSame(dayjs(event.EventStartDate), 'day'));
+
+  if (filteredEvents.length === 0) {
+    return [];
+  }
+
+  return filteredEvents
+    .sort((a, b) => (dayjs(a.EventStartDate).isBefore(b.EventStartDate) ? -1 : 1))
+    .map((event) => {
+      const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+      return {
+        eventId: event.EventId,
+        title: event.EventName,
+        artist: artistInfo?.LegalName || 'Unknown Artist',
+        startDate: dayjs(event.EventStartDate),
+        endDate: dayjs(event.EventEndDate),
+        type: 'primary',
+      };
+    });
+};
+
+const getSavedEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
+  const filteredEvents = eventData.filter((event) => date.utc().isSame(dayjs(event.EventStartDate), 'day'));
+
+  if (filteredEvents.length === 0) {
+    return [];
+  }
+
+  return filteredEvents
+    .sort((a, b) => (dayjs(a.EventStartDate).isBefore(b.EventStartDate) ? -1 : 1))
+    .map((event) => {
+      const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+      return {
+        eventId: event.EventId,
+        title: event.EventName,
+        artist: artistInfo?.LegalName || 'Unknown Artist',
+        startDate: dayjs(event.EventStartDate),
+        endDate: dayjs(event.EventEndDate),
+        type: 'secondary',
+      };
+    });
+};
+
+export { throttle, calculateDistance, getCardData, getRegisteredEventsCardData, getSavedEventsCardData };
+export type { Method };
