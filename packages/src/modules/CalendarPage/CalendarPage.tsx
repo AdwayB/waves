@@ -1,44 +1,61 @@
-import { FC, useState } from 'react';
-import { Calendar, Tabs } from '../../components';
-import { DateHighlight } from '../../helpers';
+import { FC, useEffect, useState } from 'react';
+import { Calendar, EventCardProps, Tabs } from '../../components';
+import {
+  DateHighlight,
+  Event,
+  EventTestData,
+  UserTestData,
+  getRegisteredEventsCardData,
+  getSavedEventsCardData,
+} from '../../helpers';
 import dayjs, { Dayjs } from 'dayjs';
 import styles from './calendarPage.module.scss';
 import { RegisteredEventsTab } from './RegisteredEvents/RegisteredEventsTab';
 import { SavedEventsTab } from './SavedEvents/SavedEventsTab';
 
-const testPrimaryHighlights: DateHighlight[] = [
-  {
-    date: dayjs().add(1, 'day'),
-    count: 1,
-  },
-  {
-    date: dayjs().add(2, 'day'),
-    count: 2,
-  },
-  {
-    date: dayjs().add(3, 'day'),
-    count: 3,
-  },
-];
-
-const testSecondaryHighlights: DateHighlight[] = [
-  {
-    date: dayjs().add(1, 'day'),
-    count: 3,
-  },
-  {
-    date: dayjs().add(2, 'day'),
-    count: 2,
-  },
-  {
-    date: dayjs().add(3, 'day'),
-    count: 1,
-  },
-];
-
 const CalendarPage: FC = () => {
   document.title = 'Calendar - Waves';
+  const registeredEventData = EventTestData.slice(0, 10);
+  const savedEventData = EventTestData.slice(10);
+  const userData = UserTestData;
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
+  const [registeredEventCards, setRegisteredEventCards] = useState<EventCardProps[]>([]);
+  const [savedEventCards, setSavedEventCards] = useState<EventCardProps[]>([]);
+  const [registeredEventHighlights, setRegisteredEventHighlights] = useState<DateHighlight[]>([]);
+  const [savedEventHighlights, setSavedEventHighlights] = useState<DateHighlight[]>([]);
+
+  useEffect(() => {
+    const usingDate = selectedDate ?? dayjs();
+    const registeredEvents = getRegisteredEventsCardData(registeredEventData, userData, usingDate);
+    const savedEvents = getSavedEventsCardData(savedEventData, userData, usingDate);
+    setRegisteredEventCards(registeredEvents);
+    setSavedEventCards(savedEvents);
+  }, [registeredEventData, savedEventData, selectedDate, userData]);
+
+  useEffect(() => {
+    setRegisteredEventHighlights(getHighlights(registeredEventData));
+    setSavedEventHighlights(getHighlights(savedEventData));
+  }, [registeredEventData, savedEventData]);
+
+  const getHighlights = (events: Event[]): DateHighlight[] => {
+    const highlights: DateHighlight[] = [];
+    events.forEach((event) => {
+      if (event.EventStartDate) {
+        const eventDate = dayjs(event.EventStartDate);
+        const existingHighlight = highlights.find((h) => h.date.utc().isSame(eventDate.utc(), 'day'));
+        if (existingHighlight) {
+          existingHighlight.count += 1;
+        } else {
+          highlights.push({
+            date: eventDate,
+            count: 1,
+          });
+        }
+      }
+    });
+
+    return highlights;
+  };
 
   const handleDateChange = (date: Dayjs) => {
     setSelectedDate(date);
@@ -54,15 +71,15 @@ const CalendarPage: FC = () => {
         <div className={styles.eventsContainer}>
           <Tabs
             tabs={[
-              { tabTitle: 'Registered', tabContent: <RegisteredEventsTab date={selectedDate} /> },
-              { tabTitle: 'Saved', tabContent: <SavedEventsTab date={selectedDate} /> },
+              { tabTitle: 'Registered', tabContent: <RegisteredEventsTab registeredEvents={registeredEventCards} /> },
+              { tabTitle: 'Saved', tabContent: <SavedEventsTab savedEvents={savedEventCards} /> },
             ]}
           />
         </div>
         <div className={styles.calendarContainer}>
           <Calendar
-            primaryHighlights={testPrimaryHighlights}
-            secondaryHighlights={testSecondaryHighlights}
+            primaryHighlights={registeredEventHighlights}
+            secondaryHighlights={savedEventHighlights}
             onDateChange={handleDateChange}
             className={styles.calendar}
           />

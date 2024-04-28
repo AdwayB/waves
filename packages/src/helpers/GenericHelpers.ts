@@ -49,7 +49,7 @@ const getCardData = (eventData: Event[], userData: User[]): CardProps[] => {
 };
 
 const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
-  const filteredEvents = eventData.filter((event) => date.utc().isSame(dayjs(event.EventStartDate), 'day'));
+  const filteredEvents = eventData.filter((event) => dayjs(event.EventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
     return [];
@@ -71,7 +71,7 @@ const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date:
 };
 
 const getSavedEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
-  const filteredEvents = eventData.filter((event) => date.utc().isSame(dayjs(event.EventStartDate), 'day'));
+  const filteredEvents = eventData.filter((event) => dayjs(event.EventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
     return [];
