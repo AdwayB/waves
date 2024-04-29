@@ -101,7 +101,9 @@ const Sidebar = () => {
       )}
       <div className={styles.logo} id={SidebarElement.HOME} onClick={handleClick}>
         {/* <span className={styles.logoText}>waves</span> */}
-        <Icon type="logo" />
+        <div className={selectedElement === SidebarElement.HOME ? styles.logoHover : styles.logoIcon}>
+          <Icon type="logo" />
+        </div>
       </div>
       <div className={styles.navContainer}>
         <div className={styles.navItem} id={SidebarElement.HOME} onClick={handleClick}>
