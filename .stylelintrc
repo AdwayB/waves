@@ -21,7 +21,7 @@
   "fix": true,
   "overrides": [
     {
-      "files": ["./packages/src/styles/colors.scss", "./packages/component-library/**/*.scss"],
+      "files": "./src/styles/colors.scss",
       "rules": {
         "color-no-invalid-hex": null,
         "color-no-hex": null,
@@ -32,7 +32,7 @@
       }
     },
     {
-      "files": "./packages/src/components/**/*.scss",
+      "files": "./src/components/**/*.scss",
       "rules": {
         "selector-class-pattern": null,
         "selector-pseudo-element-no-unknown": null,
@@ -40,7 +40,7 @@
       }
     },
     {
-      "files": "./packages/src/styles/global.scss",
+      "files": "./src/styles/global.scss",
       "rules": {
         "color-no-hex": null,
         "color-no-invalid-hex": null,
@@ -48,7 +48,7 @@
       }
     },
     {
-      "files": "./packages/src/styles/variables.scss",
+      "files": "./src/styles/variables.scss",
       "rules": {
         "scss/operator-no-unspaced": null
       }

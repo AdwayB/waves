@@ -7,10 +7,7 @@ require('webpack-dev-server');
 module.exports = merge(commonConfig, {
   watch: true,
   mode: 'development',
-  entry: [
-    path.resolve(__dirname, '../packages/src/index.tsx'),
-    path.resolve(__dirname, '../packages/component-library/index.ts'),
-  ],
+  entry: [path.resolve(__dirname, '../src/index.tsx')],
   cache: {
     type: 'filesystem',
     buildDependencies: {

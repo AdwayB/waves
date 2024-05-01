@@ -15,7 +15,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
-      favicon: path.resolve(__dirname, '../packages/src/assets/favicon.png'),
+      favicon: path.resolve(__dirname, '../src/assets/favicon.png'),
     }),
     new MiniCssExtractPlugin(),
   ],
@@ -85,10 +85,6 @@ module.exports = {
         generator: {
           filename: 'assets/[hash][ext][query]',
         },
-      },
-      {
-        test: /\.mdx?$/,
-        use: [{ loader: 'ts-loader' }, { loader: '@mdx-js/loader' }],
       },
     ],
   },

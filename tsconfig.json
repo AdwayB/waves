@@ -4,9 +4,6 @@
     "module": "ESNext",
     "lib": ["ES2015", "dom"],
     "jsx": "react-jsx",
-    "paths": {
-      "@waves/component-library/*": ["./packages/component-library/*"]
-    },
     "sourceMap": false,
     "strict": true,
     "moduleResolution": "node",
@@ -20,5 +17,5 @@
     "noImplicitThis": false,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./packages/**/*"]
+  "include": ["./src/**/*"]
 }
