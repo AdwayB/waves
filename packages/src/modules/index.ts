@@ -4,3 +4,4 @@ export * from './UserHome';
 export * from './BrowseEvents';
 export * from './SavedEvents';
 export * from './CalendarPage';
+export * from './MyEvents';
