@@ -1,8 +1,6 @@
 @import '../../styles/variables.scss';
 
 .button-wrapper {
-  height: inherit;
-  width: inherit;
   :global(.MuiButton-root) {
     outline: none;
     border: 0;

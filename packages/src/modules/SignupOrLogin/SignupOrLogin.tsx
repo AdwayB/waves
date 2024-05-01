@@ -22,10 +22,10 @@ const SignupOrLogin = () => {
         <pre className={styles.subText}>Please Sign Up or Log In to continue!</pre>
         <div className={styles.buttonContainer}>
           <div className={styles.buttonWrapper}>
-            <Button label="Sign Up" buttonType="primary" onClick={() => navigate('/signup')} />
+            <Button label="Sign Up" buttontype="primary" onClick={() => navigate('/signup')} />
           </div>
           <div className={styles.buttonWrapper}>
-            <Button label="Login" buttonType="secondary" onClick={() => navigate('/login')} />
+            <Button label="Login" buttontype="secondary" onClick={() => navigate('/login')} />
           </div>
         </div>
       </div>

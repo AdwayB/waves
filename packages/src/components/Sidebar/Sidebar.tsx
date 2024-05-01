@@ -57,12 +57,6 @@ const Sidebar = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log(selectedElement);
-    console.log('====================================');
-  }, [selectedElement]);
-
   const getClassName = () => {
     switch (collapsed) {
       case true:

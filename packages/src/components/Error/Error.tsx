@@ -18,7 +18,7 @@ const Error: FC<ErrorProps> = (props) => {
         <span className={styles.errorText}>{message ?? 'Page not found!'}</span>
         <Button
           label="Go Home"
-          buttonType="primary"
+          buttontype="primary"
           onClick={() => setTimeout(() => navigate('/'), 200)}
           className={styles.errorButton}
         />

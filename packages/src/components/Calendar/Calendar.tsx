@@ -70,7 +70,7 @@ const Calendar: FC<CalendarProps> = (props) => {
           </div>
           <div className={styles.calendarFooter}>
             <span className={styles.buttonWrapper}>
-              <Button label="Today" buttonType="secondary" onClick={handleClickToday} className={styles.todayButton} />
+              <Button label="Today" buttontype="secondary" onClick={handleClickToday} className={styles.todayButton} />
             </span>
           </div>
         </div>

@@ -185,11 +185,11 @@ const Login: FC = () => {
               <div className={styles.buttonContainer}>
                 <Button
                   label="Log In"
-                  buttonType="primary"
+                  buttontype="primary"
                   type="submit"
                   onClick={() => console.log('Log In button clicked.')}
                   disabled={passwordError || emailError}
-                  loading={isLoading}
+                  buttonloading={isLoading}
                 />
               </div>
             </form>

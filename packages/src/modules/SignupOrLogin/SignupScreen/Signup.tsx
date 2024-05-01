@@ -271,11 +271,11 @@ const Signup: FC = () => {
               <div className={styles.buttonContainer}>
                 <Button
                   label="Sign Up"
-                  buttonType="primary"
+                  buttontype="primary"
                   type="submit"
                   onClick={() => console.log('Sign Up button clicked.')}
                   disabled={passwordError || emailError}
-                  loading={isLoading}
+                  buttonloading={isLoading}
                 />
               </div>
             </form>
