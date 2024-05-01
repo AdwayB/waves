@@ -1,1 +1,32 @@
 @import '../../styles/variables.scss';
+
+.my-events-container {
+  color: $white;
+
+  .my-events-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    text-wrap: balance;
+    white-space: wrap;
+    padding: 2rem;
+
+    .my-events-heading {
+      font: $heading-font;
+      padding-bottom: 0.3rem;
+    }
+
+    .my-events-text {
+      font: $tall-text-font;
+      color: $light-white;
+    }
+  }
+
+  .my-events-table {
+    height: 60vh;
+    min-height: 50vh;
+  }
+}

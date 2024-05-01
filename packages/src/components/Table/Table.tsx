@@ -17,7 +17,7 @@ import { Search } from '../Search';
 import { useDebounce } from '../../hooks';
 import { Menu, MenuProps } from '../Menu';
 
-interface Column {
+interface ColumnType {
   id: number;
   title: string;
   name: string;
@@ -25,7 +25,7 @@ interface Column {
 
 interface TableProps {
   title?: string;
-  columns: Column[];
+  columns: ColumnType[];
   rows: Array<Record<string, string | number | boolean>>;
   rowsPerPage?: number;
   headerAlign?: 'left' | 'center' | 'right';
@@ -33,7 +33,7 @@ interface TableProps {
   showActions?: boolean;
   menuProps?: MenuProps;
   isLoading?: boolean;
-  friendlyScreenMessage?: boolean;
+  friendlyScreenMessage?: string;
   friendlyScreenHeight?: string;
 }
 
@@ -262,4 +262,4 @@ const Table: FC<TableProps> = (props) => {
 }
 
 export { TableSet, TableFriendlyScreen, TableLoader, Table };
-export type { Column, TableProps, Order };
+export type { ColumnType, TableProps, Order };
