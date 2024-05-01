@@ -43,6 +43,15 @@ interface DatePickerProps {
   className?: string;
 }
 
+/**
+ * A highly versatile DatePicker component.
+ * Can be used as a field, picker, or calendar.
+ *
+ * @param type - The type of DatePicker. Can be picker, field, or calendar.
+ * @param views - Can allow user to select any combination of day, month and year.
+ *
+ * @param {DatePickerProps} props - The props for configuring the DatePicker.
+ */
 const DatePicker: FC<DatePickerProps> = (props) => {
   const {
     type = 'picker',

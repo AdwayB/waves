@@ -18,6 +18,12 @@ interface EventFilterProps {
   className?: string;
 }
 
+/**
+ * The EventFilter component is used to filter events by date, distance, and genre.
+ * It uses DatePicker, Select, and Slider Components.
+ *
+ * @param {EventFilterProps} props - The props for configuring the EventFilter.
+ */
 const EventFilter: FC<EventFilterProps> = (props) => {
   const { onFilterChange, genres, className } = props;
   const [genreArray, setGenreArray] = useState<string[]>(genres ?? []);

@@ -15,6 +15,12 @@ interface MenuProps {
   items: MenuItem[];
 }
 
+/**
+ * A styled Menu component.
+ * Has primary and secondary themes with and without dividers.
+ *
+ * @param {MenuProps} props - The props for configuring the Menu.
+ */
 const Menu: FC<MenuProps> = (props) => {
   const { type = 'primary', items } = props;
 
@@ -63,6 +69,7 @@ const Menu: FC<MenuProps> = (props) => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClick = (popupState: any, onClick?: () => void) => {
     return () => {
       if (onClick) {

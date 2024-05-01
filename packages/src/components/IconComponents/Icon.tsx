@@ -111,6 +111,12 @@ const Star = () => {
   );
 };
 
+/**
+ * An icon component.
+ * Can display success, warning, danger, waves logo, and star icons.
+ *
+ * @param {IconProps} props - The props for configuring the Icon.
+ */
 const Icon: FC<IconProps> = (props) => {
   const { type } = props;
   switch (type) {

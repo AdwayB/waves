@@ -26,6 +26,11 @@ const sortObjectMap = {
   'Rating Descending': 'rating-desc',
 };
 
+/**
+ * A custom sort component that allows for sorting based on name, artist or rating
+ *
+ * @param {SortByFilterProps} props - The props for the SortByFilter component.
+ */
 const Sort: FC<SortByFilterProps> = (props) => {
   const { onSortChange } = props;
   const [method, setMethod] = useState<SortLabels>('Date Ascending');

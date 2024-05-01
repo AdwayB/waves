@@ -25,6 +25,9 @@ enum SidebarElement {
   MY_PROFILE = 'my-profile',
 }
 
+/**
+ * The application Sidebar menu.
+ */
 const Sidebar = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState<boolean>(false);

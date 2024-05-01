@@ -17,6 +17,12 @@ interface SliderProps {
   className?: string;
 }
 
+/**
+ * A Slider component.
+ * Can have custom step length or default to markers when null.
+ *
+ * @param {SliderProps} props - The props for the slider component.
+ */
 const Slider: FC<SliderProps> = (props) => {
   const {
     label,

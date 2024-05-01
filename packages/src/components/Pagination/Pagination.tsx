@@ -10,6 +10,11 @@ interface PaginationProps {
   disabled?: boolean;
 }
 
+/**
+ * A themed pagination component.
+ *
+ * @param props - The props for the Pagination component.
+ */
 const Pagination: FC<PaginationProps> = (props) => {
   const { count, page, onChange, className, disabled = false } = props;
 

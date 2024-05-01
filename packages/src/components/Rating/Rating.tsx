@@ -10,6 +10,12 @@ interface RatingProps {
   className?: string;
 }
 
+/**
+ * A Rating component.
+ * Has precision adjustment.
+ *
+ * @param {RatingProps} props - The props for the rating component.
+ */
 const Rating: FC<RatingProps> = (props) => {
   const { precision, value = 0, onChange, readonly = true, className } = props;
 

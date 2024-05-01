@@ -10,6 +10,11 @@ interface PaginatedCardsProps {
   onPageChange: (event: ChangeEvent<unknown>, value: number) => void;
 }
 
+/**
+ * A component that displays a paginated list of cards with a static background.
+ *
+ * @param {PaginatedCardsProps} props - The props for the Paginated Cards component.
+ */
 const PaginatedCards: FC<PaginatedCardsProps> = (props) => {
   const { data, page = 1, pageCount = 10, onPageChange } = props;
 

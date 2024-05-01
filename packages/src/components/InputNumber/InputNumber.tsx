@@ -19,6 +19,12 @@ interface InputNumberProps {
   className?: string;
 }
 
+/**
+ * An InputNumber component.
+ * Can have prefix or suffix text.
+ *
+ * @param {InputNumberProps} props - The props for configuring the InputNumber component.
+ */
 const InputNumber: FC<InputNumberProps> = (props) => {
   const {
     type = 'primary',

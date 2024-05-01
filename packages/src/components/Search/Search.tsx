@@ -10,6 +10,11 @@ interface SearchProps {
   className?: string;
 }
 
+/**
+ * A Search field component.
+ *
+ * @param {SearchProps} props - The props for the Search component.
+ */
 const Search: FC<SearchProps> = (props) => {
   const { placeholder = 'Search', value, onChange, className } = props;
 

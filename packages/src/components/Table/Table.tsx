@@ -208,6 +208,19 @@ const TableLoader: FC = () => {
   );
 };
 
+/**
+ * A highly versatile themed table component.
+ *
+ * @param title - The title of the table.
+ * @param columns - The columns of the table.
+ * @param rows - The rows of the table. Not type-checked, maps to the column names.
+ * @param isLoading - Loader for when the table is loading data.
+ * @param friendlyScreenMessage - Message to display when the table has no data.
+ * @param friendlyScreenHeight - Height of the friendly screen.
+ *
+ *
+ * @param props - The props for the Table component.
+ */
 const Table: FC<TableProps> = (props) => {
   const { isLoading = false } = props;
 

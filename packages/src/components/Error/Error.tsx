@@ -5,11 +5,19 @@ import { useNavigate } from 'react-router-dom';
 
 interface ErrorProps {
   message?: string;
+  navigateTo?: string;
 }
 
+/**
+ * A custom Error page with customizable message and CTA button.
+ *
+ * @param navigateTo - The URL to navigate to on CTA click.
+ *
+ * @param {ErrorProps} props - The props for configuring the Error Page.
+ */
 const Error: FC<ErrorProps> = (props) => {
+  const { message, navigateTo = '/' } = props;
   const navigate = useNavigate();
-  const { message } = props;
 
   return (
     <div className={styles.errorContainer}>
@@ -19,7 +27,7 @@ const Error: FC<ErrorProps> = (props) => {
         <Button
           label="Go Home"
           buttontype="primary"
-          onClick={() => setTimeout(() => navigate('/'), 200)}
+          onClick={() => setTimeout(() => navigate(navigateTo), 200)}
           className={styles.errorButton}
         />
       </div>

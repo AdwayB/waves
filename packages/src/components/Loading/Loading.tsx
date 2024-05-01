@@ -6,6 +6,10 @@ interface LoadingProps {
   loading?: boolean;
 }
 
+/**
+ * A loading component.
+ * @param {LoadingProps} props - The props for the component.
+ */
 const Loading: FC<LoadingProps> = (props) => {
   const { loading = true } = props;
 

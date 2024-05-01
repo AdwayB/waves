@@ -9,6 +9,11 @@ interface SwitchProps extends MSwitchProps {
   className?: string;
 }
 
+/**
+ * A Switch component.
+ *
+ * @param {SwitchProps} props - The props for the Switch component.
+ */
 const Switch: FC<SwitchProps> = (props) => {
   const { type = 'primary', label, labelAlign = 'end', className } = props;
 

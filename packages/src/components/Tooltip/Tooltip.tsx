@@ -10,6 +10,12 @@ interface TooltipProps {
   children: ReactElement;
 }
 
+/**
+ * A custom tooltip component.
+ * Can follow the cursor over the wrapped element.
+ *
+ * @param {TooltipProps} props - The props for the tooltip component.
+ */
 const Tooltip: FC<TooltipProps> = (props) => {
   const { text = '', placement = 'top', followCursor = false, style = {}, children } = props;
 

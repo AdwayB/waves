@@ -18,6 +18,13 @@ interface RadioProps {
   className?: string;
 }
 
+/**
+ * A Radio group component.
+ * Can be grouped vertically or horizontally.
+ * Has primary and secondary themes.
+ *
+ * @param {RadioProps} props - The props for the radio component.
+ */
 const Radio: FC<RadioProps> = (props) => {
   const { items, name, value, onChange, defaultValue, direction, className } = props;
   return (

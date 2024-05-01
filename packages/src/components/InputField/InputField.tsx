@@ -23,6 +23,13 @@ interface InputFieldProps {
   className?: string;
 }
 
+/**
+ * An InputField component.
+ * Can be of text or password types.
+ * Can also be used as a search field with no outline.
+ *
+ * @param {InputFieldProps} props - The props for configuring the InputField.
+ */
 const InputField: FC<InputFieldProps> = (props) => {
   const {
     style = 'primary',

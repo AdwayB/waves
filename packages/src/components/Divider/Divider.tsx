@@ -9,6 +9,13 @@ interface DividerProps {
   className?: string;
 }
 
+/**
+ * A styled Divider component.
+ * Has primary and secondary themes and horizontal and vertical alignments.
+ * Can have a full width or centre aligned middle width variant.
+ *
+ * @param {DividerProps} props - The props for configuring the Divider.
+ */
 const Divider: FC<DividerProps> = (props) => {
   const { type = 'primary', alignment = 'horizontal', variant = 'fullWidth', className } = props;
   return (

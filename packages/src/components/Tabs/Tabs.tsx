@@ -28,6 +28,13 @@ const TabPanel: FC<TabPanelProps> = (props) => {
   );
 };
 
+/**
+ * A themed Tabs component.
+ *
+ * @param tabs - Takes an array of tab titles and content.
+ *
+ * @param {TabsProps} props - The props for the Tabs component.
+ */
 const Tabs: FC<TabsProps> = (props) => {
   const { tabs } = props;
   const theme = useTheme();

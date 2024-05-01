@@ -14,6 +14,12 @@ interface EventCardProps {
   className?: string;
 }
 
+/**
+ * A styled card for the Calendar page.
+ * Can be used as a primary or secondary card.
+ *
+ * @param {EventCardProps} props - The props for configuring the EventCard.
+ */
 const EventCard: FC<EventCardProps> = (props) => {
   const { eventId, title, artist, startDate, endDate, type = 'primary', className } = props;
   const ref = useRef<HTMLDivElement>(null);
