@@ -11,12 +11,33 @@ interface CalendarProps {
   rootDate?: Dayjs | null;
   primaryHighlights?: DateHighlight[];
   secondaryHighlights?: DateHighlight[];
+  primaryHighlightColor?: string;
+  secondaryHighlightColor?: string;
   onDateChange?: (date: Dayjs) => void;
   className?: string;
 }
 
+/**
+ * A Calendar component that displays a monthly view with navigation between months and years.
+ * Supports highlighting specific dates in two themes with customizable highlight color.
+ * Supports date selection with onDateChange callback.
+ * Can have custom root date.
+ *
+ * @param {onDateChange} onDateChange - The callback function to handle date selection.
+ *
+ * @param {CalendarProps} props - The properties for configuring the Calendar component.
+ */
+
 const Calendar: FC<CalendarProps> = (props) => {
-  const { rootDate, primaryHighlights, secondaryHighlights, onDateChange, className } = props;
+  const {
+    rootDate,
+    primaryHighlights,
+    secondaryHighlights,
+    primaryHighlightColor,
+    secondaryHighlightColor,
+    onDateChange,
+    className,
+  } = props;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(rootDate ? dayjs(rootDate) : dayjs());
   const [currentDate, setCurrentDate] = useState<Dayjs>(rootDate ? dayjs(rootDate) : dayjs());
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -63,6 +84,8 @@ const Calendar: FC<CalendarProps> = (props) => {
                   selectedDate={selectedDate}
                   primaryHighlights={primaryHighlights}
                   secondaryHighlights={secondaryHighlights}
+                  primaryHighlightColor={primaryHighlightColor}
+                  secondaryHighlightColor={secondaryHighlightColor}
                   onDateChange={handleDateChange}
                 />
               </div>

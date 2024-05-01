@@ -13,6 +13,13 @@ interface ChipProps {
   className?: string;
 }
 
+/**
+ * A Chip component.
+ * Can display an Avatar Component.
+ * Has filled and outlined styles and primary and secondary themes.
+ *
+ * @param {ChipProps} props - The props for configuring the Chip.
+ */
 const Chip: FC<ChipProps> = (props) => {
   const {
     type = 'primary',

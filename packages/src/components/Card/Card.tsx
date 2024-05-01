@@ -77,6 +77,16 @@ const getBackground = (fixedGradient: boolean, gradientType: GradientType, stati
   }
 };
 
+/**
+ * Card component for displaying event data.
+ * Supports comprehensive styling with automatically generated gradients.
+ *
+ * @param fixedGradient - To limit colorspace to application theme. Defaults to false.
+ * @param gradientType - Gradient type. Defaults to 'linear'.
+ * @param staticBackground - To use static background gradient. Defaults to false.
+ *
+ * @param {CardProps} props - The props for configuring the Card.
+ */
 const Card: FC<CardProps> = (props) => {
   const {
     eventId,

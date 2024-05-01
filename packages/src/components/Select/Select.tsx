@@ -12,6 +12,7 @@ interface SelectOptionProps {
 interface SelectProps {
   value?: string[];
   onChange?: (event: unknown, child?: ReactNode) => void;
+  onChipDelete?: (value: string) => void;
   options: SelectOptionProps[];
   label?: ReactNode;
   multiple?: boolean;
@@ -21,8 +22,15 @@ interface SelectProps {
   renderValue?: (value: unknown) => ReactNode;
 }
 
+/**
+ * A select component.
+ * Can display selected text as Chip components.
+ * Allows multiple selections if multiple is set to true.
+ *
+ * @param {SelectProps} props - The props for configuring the Select component.
+ */
 const Select: FC<SelectProps> = (props) => {
-  const { value, onChange, multiple, renderValue, options, label, style, className } = props;
+  const { value, onChange, onChipDelete, multiple, renderValue, options, label, style, className } = props;
 
   const getRenderValue = () => {
     if (!!renderValue) {
@@ -31,7 +39,9 @@ const Select: FC<SelectProps> = (props) => {
       // eslint-disable-next-line react/display-name
       return (selected: string[]) => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {selected?.map((value: string) => <Chip key={value} label={value} />)}
+          {selected?.map((value: string) => (
+            <Chip key={value} label={value} onDelete={() => onChipDelete && onChipDelete(value)} />
+          ))}
         </Box>
       );
     }

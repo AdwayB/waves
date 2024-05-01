@@ -9,6 +9,13 @@ interface BadgeProps extends Omit<MBadgeProps, 'content' | 'color'> {
   children: ReactNode;
 }
 
+/**
+ * A badge component..
+ * Can have a standard, primary, secondary, success, error, warning, light, or dark theme.
+ * Can have a circular or rounded rectangular shape.
+ *
+ * @param {BadgeProps} props - The props for configuring the Badge.
+ */
 const Badge: FC<BadgeProps> = (props) => {
   const { content, type, max, showZero, variant = 'dot', className, children } = props;
   return (
@@ -19,6 +26,7 @@ const Badge: FC<BadgeProps> = (props) => {
       }}
       showZero={showZero}
       badgeContent={content}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       color={type as any}
       max={max}
       variant={variant}

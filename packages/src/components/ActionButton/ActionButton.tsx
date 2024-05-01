@@ -13,6 +13,12 @@ interface ActionButtonProps {
   customIconHoverColor?: string;
 }
 
+/**
+ * A floating action button component.
+ * Has primary and secondary types, and can be circular or extended button.
+ *
+ * @param {ActionButtonProps} props - The props for configuring the ActionButton.
+ */
 const ActionButton: FC<ActionButtonProps> = (props) => {
   const {
     children,

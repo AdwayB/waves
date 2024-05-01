@@ -10,6 +10,14 @@ interface ButtonProps extends Omit<MButtonProps, 'style'> {
   buttonloading?: boolean;
 }
 
+/**
+ * A button component.
+ * Can show a loading state.
+ * Has primary, secondary themes.
+ * Can be default or underlined text button.
+ *
+ * @param {ButtonProps} props - The props for configuring the Button.
+ */
 const Button: FC<ButtonProps> = (props) => {
   const {
     variant = 'contained',

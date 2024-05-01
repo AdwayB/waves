@@ -9,6 +9,12 @@ interface AlertProps extends MAlertProps {
   children: ReactNode;
 }
 
+/**
+ * A floating alert component.
+ * Has themes for info, warning, error, and success.
+ *
+ * @param {AlertProps} props - The props for configuring the ActionButton.
+ */
 const Alert: FC<AlertProps> = (props) => {
   const { visible, severity = 'info', variant = 'outlined', onClose = () => {}, className, children } = props;
 

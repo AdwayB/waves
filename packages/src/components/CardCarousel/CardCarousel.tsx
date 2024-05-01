@@ -12,6 +12,14 @@ interface CardCarouselProps {
   circular?: boolean;
 }
 
+/**
+ * CardCarousel component for displaying a series of cards in a carousel.
+ * Supports comprehensive styling with Card components.
+ * Can be a circular list.
+ * Has a larger center card by default, can be made uniform in size.
+ *
+ * @param {CardCarouselProps} props - The props for configuring the CardCarousel.
+ */
 const CardCarousel: FC<CardCarouselProps> = (props) => {
   const { items, uniformSize = false, fixedGradient = false, gradientType = 'linear', circular = true } = props;
   const [startIndex, setStartIndex] = useState<number>(0);

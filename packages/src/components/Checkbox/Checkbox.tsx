@@ -15,6 +15,12 @@ interface CheckboxProps {
   className?: string;
 }
 
+/**
+ * A checkbox group component.
+ * Has primary and secondary themes.
+ *
+ * @param {CheckboxProps} props - The props for configuring the Checkbox.
+ */
 const Checkbox: FC<CheckboxProps> = (props) => {
   const { groupLabel, items, direction = 'column', className } = props;
 
