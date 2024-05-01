@@ -23,15 +23,20 @@ interface ColumnType {
   name: string;
 }
 
+type RowType = Array<Record<string, string | number>>;
+
 interface TableProps {
   title?: string;
   columns: ColumnType[];
-  rows: Array<Record<string, string | number | boolean>>;
+  rows: RowType;
   rowsPerPage?: number;
   headerAlign?: 'left' | 'center' | 'right';
   rowAlign?: 'left' | 'center' | 'right';
   showActions?: boolean;
-  menuProps?: MenuProps;
+  customMenu?: MenuProps;
+  handleViewClick?: (id?: string | number) => void;
+  handleEditClick?: (id?: string | number) => void;
+  handleDeleteClick?: (id?: string | number) => void;
   isLoading?: boolean;
   friendlyScreenMessage?: string;
   friendlyScreenHeight?: string;
@@ -51,28 +56,10 @@ const TableSet: FC<TableProps> = (props) => {
     rowsPerPage = 10,
     headerAlign = 'center',
     rowAlign = 'right',
-    menuProps = {
-      items: [
-        {
-          label: 'View',
-          onClick: (id?: string | number) => {
-            console.log(`View ${id}`);
-          },
-        },
-        {
-          label: 'Edit',
-          onClick: (id?: string | number) => {
-            console.log(`Edit ${id}`);
-          },
-        },
-        {
-          label: 'Delete',
-          onClick: (id?: string | number) => {
-            console.log(`Delete ${id}`);
-          },
-        },
-      ],
-    },
+    customMenu,
+    handleViewClick,
+    handleEditClick,
+    handleDeleteClick,
   } = props;
 
   const [searchWord, setSearchWord] = useState<string>('');
@@ -157,7 +144,17 @@ const TableSet: FC<TableProps> = (props) => {
                 ))}
                 {showActions && (
                   <TableCell align={rowAlign}>
-                    <Menu {...menuProps} />
+                    {customMenu ? (
+                      <Menu {...customMenu} />
+                    ) : (
+                      <Menu
+                        items={[
+                          { label: 'View', onClick: () => handleViewClick && handleViewClick(row.id) },
+                          { label: 'Edit', onClick: () => handleEditClick && handleEditClick(row.id) },
+                          { label: 'Delete', onClick: () => handleDeleteClick && handleDeleteClick(row.id) },
+                        ]}
+                      />
+                    )}
                   </TableCell>
                 )}
               </TableRow>
@@ -262,4 +259,4 @@ const Table: FC<TableProps> = (props) => {
 }
 
 export { TableSet, TableFriendlyScreen, TableLoader, Table };
-export type { ColumnType, TableProps, Order };
+export type { ColumnType, RowType, TableProps, Order };

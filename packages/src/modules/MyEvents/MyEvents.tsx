@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import styles from './myEvents.module.scss';
-import { Button, ColumnType, Table } from '../../components';
+import { Button, ColumnType, RowType, Table } from '../../components';
 import { EventTestData } from '../../helpers';
 import dayjs from 'dayjs';
 
@@ -36,6 +36,7 @@ const MyEvents: FC = () => {
   const MyEventsTableRows: MyEventsColumnNames[] = userEvents
     .sort((a, b) => (dayjs(a.EventStartDate).utc().isBefore(dayjs(b.EventStartDate).utc(), 'day') ? -1 : 1))
     .map((event) => ({
+      id: event.EventId,
       name: event.EventName,
       genres: event.EventGenres.join(', '),
       totalSeats: event.EventTotalSeats,
@@ -81,7 +82,10 @@ const MyEvents: FC = () => {
           rowsPerPage={6}
           friendlyScreenMessage="No events created yet!"
           columns={MyEventsTableColumns}
-          rows={MyEventsTableRows as Record<string, string | number | boolean>[]}
+          rows={MyEventsTableRows as RowType}
+          handleViewClick={(id) => console.log('View id ' + id)}
+          handleEditClick={(id) => console.log('Edit id ' + id)}
+          handleDeleteClick={(id) => console.log('Delete id ' + id)}
         />
       </div>
     </div>
