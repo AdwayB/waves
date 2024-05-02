@@ -5,4 +5,15 @@ interface DateHighlight {
   count: number;
 }
 
-export type { DateHighlight };
+interface UserData {
+  userId?: string;
+  userName: string;
+  userPassword?: string;
+  legalName: string;
+  email: string;
+  mobileNumber: string;
+  countryCode?: string;
+  type?: string;
+}
+
+export type { DateHighlight, UserData };
