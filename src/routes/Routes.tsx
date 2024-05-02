@@ -1,17 +1,24 @@
+import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { SignupOrLogin, Signup, Login, Layout } from '../modules';
-import { Error } from '../components';
+import { Error, Loading } from '../components';
+
+const SignupOrLogin = lazy(() => import('../modules').then((m) => ({ default: m.SignupOrLogin })));
+const Signup = lazy(() => import('../modules').then((m) => ({ default: m.Signup })));
+const Login = lazy(() => import('../modules').then((m) => ({ default: m.Login })));
+const Layout = lazy(() => import('../modules').then((m) => ({ default: m.Layout })));
 
 const AppRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<SignupOrLogin />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/user/*" element={<Layout />} />
-      <Route path="/error" element={<Error message="Page not found" />} />
-      <Route path="*" element={<Error message="Page not found" />} />
-    </Routes>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<SignupOrLogin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/user/*" element={<Layout />} />
+        <Route path="/error" element={<Error message="Page not found" />} />
+        <Route path="*" element={<Error message="Page not found" />} />
+      </Routes>
+    </Suspense>
   );
 };
 
