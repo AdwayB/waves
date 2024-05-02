@@ -143,7 +143,13 @@ const Sidebar = () => {
           <span className={styles.navText}>My Events</span>
         </div>
       </div>
-      <div className={styles.avatarContainer} id={SidebarElement.MY_PROFILE} onClick={handleClick}>
+      <div
+        className={
+          selectedElement === SidebarElement.MY_PROFILE ? styles.selectedAvatarContainer : styles.avatarContainer
+        }
+        id={SidebarElement.MY_PROFILE}
+        onClick={handleClick}
+      >
         <Avatar name={'Test User'}>Test User</Avatar>
         <span className={styles.avatarLabel}>Test User</span>
       </div>
