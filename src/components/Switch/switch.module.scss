@@ -6,10 +6,13 @@
 
 .primary {
   :global(.MuiSwitch-switchBase) {
-    color: $waves-dark-violet !important;
+    color: $input-field-color !important;
   }
   :global(.MuiSwitch-track) {
-    background-color: $waves-med-violet !important;
+    background-color: $menu-bg-secondary !important;
+  }
+  :global(.MuiTypography-root) {
+    color: $input-field-color !important;
   }
 }
 

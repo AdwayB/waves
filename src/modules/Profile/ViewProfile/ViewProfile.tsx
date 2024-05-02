@@ -1,52 +1,43 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import styles from './viewProfile.module.scss';
 import { InputField } from '../../../components';
-import { UserType } from '../../SignupOrLogin/dataModels';
 import { UserData } from '../../../helpers';
 
-const ViewProfile: FC = () => {
-  const [firstLoad, setFirstLoad] = useState<boolean>(true);
-  const [formFields, setFormFields] = useState<UserData>({
-    userName: '',
-    legalName: '',
-    email: '',
-    userPassword: '',
-    mobileNumber: '',
-    type: UserType.User,
-  });
+interface ViewProfileProps {
+  userData: UserData;
+}
 
-  useEffect(() => {
-    if (firstLoad) {
-      setFirstLoad(false);
-      setFormFields({
-        userName: 'Test User',
-        legalName: 'Test User',
-        email: 'testUser@gmail',
-        userPassword: 'Test@123',
-        mobileNumber: '1234567890',
-        type: UserType.User,
-      });
-    }
-  }, [firstLoad]);
+const ViewProfile: FC<ViewProfileProps> = (props) => {
+  const { userData } = props;
 
   return (
     <div className={styles.viewProfileContainer}>
+      <span className={styles.heading}>View Profile</span>
       <div className={styles.inputFieldContainer}>
-        <InputField type="text" label="Username" id="userName" value={formFields.userName} />
+        <InputField type="text" label="Username" id="userName" value={userData.userName} readOnly />
       </div>
       <div className={styles.inputFieldContainer}>
-        <InputField type="text" label="First Name" id="firstName" value={formFields.legalName.split(' ')[0]} />
+        <InputField type="text" label="First Name" id="firstName" value={userData.legalName.split(' ')[0]} readOnly />
       </div>
       <div className={styles.inputFieldContainer}>
-        <InputField type="text" label="Enter Last Name" id="lastName" value={formFields.legalName.split(' ')[0]} />
+        <InputField
+          type="text"
+          label="Last Name"
+          id="lastName"
+          value={userData.legalName.split(' ').at(-1)!}
+          readOnly
+        />
       </div>
       <div className={styles.inputFieldContainer}>
-        <InputField type="text" label="Enter GMail ID" id="email" value={formFields.email} />
+        <InputField type="text" label="GMail ID" id="email" value={userData.email} readOnly />
       </div>
       <div className={styles.inputFieldContainer}>
-        <InputField type="text" label="Enter Phone Number" id="mobileNumber" value={formFields.mobileNumber} />
+        <InputField type="text" label="Phone Number" id="mobileNumber" value={userData.mobileNumber} readOnly />
       </div>
-      <div className={styles.userTypeContainer}>{formFields.type}</div>
+      <div className={styles.userTypeContainer}>
+        <span className={styles.userTypeTitle}>Account Type:&nbsp;</span>
+        <span className={styles.userTypeText}>{userData.type}</span>
+      </div>
     </div>
   );
 };

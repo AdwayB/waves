@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import styles from './calendar.module.scss';
 import { getCalendarDays } from './helpers';
@@ -102,5 +102,6 @@ const Calendar: FC<CalendarProps> = (props) => {
   );
 };
 
+memo(Calendar);
 export { Calendar };
 export type { CalendarProps };

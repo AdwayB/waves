@@ -4,7 +4,13 @@ import { Alert, Button, Checkbox, InputField, Switch } from '../../../components
 import { UserType } from '../../SignupOrLogin/dataModels';
 import { UserData } from '../../../helpers';
 
-const EditProfileForm: FC = () => {
+interface EditProfileFormProps {
+  userData: UserData;
+  onSubmit: (data: UserData) => void;
+}
+
+const EditProfileForm: FC<EditProfileFormProps> = (props) => {
+  const { userData, onSubmit } = props;
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -15,14 +21,7 @@ const EditProfileForm: FC = () => {
   const [recheckPassword, setRecheckPassword] = useState<string>('');
   const [admin, setAdmin] = useState<boolean>(false);
   const [formSubmissionError, setFormSubmissionError] = useState<boolean>(false);
-  const [formFields, setFormFields] = useState<UserData>({
-    userName: '',
-    legalName: '',
-    email: '',
-    userPassword: '',
-    mobileNumber: '',
-    type: UserType.User,
-  });
+  const [formFields, setFormFields] = useState<UserData>(userData);
 
   const getUserName = (firstName: string, lastName: string) => {
     var userName = `${firstName.toLowerCase()}${lastName[0].toUpperCase()}${lastName.slice(1)}${Math.floor(Math.random() * 1000)}`;
@@ -127,7 +126,7 @@ const EditProfileForm: FC = () => {
       return false;
     }
     try {
-      // mutate(formFields);
+      onSubmit(formFields);
     } catch (err) {
       setFormSubmissionError(true);
       console.log('Error while submitting the form' + err);
@@ -140,116 +139,120 @@ const EditProfileForm: FC = () => {
   return (
     <>
       <Alert visible={formSubmissionError} severity="error" onClose={() => setFormSubmissionError(false)}>
-        An error occurred while submitting the form.
+        An error occurred while submitting the form. Please refresh and try again.
       </Alert>
-      <form className={styles.signupForm} id="signupForm" ref={form} onSubmit={handleSubmit}>
-        <div className={styles.inputFieldContainer}>
-          <InputField
-            type="text"
-            label="Enter First Name"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
+      <div className={styles.editProfileContainer}>
+        <div className={styles.editFormHeading}>Edit Profile</div>
+        <form className={styles.editForm} id="editForm" ref={form} onSubmit={handleSubmit}>
+          <div className={styles.inputFieldContainer}>
+            <InputField
+              type="text"
+              label="Enter First Name"
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.inputFieldContainer}>
+            <InputField
+              type="text"
+              label="Enter Last Name"
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.inputFieldContainer}>
+            <InputField
+              type="text"
+              label="Enter GMail ID"
+              id="email"
+              value={formFields.email}
+              onChange={handleFieldChange}
+              error={emailError}
+              helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
+              required
+            />
+          </div>
+          <div className={styles.inputFieldContainer}>
+            <InputField
+              type="text"
+              label="Enter Phone Number"
+              id="mobileNumber"
+              value={formFields.mobileNumber}
+              onChange={handleFieldChange}
+              required
+              error={mobileNumberError}
+              helperText={
+                mobileNumberError
+                  ? 'The mobile number must begin with a dial code followed by a valid mobile number. Ex: +919876543210'
+                  : ' '
+              }
+            />
+          </div>
+          <Switch label="Edit Password" checked={passwordEdit} onChange={() => setPasswordEdit(!passwordEdit)} />
+          {passwordEdit && (
+            <>
+              <div className={styles.inputFieldContainer}>
+                <InputField
+                  type="password"
+                  label="Enter Password"
+                  id="userPassword"
+                  value={formFields.userPassword ?? ''}
+                  onChange={handleFieldChange}
+                  error={passwordError}
+                  helperText={
+                    passwordError
+                      ? 'Password must contain between 8 and 120 characters, with at least one uppercase character, one lowercase character and one number.'
+                      : ' '
+                  }
+                  required
+                />
+              </div>
+              <div className={styles.inputFieldContainer}>
+                <InputField
+                  type="password"
+                  label="Re-Enter Password"
+                  id=""
+                  value={recheckPassword}
+                  onChange={handleRecheckPasswordChange}
+                  error={recheckPasswordError}
+                  helperText={recheckPasswordError ? 'Passwords do not match.' : ' '}
+                  required
+                />
+              </div>
+            </>
+          )}
+          <Checkbox
+            groupLabel="Modify User Type"
+            direction="column"
+            items={[
+              {
+                label: UserType.Admin,
+                checked: formFields.type === UserType.Admin,
+                onClick: () => handleUserTypeChange(true),
+              },
+              {
+                label: UserType.User,
+                checked: formFields.type === UserType.User,
+                onClick: () => handleUserTypeChange(false),
+              },
+            ]}
+            className={styles.checkbox}
           />
-        </div>
-        <div className={styles.inputFieldContainer}>
-          <InputField
-            type="text"
-            label="Enter Last Name"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </div>
-        <div className={styles.inputFieldContainer}>
-          <InputField
-            type="text"
-            label="Enter GMail ID"
-            id="email"
-            value={formFields.email}
-            onChange={handleFieldChange}
-            error={emailError}
-            helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
-            required
-          />
-        </div>
-        <div className={styles.inputFieldContainer}>
-          <InputField
-            type="text"
-            label="Enter Phone Number"
-            id="mobileNumber"
-            value={formFields.mobileNumber}
-            onChange={handleFieldChange}
-            required
-            error={mobileNumberError}
-            helperText={
-              mobileNumberError
-                ? 'The mobile number must begin with a dial code followed by a valid mobile number. Ex: +919876543210'
-                : ' '
-            }
-          />
-        </div>
-        <Switch label="Edit Password" checked={admin} onChange={() => setPasswordEdit(!passwordEdit)} />
-        {passwordEdit && (
-          <>
-            <div className={styles.inputFieldContainer}>
-              <InputField
-                type="password"
-                label="Enter Password"
-                id="userPassword"
-                value={formFields.userPassword ?? ''}
-                onChange={handleFieldChange}
-                error={passwordError}
-                helperText={
-                  passwordError
-                    ? 'Password must contain between 8 and 120 characters, with at least one uppercase character, one lowercase character and one number.'
-                    : ' '
-                }
-                required
-              />
-            </div>
-            <div className={styles.inputFieldContainer}>
-              <InputField
-                type="password"
-                label="Re-Enter Password"
-                id=""
-                value={recheckPassword}
-                onChange={handleRecheckPasswordChange}
-                error={recheckPasswordError}
-                helperText={recheckPasswordError ? 'Passwords do not match.' : ' '}
-                required
-              />
-            </div>
-          </>
-        )}
-        <Checkbox
-          groupLabel="Modify User Type"
-          direction="column"
-          items={[
-            {
-              label: UserType.Admin,
-              onClick: () => handleUserTypeChange(true),
-            },
-            {
-              label: UserType.User,
-              onClick: () => handleUserTypeChange(false),
-            },
-          ]}
-          className={styles.checkbox}
-        />
-        <div className={styles.buttonContainer}>
           <Button
-            label="Sign Up"
+            label="Save Changes"
             buttontype="primary"
             type="submit"
             onClick={() => console.log('Profile Details Updated.')}
             disabled={passwordError || emailError}
+            className={styles.button}
             // buttonloading={isLoading}
           />
-        </div>
-      </form>
+        </form>
+      </div>
     </>
   );
 };

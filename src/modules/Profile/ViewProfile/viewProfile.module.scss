@@ -1,1 +1,40 @@
 @import '../../../styles/variables.scss';
+
+.view-profile-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  .heading {
+    font: $heading-font;
+    color: $white;
+    margin-bottom: 3rem;
+  }
+
+  .input-field-container,
+  .user-type-container {
+    width: 25rem;
+  }
+
+  .user-type-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .user-type-title {
+      font: $tall-text-font;
+      color: $input-field-color;
+    }
+
+    .user-type-text {
+      font: $normal-text-font;
+      color: $input-field-color;
+    }
+  }
+}

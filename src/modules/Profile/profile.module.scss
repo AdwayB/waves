@@ -1,1 +1,87 @@
 @import '../../styles/variables.scss';
+
+.profile-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  text-wrap: balance;
+  white-space: wrap;
+  padding: 2rem;
+
+  .left-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    position: relative;
+    bottom: 15rem;
+    left: 5rem;
+
+    .profile-image-text {
+      font: $heading-font;
+      color: $white;
+      margin-top: 5rem;
+      margin-bottom: -1rem;
+    }
+
+    .profile-image-container {
+      aspect-ratio: 1;
+      height: 20rem;
+      border-radius: 50%;
+      border: 1px solid $black;
+      overflow: hidden;
+
+      .profile-image {
+        height: inherit;
+        width: inherit;
+      }
+    }
+
+    .change-delete-buttons {
+      height: 5rem;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+
+      .change-button,
+      .delete-button {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+
+  .right-container {
+    height: 100%;
+    min-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    @include table-background-style;
+    position: relative;
+    right: 5rem;
+    padding: 0 1rem;
+
+    .profile-info-container {
+      height: 85%;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    .edit-profile-button {
+      margin-bottom: 3rem;
+    }
+  }
+}

@@ -268,16 +268,15 @@ const Signup: FC = () => {
                 ]}
                 className={styles.checkbox}
               />
-              <div className={styles.buttonContainer}>
-                <Button
-                  label="Sign Up"
-                  buttontype="primary"
-                  type="submit"
-                  onClick={() => console.log('Sign Up button clicked.')}
-                  disabled={passwordError || emailError}
-                  buttonloading={isLoading}
-                />
-              </div>
+              <Button
+                label="Sign Up"
+                buttontype="primary"
+                type="submit"
+                onClick={() => console.log('Sign Up button clicked.')}
+                disabled={passwordError || emailError}
+                buttonloading={isLoading}
+                className={styles.button}
+              />
             </form>
           </div>
         </div>

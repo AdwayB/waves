@@ -182,16 +182,15 @@ const Login: FC = () => {
                 ]}
                 className={styles.checkbox}
               />
-              <div className={styles.buttonContainer}>
-                <Button
-                  label="Log In"
-                  buttontype="primary"
-                  type="submit"
-                  onClick={() => console.log('Log In button clicked.')}
-                  disabled={passwordError || emailError}
-                  buttonloading={isLoading}
-                />
-              </div>
+              <Button
+                label="Log In"
+                buttontype="primary"
+                type="submit"
+                onClick={() => console.log('Log In button clicked.')}
+                disabled={passwordError || emailError}
+                buttonloading={isLoading}
+                className={styles.button}
+              />
             </form>
           </div>
         </div>

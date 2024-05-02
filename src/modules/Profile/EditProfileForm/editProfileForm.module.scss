@@ -1,1 +1,37 @@
 @import '../../../styles/variables.scss';
+
+.edit-profile-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  .edit-form-heading {
+    font: $heading-font;
+    color: $white;
+  }
+
+  .edit-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+
+    .input-field-container {
+      width: 25rem;
+    }
+
+    .checkbox {
+      margin-bottom: 1rem;
+    }
+
+    .button {
+      width: 10rem;
+      height: 3rem;
+    }
+  }
+}

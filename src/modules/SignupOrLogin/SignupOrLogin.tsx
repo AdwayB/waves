@@ -21,12 +21,8 @@ const SignupOrLogin = () => {
         <pre className={styles.text}>A comprehensive Event Management solution.</pre>
         <pre className={styles.subText}>Please Sign Up or Log In to continue!</pre>
         <div className={styles.buttonContainer}>
-          <div className={styles.buttonWrapper}>
-            <Button label="Sign Up" buttontype="primary" onClick={() => navigate('/signup')} />
-          </div>
-          <div className={styles.buttonWrapper}>
-            <Button label="Login" buttontype="secondary" onClick={() => navigate('/login')} />
-          </div>
+          <Button label="Sign Up" buttontype="primary" onClick={() => navigate('/signup')} className={styles.button} />
+          <Button label="Login" buttontype="secondary" onClick={() => navigate('/login')} className={styles.button} />
         </div>
       </div>
     </>
