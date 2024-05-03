@@ -8,6 +8,7 @@ const SavedEvents = lazy(() => import('../modules').then((m) => ({ default: m.Sa
 const CalendarPage = lazy(() => import('../modules').then((m) => ({ default: m.CalendarPage })));
 const MyEvents = lazy(() => import('../modules').then((m) => ({ default: m.MyEvents })));
 const Profile = lazy(() => import('../modules').then((m) => ({ default: m.Profile })));
+const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventUserView })));
 
 const NestedRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const NestedRoutes = () => {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/my-events" element={<MyEvents />} />
         <Route path="/my-profile" element={<Profile />} />
+        <Route path="/view-event/:eventId" element={<EventUserView />} />
         <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </Suspense>
