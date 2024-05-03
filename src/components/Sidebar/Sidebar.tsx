@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import styles from './sidebar.module.scss';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -25,10 +25,15 @@ enum SidebarElement {
   MY_PROFILE = 'my-profile',
 }
 
+interface SidebarProps {
+  userType?: 'Admin' | 'User';
+}
+
 /**
  * The application Sidebar menu.
  */
-const Sidebar = () => {
+const Sidebar: FC<SidebarProps> = (props) => {
+  const { userType = 'User' } = props;
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -134,14 +139,16 @@ const Sidebar = () => {
           )}
           <span className={styles.navText}>Calendar</span>
         </div>
-        <div className={styles.navItem} id={SidebarElement.MY_EVENTS} onClick={handleClick}>
-          {selectedElement === SidebarElement.MY_EVENTS ? (
-            <EditNoteOutlinedIcon className={styles.selectedNavIcon} color="inherit" />
-          ) : (
-            <NotesIcon className={styles.navIcon} color="inherit" />
-          )}
-          <span className={styles.navText}>My Events</span>
-        </div>
+        {userType === 'Admin' && (
+          <div className={styles.navItem} id={SidebarElement.MY_EVENTS} onClick={handleClick}>
+            {selectedElement === SidebarElement.MY_EVENTS ? (
+              <EditNoteOutlinedIcon className={styles.selectedNavIcon} color="inherit" />
+            ) : (
+              <NotesIcon className={styles.navIcon} color="inherit" />
+            )}
+            <span className={styles.navText}>My Events</span>
+          </div>
+        )}
       </div>
       <div
         className={
