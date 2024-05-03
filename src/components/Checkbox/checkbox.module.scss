@@ -5,6 +5,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 0 0.2rem;
+
   :global(.MuiCheckbox-root) {
     input {
       border: 1px solid $input-field-color;
@@ -16,6 +17,10 @@
   :global(.MuiTypography-root) {
     color: $input-field-color !important;
   }
+}
+
+.label {
+  margin: 1rem;
 }
 
 .row {

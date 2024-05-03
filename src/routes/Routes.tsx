@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Error, Loading } from '../components';
+import { Error, FullScreenLoading } from '../components';
 
 const SignupOrLogin = lazy(() => import('../modules').then((m) => ({ default: m.SignupOrLogin })));
 const Signup = lazy(() => import('../modules').then((m) => ({ default: m.Signup })));
@@ -9,7 +9,7 @@ const Layout = lazy(() => import('../modules').then((m) => ({ default: m.Layout 
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<FullScreenLoading />}>
       <Routes>
         <Route path="/" element={<SignupOrLogin />} />
         <Route path="/signup" element={<Signup />} />

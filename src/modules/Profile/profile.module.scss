@@ -22,7 +22,6 @@
     gap: 2rem;
     position: relative;
     bottom: 15rem;
-    left: 5rem;
 
     .profile-image-text {
       font: $heading-font;
@@ -35,7 +34,7 @@
       aspect-ratio: 1;
       height: 20rem;
       border-radius: 50%;
-      border: 1px solid $black;
+      border: 1px solid $waves-dark-blue;
       overflow: hidden;
 
       .profile-image {
@@ -70,17 +69,16 @@
     justify-content: center;
     gap: 2rem;
     @include table-background-style;
-    position: relative;
-    right: 5rem;
     padding: 0 1rem;
 
     .profile-info-container {
-      height: 85%;
+      height: 75%;
       width: 100%;
-      overflow-y: auto;
     }
 
     .edit-profile-button {
+      height: 3rem;
+      width: 10rem;
       margin-bottom: 3rem;
     }
   }

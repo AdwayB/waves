@@ -144,57 +144,59 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
       <div className={styles.editProfileContainer}>
         <div className={styles.editFormHeading}>Edit Profile</div>
         <form className={styles.editForm} id="editForm" ref={form} onSubmit={handleSubmit}>
-          <div className={styles.inputFieldContainer}>
-            <InputField
-              type="text"
-              label="Enter First Name"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className={styles.inputFieldContainer}>
-            <InputField
-              type="text"
-              label="Enter Last Name"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className={styles.inputFieldContainer}>
-            <InputField
-              type="text"
-              label="Enter GMail ID"
-              id="email"
-              value={formFields.email}
-              onChange={handleFieldChange}
-              error={emailError}
-              helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
-              required
-            />
-          </div>
-          <div className={styles.inputFieldContainer}>
-            <InputField
-              type="text"
-              label="Enter Phone Number"
-              id="mobileNumber"
-              value={formFields.mobileNumber}
-              onChange={handleFieldChange}
-              required
-              error={mobileNumberError}
-              helperText={
-                mobileNumberError
-                  ? 'The mobile number must begin with a dial code followed by a valid mobile number. Ex: +919876543210'
-                  : ' '
-              }
-            />
+          <div className={styles.infoFields}>
+            <div className={styles.inputFieldContainer}>
+              <InputField
+                type="text"
+                label="Enter First Name"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
+            <div className={styles.inputFieldContainer}>
+              <InputField
+                type="text"
+                label="Enter Last Name"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
+            <div className={styles.inputFieldContainer}>
+              <InputField
+                type="text"
+                label="Enter GMail ID"
+                id="email"
+                value={formFields.email}
+                onChange={handleFieldChange}
+                error={emailError}
+                helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
+                required
+              />
+            </div>
+            <div className={styles.inputFieldContainer}>
+              <InputField
+                type="text"
+                label="Enter Phone Number"
+                id="mobileNumber"
+                value={formFields.mobileNumber}
+                onChange={handleFieldChange}
+                required
+                error={mobileNumberError}
+                helperText={
+                  mobileNumberError
+                    ? 'The mobile number must begin with a dial code followed by a valid mobile number. Ex: +919876543210'
+                    : ' '
+                }
+              />
+            </div>
           </div>
           <Switch label="Edit Password" checked={passwordEdit} onChange={() => setPasswordEdit(!passwordEdit)} />
           {passwordEdit && (
-            <>
+            <div className={styles.passwordFields}>
               <div className={styles.inputFieldContainer}>
                 <InputField
                   type="password"
@@ -223,11 +225,11 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
                   required
                 />
               </div>
-            </>
+            </div>
           )}
           <Checkbox
-            groupLabel="Modify User Type"
-            direction="column"
+            groupLabel="Modify Account Type:"
+            direction="row"
             items={[
               {
                 label: UserType.Admin,
