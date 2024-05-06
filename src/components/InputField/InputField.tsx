@@ -122,9 +122,11 @@ const InputField: FC<InputFieldProps> = (props) => {
       return (
         <div className={`${styles.inputFieldWrapper} ${styles[style]} ${isSearch && styles.search}`}>
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
+            <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
               id={id}
               name={id}
+              label={label}
               multiline
               maxRows={maxRows}
               defaultValue={defaultValue}

@@ -5,8 +5,13 @@
 
   :global(.MuiRating-root) {
     font-size: inherit;
+
     :global(.MuiRating-decimal) {
       font-size: inherit;
+    }
+
+    :global(.MuiRating-iconEmpty) {
+      color: $rating-empty-color !important;
     }
   }
 }

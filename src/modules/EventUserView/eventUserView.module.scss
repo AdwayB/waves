@@ -51,7 +51,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       flex-wrap: wrap;
       padding: 1rem 0;
       // @include table-background-style;
@@ -130,7 +129,7 @@
           font-weight: 700;
           color: $light-white;
           padding: 1rem;
-          margin-top: 4rem;
+          // margin-top: 4rem;
         }
 
         .add-feedback-body {
@@ -138,9 +137,68 @@
           display: flex;
           flex-direction: column;
           align-items: flex-end;
+          padding: 0 2rem 1rem 1rem;
+          @include table-background-style;
+
+          .add-rating {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+            justify-content: flex-start;
+
+            .add-rating-label {
+              font: $normal-text-font;
+              font-weight: 500;
+            }
+
+            .add-rating-input {
+              font-size: 1.5rem;
+            }
+          }
 
           .add-feedback-input {
             width: 100%;
+            padding: 0 0.5rem 0 0;
+          }
+        }
+      }
+
+      .view-feedback-container {
+        margin: 1rem;
+        padding: 1rem;
+
+        .view-feedback-heading {
+          font: $subheading-font;
+          font-weight: 700;
+          color: $light-white;
+          margin-bottom: 1rem;
+        }
+
+        .view-feedback-body {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          padding: 1rem;
+
+          .view-feedback-unit {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            @include table-background-style;
+            box-shadow: $text-shadow-light;
+
+            .view-feedback-comment {
+              font: $strong-text-font;
+            }
           }
         }
       }

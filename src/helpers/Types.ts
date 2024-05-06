@@ -16,4 +16,11 @@ interface UserData {
   type?: string;
 }
 
-export type { DateHighlight, UserData };
+interface UserFeedback {
+  FeedbackId: string;
+  UserId: string;
+  Rating: number;
+  Comment: string;
+}
+
+export type { DateHighlight, UserData, UserFeedback };

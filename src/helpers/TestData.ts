@@ -1,4 +1,5 @@
 import { Event, User } from './Responses';
+import { UserFeedback } from './Types';
 
 const UserTestData: User[] = [
   {
@@ -646,4 +647,37 @@ const EventTestData: Event[] = [
   },
 ];
 
-export { UserTestData, EventTestData };
+const UserFeedbackTestData: UserFeedback[] = [
+  {
+    FeedbackId: '1',
+    UserId: '1',
+    Rating: 5,
+    Comment: 'I loved the event!',
+  },
+  {
+    FeedbackId: '2',
+    UserId: '2',
+    Rating: 4,
+    Comment: 'I enjoyed the event!',
+  },
+  {
+    FeedbackId: '3',
+    UserId: '3',
+    Rating: 3,
+    Comment: "I didn't like the event.",
+  },
+  {
+    FeedbackId: '4',
+    UserId: '4',
+    Rating: 2,
+    Comment: 'I did not care for it!',
+  },
+  {
+    FeedbackId: '5',
+    UserId: '5',
+    Rating: 1,
+    Comment: 'I regret the event.',
+  },
+];
+
+export { UserTestData, EventTestData, UserFeedbackTestData };

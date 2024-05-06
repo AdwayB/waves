@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from './eventUserView.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Event, EventTestData } from '../../helpers';
+import { Event, EventTestData, UserFeedbackTestData } from '../../helpers';
 import { Button, Chip, InputField, Rating } from '../../components';
 import dayjs from 'dayjs';
 
@@ -11,7 +11,9 @@ const EventUserView: FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const [eventInfo, setEventInfo] = useState<Event>();
   const [comment, setComment] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
   const eventData = EventTestData;
+  const userFeedback = UserFeedbackTestData;
 
   useEffect(() => {
     const foundEvent = eventData.find((event) => event.EventId === eventId);
@@ -113,16 +115,37 @@ const EventUserView: FC = () => {
           <div className={styles.addFeedbackContainer}>
             <div className={styles.addFeedbackHeading}>Add Feedback</div>
             <div className={styles.addFeedbackBody}>
+              <div className={styles.addRating}>
+                <span className={styles.addRatingLabel}>Add Rating:</span>
+                <Rating
+                  value={rating}
+                  precision={0.1}
+                  onChange={(e, v) => setRating(v ?? 0)}
+                  readonly={false}
+                  className={styles.addRatingInput}
+                />
+              </div>
               <div className={styles.addFeedbackInput}>
                 <InputField
                   type="textarea"
-                  label="Feedback"
+                  label="Enter any comments"
                   id="feedback"
                   value={comment}
                   onChange={handleCommentChange}
                 />
               </div>
-              <Button label="Submit" onClick={handleCommentSubmit} className={styles.submitButton} />
+              <Button label="Submit" onClick={handleCommentSubmit} />
+            </div>
+          </div>
+          <div className={styles.viewFeedbackContainer}>
+            <div className={styles.viewFeedbackHeading}>View Feedback</div>
+            <div className={styles.viewFeedbackBody}>
+              {userFeedback.map((feedback, index) => (
+                <div key={index} className={styles.viewFeedbackUnit}>
+                  <Rating value={feedback.Rating} precision={0.1} />
+                  <div className={styles.viewFeedbackComment}>{feedback.Comment}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
