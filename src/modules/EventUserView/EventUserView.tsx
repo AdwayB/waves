@@ -21,15 +21,23 @@ const EventUserView: FC = () => {
   }, [eventData, eventId]);
 
   if (!eventInfo) {
-    return <div>Event not found</div>;
+    return <div className={styles.eventFriendlyScreen}>Event not found!</div>;
   }
+
+  const handleRegisterEvent = () => {
+    console.log('Register event ' + eventInfo.EventId);
+  };
+
+  const handleSaveEvent = () => {
+    console.log('Save event ' + eventInfo.EventId);
+  };
 
   const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
 
   const handleCommentSubmit = () => {
-    console.log('Comment submitted:', comment);
+    console.log('Comment submitted: ', comment);
   };
 
   return (
@@ -40,6 +48,10 @@ const EventUserView: FC = () => {
         </div>
         <div className={styles.eventInfoHeaderRight}>
           <span className={styles.eventTitle}>View Event</span>
+          <div className={styles.eventActions}>
+            <Button label="Register" onClick={handleRegisterEvent} className={styles.registerButton} />
+            <Button label="Save" buttontype="secondary" onClick={handleSaveEvent} className={styles.saveButton} />
+          </div>
         </div>
       </div>
       <div className={styles.eventBody}>

@@ -1,5 +1,17 @@
 @import '../../styles/variables.scss';
 
+.event-friendly-screen {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font: $heading-font;
+  color: $white;
+  text-shadow: $text-shadow-purple;
+}
+
 .event-container {
   height: 100%;
   width: 100%;
@@ -26,14 +38,23 @@
     }
 
     .event-info-header-right {
+      width: 56%;
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: flex-start;
-      width: 56%;
+      justify-content: space-between;
 
       .event-title {
         font: $heading-font;
+      }
+
+      .event-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 2rem;
+        padding-right: 1rem;
       }
     }
   }
