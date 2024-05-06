@@ -31,5 +31,4 @@ export * from './SortByFilter';
 export * from './Switch';
 export * from './Table';
 export * from './Tabs';
-export * from './TextArea';
 export * from './Tooltip';

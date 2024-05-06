@@ -5,7 +5,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 interface InputFieldProps {
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'textarea';
   style?: 'primary' | 'secondary';
   size?: 'small' | 'medium';
   id?: string;
@@ -20,6 +20,7 @@ interface InputFieldProps {
   required?: boolean;
   readOnly?: boolean;
   isSearch?: boolean;
+  maxRows?: number;
   className?: string;
 }
 
@@ -47,11 +48,12 @@ const InputField: FC<InputFieldProps> = (props) => {
     required = false,
     readOnly = false,
     isSearch = false,
+    maxRows = 9,
     className,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
-  const [inputType, setInputType] = useState<'text' | 'password'>(type);
+  const [inputType, setInputType] = useState<'text' | 'password' | 'textarea'>(type);
   const handleClickShowPassword = () => {
     setShowPassword((show) => !show);
     setInputType((type) => (type === 'password' ? 'text' : 'password'));
@@ -110,6 +112,29 @@ const InputField: FC<InputFieldProps> = (props) => {
                   </IconButton>
                 </InputAdornment>
               }
+            />
+            <FormHelperText>{helperText}</FormHelperText>
+          </FormControl>
+        </div>
+      );
+
+    case 'textarea':
+      return (
+        <div className={`${styles.inputFieldWrapper} ${styles[style]} ${isSearch && styles.search}`}>
+          <FormControl fullWidth sx={{ m: 1 }} variant="outlined" error={error}>
+            <OutlinedInput
+              id={id}
+              name={id}
+              multiline
+              maxRows={maxRows}
+              defaultValue={defaultValue}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+              placeholder={placeholder}
+              required={required}
+              className={className}
+              readOnly={readOnly}
             />
             <FormHelperText>{helperText}</FormHelperText>
           </FormControl>

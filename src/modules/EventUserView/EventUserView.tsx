@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from './eventUserView.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Event, EventTestData } from '../../helpers';
-import { Button, Chip, Rating } from '../../components';
+import { Button, Chip, InputField, Rating } from '../../components';
 import dayjs from 'dayjs';
 
 const EventUserView: FC = () => {
@@ -10,6 +10,7 @@ const EventUserView: FC = () => {
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
   const [eventInfo, setEventInfo] = useState<Event>();
+  const [comment, setComment] = useState<string>('');
   const eventData = EventTestData;
 
   useEffect(() => {
@@ -20,6 +21,14 @@ const EventUserView: FC = () => {
   if (!eventInfo) {
     return <div>Event not found</div>;
   }
+
+  const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleCommentSubmit = () => {
+    console.log('Comment submitted:', comment);
+  };
 
   return (
     <div className={styles.eventContainer}>
@@ -93,7 +102,7 @@ const EventUserView: FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.eventInfoUnit}>
+          <div className={`${styles.eventInfoUnit} ${styles.eventStatusUnit}`}>
             <span className={styles.eventInfoLabel}>Event Status:</span>
             <span className={styles.eventInfoValue}>
               <Chip label={eventInfo.EventStatus} />
@@ -101,7 +110,21 @@ const EventUserView: FC = () => {
           </div>
         </div>
         <div className={styles.eventFeedbackContainer}>
-          <div className={styles.eventFeedbackHeading}>Comments</div>
+          <div className={styles.addFeedbackContainer}>
+            <div className={styles.addFeedbackHeading}>Add Feedback</div>
+            <div className={styles.addFeedbackBody}>
+              <div className={styles.addFeedbackInput}>
+                <InputField
+                  type="textarea"
+                  label="Feedback"
+                  id="feedback"
+                  value={comment}
+                  onChange={handleCommentChange}
+                />
+              </div>
+              <Button label="Submit" onClick={handleCommentSubmit} className={styles.submitButton} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

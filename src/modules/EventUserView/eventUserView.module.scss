@@ -43,7 +43,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 3rem;
 
@@ -95,7 +95,8 @@
         color: $light-white;
       }
 
-      .event-description-unit {
+      .event-description-unit,
+      .event-status-unit {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -118,15 +119,30 @@
     }
 
     .event-feedback-container {
-      width: 30%;
+      width: 42rem;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
 
-      .event-feedback-heading {
-        font: $tall-text-font;
-        font-weight: 700;
-        margin-top: 6.3rem;
+      .add-feedback-container {
+        .add-feedback-heading {
+          font: $subheading-font;
+          font-weight: 700;
+          color: $light-white;
+          padding: 1rem;
+          margin-top: 4rem;
+        }
+
+        .add-feedback-body {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+
+          .add-feedback-input {
+            width: 100%;
+          }
+        }
       }
     }
   }
