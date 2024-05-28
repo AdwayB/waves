@@ -25,20 +25,20 @@ interface Event {
   EventId: string;
   EventName: string;
   EventDescription: string;
-  EventBackgroundImage: string;
+  EventBackgroundImage?: string;
   EventTotalSeats: number;
   EventRegisteredSeats: number;
-  EventTicketPrice: number;
+  EventTicketPrice?: number;
   EventGenres: string[];
-  EventCollab: string[];
+  EventCollab?: string[];
   EventStartDate: string;
   EventEndDate: string;
   EventLocation: Location;
   EventStatus: string;
   EventCreatedBy: string;
-  EventAgeRestriction: number;
-  EventCountry: string;
-  EventDiscounts: Discount[];
+  EventAgeRestriction?: number;
+  EventCountry?: string;
+  EventDiscounts?: Discount[];
 }
 
 export type { User, Location, Discount, Event };

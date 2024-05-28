@@ -11,7 +11,7 @@ const EventEditView: FC = () => {
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
   const [eventInfo, setEventInfo] = useState<Event>();
-  const [editedData, setEditedData] = useState<Event>();
+  const [editedData, setEditedData] = useState<Event | null>(null);
   const [editList, setEditList] = useState<string[]>([]);
   const eventData = EventTestData;
 
@@ -36,7 +36,7 @@ const EventEditView: FC = () => {
     return editList.includes(fieldName);
   };
 
-  const handleEditFieldsChange = (e?: Event) => {
+  const handleEditFieldsChange = (e: Event) => {
     setEditedData(e);
   };
 
@@ -68,23 +68,33 @@ const EventEditView: FC = () => {
           <span className={styles.eventEditChecklistTitle}>Choose the fields you would like to edit:</span>
           <Checkbox
             items={[
-              { label: 'Name', name: 'name', checked: getChecked('name'), onClick: () => handleCheckboxClick },
+              {
+                label: 'Name',
+                name: 'EventName',
+                checked: getChecked('EventName'),
+                onClick: () => handleCheckboxClick,
+              },
               {
                 label: 'Description',
-                name: 'description',
-                checked: getChecked('description'),
+                name: 'EventDescription',
+                checked: getChecked('EventDescription'),
                 onClick: () => handleCheckboxClick,
               },
               {
                 label: 'Total Seats',
-                name: 'totalSeats',
-                checked: getChecked('totalSeats'),
+                name: 'EventTotalSeats',
+                checked: getChecked('EventTotalSeats'),
                 onClick: () => handleCheckboxClick,
               },
-              { label: 'Genres', name: 'genres', checked: getChecked('genres'), onClick: () => handleCheckboxClick },
+              {
+                label: 'Genres',
+                name: 'EventGenres',
+                checked: getChecked('EventGenres'),
+                onClick: () => handleCheckboxClick,
+              },
               {
                 label: 'Collaborators',
-                name: 'collaborators',
+                name: 'EventCollab',
                 checked: getChecked('collaborators'),
                 onClick: () => handleCheckboxClick,
               },
@@ -112,20 +122,25 @@ const EventEditView: FC = () => {
                 checked: getChecked('endTime'),
                 onClick: () => handleCheckboxClick,
               },
+              // {
+              //   label: 'Location',
+              //   name: 'EventLocation',
+              //   checked: getChecked('EventLocation'),
+              //   onClick: () => handleCheckboxClick,
+              // },
               {
-                label: 'Location',
-                name: 'location',
-                checked: getChecked('location'),
+                label: 'Status',
+                name: 'EventStatus',
+                checked: getChecked('EventStatus'),
                 onClick: () => handleCheckboxClick,
               },
-              { label: 'Status', name: 'status', checked: getChecked('status'), onClick: () => handleCheckboxClick },
             ]}
           />
         </div>
         <div className={styles.eventEditFields}>
           <span className={styles.eventEditFieldsTitle}>Edit Fields</span>
           <div className={styles.eventEditFieldsBody}>
-            <EventEditFields editList={editList} eventData={editedData} setEventData={handleEditFieldsChange} />
+            <EventEditFields editList={editList} eventData={editedData!} setEventData={handleEditFieldsChange} />
           </div>
         </div>
       </div>
