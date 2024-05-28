@@ -1,0 +1,71 @@
+@import '../../../styles/variables.scss';
+
+.event-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  // @include table-background-style;
+
+  .event-info-block-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4rem;
+
+    .event-info-left-block,
+    .event-info-right-block {
+      width: 16rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4rem;
+      margin: 4rem;
+    }
+  }
+
+  .event-info-unit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .event-info-value {
+      font: $tall-text-font;
+      font-weight: 700;
+      color: $input-field-color;
+    }
+  }
+
+  .event-info-label {
+    font: $tall-text-font;
+    font-weight: 700;
+    color: $light-white;
+  }
+
+  .event-description-unit,
+  .event-status-unit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0 4rem;
+
+    .event-description {
+      width: 28rem;
+      padding: 1rem;
+      @include table-background-style;
+      max-height: 12rem;
+      max-width: 32rem;
+      text-align: center;
+      text-wrap: pretty;
+      white-space: wrap;
+      overflow-y: auto;
+    }
+  }
+}

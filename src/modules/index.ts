@@ -6,4 +6,4 @@ export * from './SavedEvents';
 export * from './CalendarPage';
 export * from './MyEvents';
 export * from './Profile';
-export * from './EventUserView';
+export * from './EventViews';

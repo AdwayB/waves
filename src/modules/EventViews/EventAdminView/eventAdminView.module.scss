@@ -1,0 +1,159 @@
+@import '../../../styles/variables.scss';
+
+.event-friendly-screen {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font: $heading-font;
+  color: $white;
+  text-shadow: $text-shadow-purple;
+}
+
+.event-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  color: $white;
+
+  .event-info-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .event-info-header-left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      width: 44%;
+    }
+
+    .event-info-header-right {
+      width: 56%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .event-title {
+        font: $heading-font;
+      }
+
+      .event-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 2rem;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  .event-body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    .event-feedback-container {
+      width: 42rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      .view-feedback-container {
+        margin: 1rem;
+        padding: 1rem;
+
+        .view-feedback-heading {
+          font: $subheading-font;
+          font-weight: 700;
+          color: $light-white;
+          margin-bottom: 1rem;
+        }
+
+        .view-feedback-body {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          padding: 1rem;
+
+          .view-feedback-unit {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            @include table-background-style;
+            box-shadow: $text-shadow-light;
+
+            .view-feedback-comment {
+              font: $strong-text-font;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .event-container {
+    .event-body {
+      .event-info-container {
+        .event-info-block-group {
+          .event-info-left-block,
+          .event-info-right-block {
+            margin: 2rem;
+          }
+        }
+        .event-description-unit {
+          padding: 0 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 896px) {
+  .event-container {
+    flex-wrap: nowrap;
+    .event-body {
+      flex-wrap: wrap;
+      .event-info-container {
+        gap: 2rem;
+        overflow: auto;
+        .event-info-block-group {
+          gap: 0;
+          .event-info-left-block,
+          .event-info-right-block {
+            gap: 1rem;
+            margin: 1rem;
+          }
+        }
+        .event-description-unit {
+          padding: 0 0 0 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}

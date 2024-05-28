@@ -8,7 +8,7 @@ const SavedEvents = lazy(() => import('../modules').then((m) => ({ default: m.Sa
 const CalendarPage = lazy(() => import('../modules').then((m) => ({ default: m.CalendarPage })));
 const MyEvents = lazy(() => import('../modules').then((m) => ({ default: m.MyEvents })));
 const Profile = lazy(() => import('../modules').then((m) => ({ default: m.Profile })));
-const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventUserView })));
+const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventAdminView })));
 
 const NestedRoutes = () => {
   return (
