@@ -3,6 +3,7 @@ import styles from './myEvents.module.scss';
 import { Button, ColumnType, RowType, Table } from '../../components';
 import { EventTestData } from '../../helpers';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 const MyEventsTableColumns: ColumnType[] = [
   { id: 0, title: 'Name', name: 'name' },
@@ -26,6 +27,7 @@ interface MyEventsColumnNames {
 
 const MyEvents: FC = () => {
   document.title = 'My Events - Waves';
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const EventData = EventTestData;
@@ -83,8 +85,8 @@ const MyEvents: FC = () => {
           friendlyScreenMessage="No events created yet!"
           columns={MyEventsTableColumns}
           rows={MyEventsTableRows as RowType}
-          handleViewClick={(id) => console.log('View id ' + id)}
-          handleEditClick={(id) => console.log('Edit id ' + id)}
+          handleViewClick={(id) => navigate(`/user/view-event/admin/${id}`)}
+          handleEditClick={(id) => navigate(`/user/edit-event/${id}`)}
           handleDeleteClick={(id) => console.log('Delete id ' + id)}
         />
       </div>

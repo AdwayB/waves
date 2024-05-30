@@ -24,7 +24,7 @@ const EventAdminView: FC = () => {
   }
 
   const handleEditEvent = () => {
-    console.log('Edit event ' + eventInfo.EventId);
+    navigate(`/user/edit-event/${eventId}`);
   };
 
   return (

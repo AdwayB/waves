@@ -8,7 +8,9 @@ const SavedEvents = lazy(() => import('../modules').then((m) => ({ default: m.Sa
 const CalendarPage = lazy(() => import('../modules').then((m) => ({ default: m.CalendarPage })));
 const MyEvents = lazy(() => import('../modules').then((m) => ({ default: m.MyEvents })));
 const Profile = lazy(() => import('../modules').then((m) => ({ default: m.Profile })));
-const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventAdminView })));
+const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventUserView })));
+const EventAdminView = lazy(() => import('../modules').then((m) => ({ default: m.EventAdminView })));
+const EventEditView = lazy(() => import('../modules').then((m) => ({ default: m.EventEditView })));
 
 const NestedRoutes = () => {
   return (
@@ -21,6 +23,8 @@ const NestedRoutes = () => {
         <Route path="/my-events" element={<MyEvents />} />
         <Route path="/my-profile" element={<Profile />} />
         <Route path="/view-event/:eventId" element={<EventUserView />} />
+        <Route path="/view-event/admin/:eventId" element={<EventAdminView />} />
+        <Route path="/edit-event/:eventId" element={<EventEditView />} />
         <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </Suspense>
