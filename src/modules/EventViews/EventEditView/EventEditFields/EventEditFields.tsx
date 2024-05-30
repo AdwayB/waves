@@ -65,11 +65,11 @@ const EventEditFields: FC<EventEditFieldsProps> = (props) => {
 
     switch (fieldName) {
       case 'startTime':
-        setStartTime(e.target.value);
-        updateEventDateTime('EventStartDate', startDate, e.target.value);
+        setStartTime(time);
+        updateEventDateTime('EventStartDate', startDate, time);
       case 'endTime':
-        setEndTime(e.target.value);
-        updateEventDateTime('EventEndDate', endDate, e.target.value);
+        setEndTime(time);
+        updateEventDateTime('EventEndDate', endDate, time);
     }
   };
 
