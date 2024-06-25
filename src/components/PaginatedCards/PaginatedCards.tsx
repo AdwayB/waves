@@ -1,7 +1,8 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, MouseEvent } from 'react';
 import { Card, CardProps } from '../Card';
 import { Pagination } from '../Pagination';
 import styles from './paginatedCards.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface PaginatedCardsProps {
   data: CardProps[];
@@ -17,6 +18,14 @@ interface PaginatedCardsProps {
  */
 const PaginatedCards: FC<PaginatedCardsProps> = (props) => {
   const { data, page = 1, pageCount = 10, onPageChange } = props;
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: MouseEvent<HTMLDivElement>, id?: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('Card clicked');
+    id && navigate(`/user/view-event/${id}`);
+  };
 
   return (
     <div className={styles.paginatedGroup}>
@@ -24,6 +33,7 @@ const PaginatedCards: FC<PaginatedCardsProps> = (props) => {
         {data.map((event, index) => (
           <div className={styles.card} key={index}>
             <Card
+              onClick={(e) => handleCardClick(e, event.eventId)}
               key={index}
               title={event.title}
               artist={event.artist}
