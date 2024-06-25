@@ -23,4 +23,11 @@ interface UserFeedback {
   Comment: string;
 }
 
+enum EventStatus {
+  Scheduled = 'Scheduled',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
+}
+
+export { EventStatus };
 export type { DateHighlight, UserData, UserFeedback };

@@ -31,7 +31,7 @@ const EventBody: FC<EventBodyProps> = (props) => {
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Event Genres:</span>
             {eventInfo.EventGenres.map((genre) => (
-              <Chip label={genre} />
+              <Chip key={genre} label={genre} />
             ))}
           </div>
         </div>

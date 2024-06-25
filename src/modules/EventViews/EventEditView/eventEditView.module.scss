@@ -1,1 +1,97 @@
 @import '../../../styles/variables.scss';
+
+.event-friendly-screen {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font: $heading-font;
+  color: $white;
+  text-shadow: $text-shadow-purple;
+  gap: 2rem;
+}
+
+.select-wrapper {
+  width: 10rem;
+  padding: 0.5rem 0;
+}
+
+.event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+
+  .event-info-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .event-info-header-left,
+    .event-info-header-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .event-title {
+      font: $heading-font;
+      color: $white;
+
+      .event-name {
+        color: $logo-text-color;
+      }
+    }
+  }
+
+  .event-edit-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+
+    .event-view-body {
+      align-self: flex-start;
+      max-width: 52rem;
+    }
+
+    .event-edit-fields {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .event-edit-fields-title {
+        margin-top: 2rem;
+        width: 100%;
+        text-align: center;
+        font: $subheading-font;
+        color: $white;
+      }
+
+      .event-edit-fields-body {
+        .event-edit-field {
+          .event-edit-field-label {
+            margin-left: 0.5rem;
+            font: $normal-text-font;
+            color: $white;
+          }
+
+          .event-edit-field-sub-title {
+            margin-left: 1rem;
+            font: $small-text-font;
+            font-style: italic;
+            color: $disabled-text-color;
+          }
+        }
+      }
+    }
+  }
+}
