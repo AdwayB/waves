@@ -1,16 +1,54 @@
+import { useEffect, useRef } from 'react';
 import { CardCarousel } from '../../components';
 import styles from './userHome.module.scss';
+import { gsap } from 'gsap';
+import { TextPlugin } from 'gsap/TextPlugin';
 
 const UserHome = () => {
   document.title = 'Home - Waves';
   const testRegistrations = 5 as const;
+  const userName = 'Test User';
+  const welcomeTextRef = useRef<HTMLSpanElement>(null);
+  const welcomeNameRef = useRef<HTMLSpanElement>(null);
+  const welcomeExclamationRef = useRef<HTMLSpanElement>(null);
+  gsap.registerPlugin(TextPlugin);
+
+  useEffect(() => {
+    const timeline = gsap.timeline({ defaults: { ease: 'none' }, repeat: -1, repeatDelay: 1 });
+
+    if (welcomeTextRef.current) {
+      timeline.to(welcomeTextRef.current, {
+        duration: 1,
+        text: 'Welcome back, ',
+        ease: 'none',
+      });
+    }
+
+    if (welcomeNameRef.current) {
+      timeline.to(welcomeNameRef.current, {
+        duration: 1,
+        text: userName,
+        ease: 'none',
+      });
+    }
+
+    if (welcomeExclamationRef.current) {
+      timeline.to(welcomeExclamationRef.current, {
+        duration: 0.15,
+        text: ' !',
+        ease: 'none',
+      });
+    }
+  }, []);
 
   return (
     <>
       <div className={styles.userHomeContainer}>
         <div className={styles.userHomeWelcomeContainer}>
           <span className={styles.welcomeHeading}>
-            Welcome back, <span className={styles.welcomeName}>Test User</span>!
+            <span ref={welcomeTextRef} />
+            <span ref={welcomeNameRef} className={styles.welcomeName} />
+            <span ref={welcomeExclamationRef} />
           </span>
           <span className={styles.welcomeText}>You have {testRegistrations} upcoming events.</span>
         </div>
