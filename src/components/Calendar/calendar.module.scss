@@ -16,8 +16,8 @@ $grid-row-gap: 1.7rem;
     justify-content: center;
     gap: 1rem;
     padding: 2rem;
-    border-radius: 5rem;
     @include table-background-style(0.5rem);
+    border-radius: 2rem;
   }
 
   .week-day-container {

@@ -27,18 +27,18 @@
 
   .calendar-and-events-container {
     height: 44rem;
-    width: 100%;
+    width: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     margin: 0 1rem;
     @include table-background-style(0.5rem);
     border-radius: 2rem;
 
     .events-container {
-      width: 58rem;
+      width: 47.3vw;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -47,10 +47,34 @@
     }
 
     .calendar-container {
-      width: 41rem;
-
       .calendar {
         height: 44rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1916px) {
+  .calendar-page-container {
+    .calendar-and-events-container {
+      .events-container {
+        width: 40vw;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1692px) {
+  .calendar-page-container {
+    .calendar-and-events-container {
+      gap: 2rem;
+      background-color: transparent;
+      border: none;
+      backdrop-filter: none;
+      .events-container {
+        width: 40vw;
+        @include table-background-style(0.5rem);
+        border-radius: 2rem;
       }
     }
   }
