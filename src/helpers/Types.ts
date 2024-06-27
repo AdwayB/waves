@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { Event } from './Responses';
 
 interface DateHighlight {
   date: Dayjs;
@@ -23,6 +24,28 @@ interface UserFeedback {
   Comment: string;
 }
 
+interface UserSavedEvents {
+  UserId: string;
+  Events: string[];
+}
+
+interface UserEventRegistrations {
+  Cancelled: boolean;
+  NumberOfRegistrations: number;
+  TotalPages: number;
+  PageNumber: number;
+  PageSize: number;
+  RegisteredEventIds?: Event[];
+}
+
+interface BulkEventsResponse {
+  NumberOfEvents: number;
+  TotalPages: number;
+  PageNumber: number;
+  PageSize: number;
+  Events?: Event[];
+}
+
 enum EventStatus {
   Scheduled = 'Scheduled',
   Completed = 'Completed',
@@ -30,4 +53,4 @@ enum EventStatus {
 }
 
 export { EventStatus };
-export type { DateHighlight, UserData, UserFeedback };
+export type { DateHighlight, UserData, UserFeedback, UserSavedEvents, UserEventRegistrations, BulkEventsResponse };

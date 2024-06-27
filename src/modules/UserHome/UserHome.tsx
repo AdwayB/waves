@@ -14,7 +14,7 @@ const UserHome = () => {
   gsap.registerPlugin(TextPlugin);
 
   useEffect(() => {
-    const timeline = gsap.timeline({ defaults: { ease: 'none' }, repeat: -1, repeatDelay: 1 });
+    const timeline = gsap.timeline({ defaults: { ease: 'none' } });
 
     if (welcomeTextRef.current) {
       timeline.to(welcomeTextRef.current, {
