@@ -6,6 +6,8 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { AppRoutes } from './routes';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Provider } from 'react-redux';
+import { store } from './redux';
 
 const THEME = createTheme({
   typography: {
@@ -19,15 +21,17 @@ const App = () => {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider theme={THEME}>
-          <div className="app-container">
-            <AppRoutes />
-          </div>
-        </ThemeProvider>
-      </LocalizationProvider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ThemeProvider theme={THEME}>
+            <div className="app-container">
+              <AppRoutes />
+            </div>
+          </ThemeProvider>
+        </LocalizationProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 

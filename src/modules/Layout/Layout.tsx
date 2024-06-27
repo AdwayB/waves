@@ -1,17 +1,18 @@
+import { useSelector } from 'react-redux';
 import { Sidebar } from '../../components';
-import { getCookie, isAuth } from '../../helpers';
+import { isAuth } from '../../helpers';
 import { NestedRoutes } from '../../routes';
 import styles from './layout.module.scss';
+import { selectCurrentUserType } from '../../redux';
+import { FC } from 'react';
 
-const getUserType = () => {
-  return getCookie('type') as 'Admin' | 'User';
-};
+const AppLayout: FC = () => {
+  const userType = useSelector(selectCurrentUserType) as 'Admin' | 'User';
 
-const AppLayout = () => {
   return (
     <div className={styles.appLayout}>
       <div className={styles.sidebar}>
-        <Sidebar userType={getUserType()} />
+        <Sidebar userType={userType} />
       </div>
       <div className={styles.main}>
         <NestedRoutes />

@@ -7,14 +7,20 @@ interface DateHighlight {
 }
 
 interface UserData {
-  userId?: string;
-  userName: string;
-  userPassword?: string;
-  legalName: string;
+  UserId?: string;
+  UserName?: string;
+  Password?: string;
+  LegalName?: string;
+  Email: string;
+  MobileNumber?: string;
+  Country?: string;
+  Type: string;
+}
+
+interface UserLoginRequest {
   email: string;
-  mobileNumber: string;
-  countryCode?: string;
-  type?: string;
+  password: string;
+  type: string;
 }
 
 interface UserFeedback {
@@ -53,4 +59,12 @@ enum EventStatus {
 }
 
 export { EventStatus };
-export type { DateHighlight, UserData, UserFeedback, UserSavedEvents, UserEventRegistrations, BulkEventsResponse };
+export type {
+  DateHighlight,
+  UserData,
+  UserLoginRequest,
+  UserFeedback,
+  UserSavedEvents,
+  UserEventRegistrations,
+  BulkEventsResponse,
+};

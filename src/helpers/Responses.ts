@@ -1,3 +1,8 @@
+interface APIResponse {
+  status: number;
+  data: unknown;
+}
+
 interface User {
   Id?: string;
   UserId: string;
@@ -41,4 +46,4 @@ interface Event {
   EventDiscounts?: Discount[];
 }
 
-export type { User, Location, Discount, Event };
+export type { APIResponse, User, Location, Discount, Event };

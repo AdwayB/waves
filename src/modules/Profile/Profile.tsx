@@ -4,7 +4,9 @@ import ProfilePlaceholder from '../../assets/profile_placeholder.svg';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Loading } from '../../components';
-import { UserData, UserTestData } from '../../helpers';
+import { UserData } from '../../helpers';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux';
 
 const EditProfileForm = lazy(() =>
   import('./EditProfileForm/EditProfileForm').then((module) => ({ default: module.EditProfileForm })),
@@ -14,25 +16,25 @@ const ViewProfile = lazy(() => import('./ViewProfile/ViewProfile').then((module)
 
 const Profile: FC = () => {
   document.title = 'My Profile - Waves';
-  const UserData = UserTestData[0];
+  const UserData = useSelector(selectCurrentUser);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserData>({
-    userName: '',
-    legalName: '',
-    email: '',
-    userPassword: '',
-    mobileNumber: '',
-    type: '',
+    UserName: '',
+    LegalName: '',
+    Email: '',
+    Password: '',
+    MobileNumber: '',
+    Type: '',
   });
 
   useEffect(() => {
     setProfileData({
-      userName: UserData.Username,
-      legalName: UserData.LegalName,
-      email: UserData.Email,
-      userPassword: UserData.Password,
-      mobileNumber: UserData.MobileNumber,
-      type: UserData.Type,
+      UserName: UserData?.UserName,
+      LegalName: UserData?.LegalName,
+      Email: UserData?.Email ?? '',
+      Password: UserData?.Password,
+      MobileNumber: UserData?.MobileNumber,
+      Type: UserData?.Type ?? 'User',
     });
   }, [UserData]);
 

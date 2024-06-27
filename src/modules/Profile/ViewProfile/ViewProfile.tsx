@@ -15,29 +15,41 @@ const ViewProfile: FC<ViewProfileProps> = (props) => {
       <span className={styles.heading}>View Profile</span>
       <div className={styles.profileInfoContainer}>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="First Name" id="firstName" value={userData.legalName.split(' ')[0]} readOnly />
+          <InputField
+            type="text"
+            label="First Name"
+            id="firstName"
+            value={userData.LegalName?.split(' ')[0] ?? ''}
+            readOnly
+          />
         </div>
         <div className={styles.inputFieldContainer}>
           <InputField
             type="text"
             label="Last Name"
             id="lastName"
-            value={userData.legalName.split(' ').at(-1)!}
+            value={userData.LegalName?.split(' ').at(-1) ?? ''}
             readOnly
           />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="Username" id="userName" value={userData.userName} readOnly />
+          <InputField type="text" label="Username" id="UserName" value={userData?.UserName ?? ''} readOnly />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="GMail ID" id="email" value={userData.email} readOnly />
+          <InputField type="text" label="GMail ID" id="Email" value={userData?.Email} readOnly />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="Phone Number" id="mobileNumber" value={userData.mobileNumber} readOnly />
+          <InputField
+            type="text"
+            label="Phone Number"
+            id="MobileNumber"
+            value={userData?.MobileNumber ?? ''}
+            readOnly
+          />
         </div>
         <div className={styles.userTypeContainer}>
           <span className={styles.userTypeTitle}>Account Type:&nbsp;</span>
-          <span className={styles.userTypeText}>{userData.type}</span>
+          <span className={styles.userTypeText}>{userData.Type}</span>
         </div>
       </div>
     </div>

@@ -1,17 +1,19 @@
+import { User } from '../../helpers';
+
 enum UserType {
   Admin = 'Admin',
   User = 'User',
 }
 
 interface UserData {
-  userId?: string;
-  userName: string;
-  userPassword?: string;
-  legalName: string;
-  email: string;
-  mobileNumber: string;
-  countryCode?: string;
-  type?: string;
+  UserId?: string;
+  UserName?: string;
+  Password?: string;
+  LegalName?: string;
+  Email: string;
+  MobileNumber?: string;
+  Country?: string;
+  Type: string;
 }
 
 interface UserLoginRequest {
@@ -21,19 +23,17 @@ interface UserLoginRequest {
 }
 
 interface UserSignupLoginResponse {
-  userId: string;
-  userName: string;
-  type: string;
+  user: User;
   token: string;
 }
 
 const UserDataInit: UserData = {
-  userName: '',
-  legalName: '',
-  email: '',
-  userPassword: '',
-  mobileNumber: '',
-  type: UserType.User,
+  UserName: '',
+  LegalName: '',
+  Email: '',
+  Password: '',
+  MobileNumber: '',
+  Type: UserType.User,
 };
 
 const UserLoginInit: UserLoginRequest = {

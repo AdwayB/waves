@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { UserData } from './Types';
 
 const getCookie = (name: string): string | undefined => {
   const cookieValue = document.cookie
@@ -8,14 +8,15 @@ const getCookie = (name: string): string | undefined => {
   return cookieValue ? decodeURIComponent(cookieValue) : undefined;
 };
 
-const setCookie = (name: string, value: string, hours: number = 24): void => {
-  const expires = dayjs().add(hours, 'hour').toDate().toUTCString();
-  document.cookie =
-    `${name}=${encodeURIComponent(value)};` + `expires=${expires};` + 'path=/;' + 'secure;' + 'SameSite=Strict;';
+const getUserCookie = (): UserData | null => {
+  const value = getCookie('user');
+  if (!value) return null;
+  try {
+    return JSON.parse(value) as UserData;
+  } catch (error) {
+    console.error('Failed to parse user cookie', error);
+    return null;
+  }
 };
 
-const deleteCookie = (name: string): void => {
-  document.cookie = `${name}=; Max-Age=-99999999;`;
-};
-
-export { getCookie, setCookie, deleteCookie };
+export { getCookie, getUserCookie };

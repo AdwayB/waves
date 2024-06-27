@@ -1,14 +1,19 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './login.module.scss';
 import { Alert, Button, Checkbox, InputField } from '../../../components';
-import { UserLoginInit, UserLoginRequest, UserSignupLoginResponse, UserType } from '../dataModels';
+import { UserLoginInit, UserLoginRequest, UserType } from '../dataModels';
 import { useMutation } from 'react-query';
-// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { setCookie } from '../../../helpers';
+import { getUserCookie } from '../../../helpers';
+import { setIsAuthenticated, setUser } from '../../../redux';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../utils';
+import { AxiosError } from 'axios';
 
 const Login: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [alertMessage, setAlertMessage] = useState<string>('Please verify your entries and try again.');
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [admin, setAdmin] = useState<boolean>(false);
@@ -71,27 +76,31 @@ const Login: FC = () => {
   };
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
-    (formData: UserLoginRequest): Promise<UserSignupLoginResponse> => {
-      console.table(formData);
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            userId: '',
-            userName: '',
-            type: 'Admin',
-            token: 'testCookie',
-          });
-        }, 4000);
-      });
-      // return axios.post(`${process.env.WAVES_SERVER_URL}/login`, formData);
+    async (formData: UserLoginRequest): Promise<void> => {
+      await loginUser(formData);
     },
     {
-      onSuccess: (data: UserSignupLoginResponse) => {
-        setCookie('jwt', data.token);
-        setCookie('type', data.type.replace('"', ''));
+      onSuccess: () => {
+        const user = getUserCookie();
+        if (user) {
+          dispatch(setUser(user));
+          dispatch(setIsAuthenticated(true));
+          navigate('/user');
+        } else {
+          throw new Error('User Data not found.');
+        }
       },
       onError: (error) => {
-        console.error('Signup failed', error);
+        const response = (error as AxiosError).response;
+        if (response?.status === 404) {
+          setAlertMessage('User does not exist. Please Sign Up.');
+        } else if (response?.status === 401) {
+          setAlertMessage('Incorrect password. Please try again.');
+        } else if (response?.status !== 200) {
+          throw new Error('Login failed.');
+        }
+        console.error('Error during login:', error);
+        setFormSubmissionError(true);
       },
     },
   );
@@ -112,8 +121,8 @@ const Login: FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    console.table(formFields);
     if (passwordError || emailError) {
+      setFormSubmissionError(true);
       return false;
     }
     try {
@@ -131,7 +140,7 @@ const Login: FC = () => {
     <>
       <div className={styles.loginWrapper}>
         <Alert visible={formSubmissionError} severity="error" onClose={() => setFormSubmissionError(false)}>
-          Please verify your entries and try again.
+          {alertMessage}
         </Alert>
         <div className={styles.loginContainer}>
           <div className={styles.leftContainer}>
@@ -143,7 +152,14 @@ const Login: FC = () => {
           </div>
           <div className={styles.rightContainer}>
             <span className={styles.heading}>Log In</span>
-            <form className={styles.loginForm} id="loginForm" ref={form} onSubmit={handleSubmit}>
+            <form
+              className={styles.loginForm}
+              id="loginForm"
+              ref={form}
+              onSubmit={handleSubmit}
+              method="post"
+              action="/api/auth/login"
+            >
               <div className={styles.inputFieldContainer}>
                 <InputField
                   type="text"

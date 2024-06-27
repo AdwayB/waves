@@ -1,14 +1,19 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './signup.module.scss';
 import { Alert, Button, Checkbox, InputField } from '../../../components';
-import { UserType, UserData, UserDataInit, UserSignupLoginResponse } from '../dataModels';
+import { UserType, UserData, UserDataInit } from '../dataModels';
 import { useMutation } from 'react-query';
-// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { setCookie } from '../../../helpers';
+import { getUserCookie } from '../../../helpers';
+import { signupUser } from '../../../utils';
+import { useDispatch } from 'react-redux';
+import { setIsAuthenticated, setUser } from '../../../redux';
+import { AxiosError } from 'axios';
 
 const Signup: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [alertMessage, setAlertMessage] = useState<string>('Please verify your entries and try again.');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -32,8 +37,9 @@ const Signup: FC = () => {
     if (firstName && lastName) {
       setFormFields((previousValue) => ({
         ...previousValue,
-        userName: getUserName(firstName, lastName),
-        legalName: `${firstName[0].toUpperCase()}${firstName.slice(1)} ${lastName[0].toUpperCase()}${lastName.slice(1)}`,
+        UserName: getUserName(firstName, lastName),
+        LegalName: `${firstName[0].toUpperCase()}${firstName.slice(1)} ${lastName[0].toUpperCase()}${lastName.slice(1)}`,
+        Country: 'IND',
       }));
     }
   }, [firstName, lastName]);
@@ -87,11 +93,11 @@ const Signup: FC = () => {
         type: UserType.User,
       }));
     }
-    if (name === 'email') {
+    if (name === 'Email') {
       setEmailError(!checkEmailValidity(value));
-    } else if (name === 'userPassword') {
+    } else if (name === 'Password') {
       setPasswordError(!checkPasswordValidity(value));
-    } else if (name === 'mobileNumber') {
+    } else if (name === 'MobileNumber') {
       setMobileNumberError(!checkMobileNumberValidity(value));
     } else {
       setPasswordError(false);
@@ -102,7 +108,7 @@ const Signup: FC = () => {
 
   const handleRecheckPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRecheckPassword(e.target.value);
-    if (e.target.value !== formFields.userPassword) {
+    if (e.target.value !== formFields.Password) {
       setRecheckPasswordError(true);
     } else {
       setRecheckPasswordError(false);
@@ -110,27 +116,30 @@ const Signup: FC = () => {
   };
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
-    (formData: UserData): Promise<UserSignupLoginResponse> => {
-      console.table(formData);
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            userId: '',
-            userName: '',
-            type: 'Admin',
-            token: 'testCookie',
-          });
-        }, 4000);
-      });
-      // return axios.post(`${process.env.WAVES_SERVER_URL}/signup`, formData);
+    async (formData: UserData): Promise<void> => {
+      await signupUser(formData);
     },
     {
-      onSuccess: (data: UserSignupLoginResponse) => {
-        setCookie('jwt', data.token);
-        setCookie('type', data.type.replace('"', ''));
+      onSuccess: () => {
+        const user = getUserCookie();
+
+        if (user) {
+          dispatch(setUser(user));
+          dispatch(setIsAuthenticated(true));
+          navigate('/user');
+        } else {
+          throw new Error('User Data not found.');
+        }
       },
       onError: (error) => {
-        console.error('Signup failed', error);
+        const response = (error as AxiosError).response;
+        if (response?.status === 400) {
+          setAlertMessage(response.data as string);
+        } else if (response?.status !== 200) {
+          setAlertMessage('Signup failed.');
+        }
+        console.error('Error during signup:', error);
+        setFormSubmissionError(true);
       },
     },
   );
@@ -151,8 +160,8 @@ const Signup: FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    console.table(formFields);
     if (passwordError || recheckPasswordError || emailError || mobileNumberError) {
+      setFormSubmissionError(true);
       return false;
     }
     try {
@@ -170,7 +179,7 @@ const Signup: FC = () => {
     <>
       <div className={styles.pageContainer}>
         <Alert visible={formSubmissionError} onClose={() => setFormSubmissionError(false)} severity="error">
-          Please verify your entries and try again.
+          {alertMessage}
         </Alert>
         <div className={styles.signupContainer}>
           <div className={styles.leftContainer}>
@@ -181,7 +190,14 @@ const Signup: FC = () => {
           </div>
           <div className={styles.rightContainer}>
             <span className={styles.heading}>Sign Up</span>
-            <form className={styles.signupForm} id="signupForm" ref={form} onSubmit={handleSubmit}>
+            <form
+              className={styles.signupForm}
+              id="signupForm"
+              ref={form}
+              onSubmit={handleSubmit}
+              method="post"
+              action="/api/auth/signup"
+            >
               <div className={styles.inputFieldContainer}>
                 <InputField
                   type="text"
@@ -206,8 +222,8 @@ const Signup: FC = () => {
                 <InputField
                   type="text"
                   label="Enter GMail ID"
-                  id="email"
-                  value={formFields.email}
+                  id="Email"
+                  value={formFields.Email}
                   onChange={handleFieldChange}
                   error={emailError}
                   helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
@@ -218,8 +234,8 @@ const Signup: FC = () => {
                 <InputField
                   type="text"
                   label="Enter Phone Number"
-                  id="mobileNumber"
-                  value={formFields.mobileNumber}
+                  id="MobileNumber"
+                  value={formFields.MobileNumber ?? ''}
                   onChange={handleFieldChange}
                   required
                   error={mobileNumberError}
@@ -234,8 +250,8 @@ const Signup: FC = () => {
                 <InputField
                   type="password"
                   label="Enter Password"
-                  id="userPassword"
-                  value={formFields.userPassword ?? ''}
+                  id="Password"
+                  value={formFields.Password ?? ''}
                   onChange={handleFieldChange}
                   error={passwordError}
                   helperText={
