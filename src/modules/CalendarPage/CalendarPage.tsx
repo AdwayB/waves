@@ -46,8 +46,8 @@ const CalendarPage: FC = () => {
   const getHighlights = (events: Event[]): DateHighlight[] => {
     const highlights: DateHighlight[] = [];
     events.forEach((event) => {
-      if (event.EventStartDate) {
-        const eventDate = dayjs(event.EventStartDate);
+      if (event.eventStartDate) {
+        const eventDate = dayjs(event.eventStartDate);
         const existingHighlight = highlights.find((h) => h.date.utc().isSame(eventDate.utc(), 'day'));
         if (existingHighlight) {
           existingHighlight.count += 1;

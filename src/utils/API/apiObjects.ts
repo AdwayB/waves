@@ -6,7 +6,7 @@ const authAPI = axios.create({
 });
 
 const usersAPI = axios.create({
-  baseURL: `${process.env.WAVES_USER_URL}/api/users`,
+  baseURL: `${process.env.WAVES_USER_URL}/api/user`,
   withCredentials: true,
 });
 

@@ -16,11 +16,11 @@ const EventBody: FC<EventBodyProps> = (props) => {
         <div className={styles.eventInfoLeftBlock}>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Event Name:</span>
-            <span className={styles.eventInfoValue}>{eventInfo.EventName}</span>
+            <span className={styles.eventInfoValue}>{eventInfo.eventName}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Created By:</span>
-            <span className={styles.eventInfoValue}>{eventInfo.EventCreatedBy}</span>
+            <span className={styles.eventInfoValue}>{eventInfo.eventCreatedBy}</span>
           </div>
         </div>
         <div className={styles.eventInfoRightBlock}>
@@ -30,50 +30,50 @@ const EventBody: FC<EventBodyProps> = (props) => {
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Event Genres:</span>
-            {eventInfo.EventGenres.map((genre) => (
-              <Chip key={genre} label={genre} />
-            ))}
+            {eventInfo.eventGenres?.map((genre) => <Chip key={genre} label={genre} />)}
           </div>
         </div>
       </div>
       <div className={styles.eventDescriptionUnit}>
         <span className={styles.eventInfoLabel}>Description:</span>
-        <div className={`${styles.eventInfoValue} ${styles.eventDescription}`}>{eventInfo.EventDescription}</div>
+        <div className={`${styles.eventInfoValue} ${styles.eventDescription}`}>{eventInfo.eventDescription}</div>
       </div>
       <div className={styles.eventInfoBlockGroup}>
         <div className={styles.eventInfoLeftBlock}>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Start Date:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.EventStartDate).format('DD MMM YYYY')}</span>
+            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventStartDate).format('DD MMM YYYY')}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>End Date:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.EventEndDate).format('DD MMM YYYY')}</span>
+            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventEndDate).format('DD MMM YYYY')}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Total Seats:</span>
-            <span className={styles.eventInfoValue}>{eventInfo.EventTotalSeats}</span>
+            <span className={styles.eventInfoValue}>{eventInfo.eventTotalSeats}</span>
           </div>
         </div>
         <div className={styles.eventInfoRightBlock}>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Start Time:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.EventStartDate).format('hh:mm A')}</span>
+            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventStartDate).format('hh:mm A')}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>End Time:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.EventEndDate).format('hh:mm A')}</span>
+            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventEndDate).format('hh:mm A')}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Available Seats:</span>
-            <span className={styles.eventInfoValue}>{eventInfo.EventTotalSeats - eventInfo.EventRegisteredSeats}</span>
+            <span className={styles.eventInfoValue}>
+              {(eventInfo.eventTotalSeats ?? 0) - (eventInfo.eventRegisteredSeats ?? 0)}
+            </span>
           </div>
         </div>
       </div>
       <div className={`${styles.eventInfoUnit} ${styles.eventStatusUnit}`}>
         <span className={styles.eventInfoLabel}>Event Status:</span>
         <span className={styles.eventInfoValue}>
-          <Chip label={eventInfo.EventStatus} />
+          <Chip label={eventInfo.eventStatus ?? 'Scheduled'} />
         </span>
       </div>
     </div>

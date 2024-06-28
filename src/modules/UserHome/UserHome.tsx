@@ -3,11 +3,13 @@ import { CardCarousel } from '../../components';
 import styles from './userHome.module.scss';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux';
 
 const UserHome = () => {
   document.title = 'Home - Waves';
   const testRegistrations = 5 as const;
-  const userName = 'Test User';
+  const userName = useSelector(selectCurrentUser)?.LegalName;
   const welcomeTextRef = useRef<HTMLSpanElement>(null);
   const welcomeNameRef = useRef<HTMLSpanElement>(null);
   const welcomeExclamationRef = useRef<HTMLSpanElement>(null);
@@ -39,7 +41,7 @@ const UserHome = () => {
         ease: 'none',
       });
     }
-  }, []);
+  }, [userName]);
 
   return (
     <>

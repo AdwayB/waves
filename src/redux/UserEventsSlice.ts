@@ -30,12 +30,12 @@ const userEventsSlice = createSlice({
       state.registeredEvents = action.payload;
     },
     addRegisteredEvent: (state, action: PayloadAction<Event>) => {
-      if (!state.registeredEvents.find((re) => re.event.EventId === action.payload.EventId)) {
+      if (!state.registeredEvents.find((re) => re.event.eventId === action.payload.eventId)) {
         state.registeredEvents.push({ event: action.payload, cancelled: false });
       }
     },
     cancelRegisteredEvent: (state, action: PayloadAction<string>) => {
-      const registeredEvent = state.registeredEvents.find((re) => re.event.EventId === action.payload);
+      const registeredEvent = state.registeredEvents.find((re) => re.event.eventId === action.payload);
       if (registeredEvent) {
         registeredEvent.cancelled = true;
       }

@@ -26,14 +26,14 @@ enum SidebarElement {
 }
 
 interface SidebarProps {
-  userType?: 'Admin' | 'User';
+  userName?: string;
 }
 
 /**
  * The application Sidebar menu.
  */
 const Sidebar: FC<SidebarProps> = (props) => {
-  const { userType = 'User' } = props;
+  const { userName = 'Undefined User' } = props;
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -139,16 +139,14 @@ const Sidebar: FC<SidebarProps> = (props) => {
           )}
           <span className={styles.navText}>Calendar</span>
         </div>
-        {userType === 'Admin' && (
-          <div className={styles.navItem} id={SidebarElement.MY_EVENTS} onClick={handleClick}>
-            {selectedElement === SidebarElement.MY_EVENTS ? (
-              <EditNoteOutlinedIcon className={styles.selectedNavIcon} color="inherit" />
-            ) : (
-              <NotesIcon className={styles.navIcon} color="inherit" />
-            )}
-            <span className={styles.navText}>My Events</span>
-          </div>
-        )}
+        <div className={styles.navItem} id={SidebarElement.MY_EVENTS} onClick={handleClick}>
+          {selectedElement === SidebarElement.MY_EVENTS ? (
+            <EditNoteOutlinedIcon className={styles.selectedNavIcon} color="inherit" />
+          ) : (
+            <NotesIcon className={styles.navIcon} color="inherit" />
+          )}
+          <span className={styles.navText}>My Events</span>
+        </div>
       </div>
       <div
         className={
@@ -157,8 +155,8 @@ const Sidebar: FC<SidebarProps> = (props) => {
         id={SidebarElement.MY_PROFILE}
         onClick={handleClick}
       >
-        <Avatar name={'Test User'}>Test User</Avatar>
-        <span className={styles.avatarLabel}>Test User</span>
+        <Avatar name={userName}>{userName}</Avatar>
+        <span className={styles.avatarLabel}>{userName}</span>
       </div>
       <div className={styles.collapseArrowContainer} onClick={toggleCollapse}>
         <ChevronLeftOutlinedIcon className={styles.collapseArrow} color="inherit" />

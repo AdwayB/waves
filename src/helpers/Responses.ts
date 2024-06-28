@@ -27,23 +27,23 @@ interface Discount {
 
 interface Event {
   Id?: string;
-  EventId: string;
-  EventName: string;
-  EventDescription: string;
-  EventBackgroundImage?: string;
-  EventTotalSeats: number;
-  EventRegisteredSeats: number;
-  EventTicketPrice?: number;
-  EventGenres: string[];
-  EventCollab?: string[];
-  EventStartDate: string;
-  EventEndDate: string;
-  EventLocation: Location;
-  EventStatus: string;
-  EventCreatedBy: string;
-  EventAgeRestriction?: number;
-  EventCountry?: string;
-  EventDiscounts?: Discount[];
+  eventId?: string;
+  eventName?: string;
+  eventDescription?: string;
+  eventBackgroundImage?: string;
+  eventTotalSeats?: number;
+  eventRegisteredSeats?: number;
+  eventTicketPrice?: number;
+  eventGenres?: string[];
+  eventCollab?: string[];
+  eventStartDate?: string;
+  eventEndDate?: string;
+  eventLocation?: Location;
+  eventStatus?: string;
+  eventCreatedBy?: string;
+  eventAgeRestriction?: number;
+  eventCountry?: string;
+  eventDiscounts?: Discount[];
 }
 
 export type { APIResponse, User, Location, Discount, Event };

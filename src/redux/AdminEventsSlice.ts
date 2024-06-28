@@ -16,20 +16,20 @@ const adminEventsSlice = createSlice({
   initialState,
   reducers: {
     setAdminEvents: (state, action: PayloadAction<BulkEventsResponse>) => {
-      state.numberOfEvents = action.payload.NumberOfEvents;
-      state.events = action.payload.Events || [];
+      state.numberOfEvents = action.payload.numberOfEvents;
+      state.events = action.payload.events || [];
     },
     addAdminEvent: (state, action: PayloadAction<Event>) => {
       state.events.push(action.payload);
     },
     updateAdminEvent: (state, action: PayloadAction<Event>) => {
-      const index = state.events.findIndex((event) => event.EventId === action.payload.EventId);
+      const index = state.events.findIndex((event) => event.eventId === action.payload.eventId);
       if (index !== -1) {
         state.events[index] = action.payload;
       }
     },
     removeAdminEvent: (state, action: PayloadAction<string>) => {
-      state.events = state.events.filter((event) => event.EventId !== action.payload);
+      state.events = state.events.filter((event) => event.eventId !== action.payload);
     },
   },
 });

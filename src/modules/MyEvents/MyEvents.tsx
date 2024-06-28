@@ -33,19 +33,19 @@ const MyEvents: FC = () => {
   const EventData = EventTestData;
   const userId = ['1', '2', '3', '4', '5'];
 
-  const userEvents = EventData.filter((event) => userId.includes(event.EventCreatedBy));
+  const userEvents = EventData.filter((event) => userId.includes(event.eventCreatedBy ?? '1'));
 
   const MyEventsTableRows: MyEventsColumnNames[] = userEvents
-    .sort((a, b) => (dayjs(a.EventStartDate).utc().isBefore(dayjs(b.EventStartDate).utc(), 'day') ? -1 : 1))
+    .sort((a, b) => (dayjs(a.eventStartDate).utc().isBefore(dayjs(b.eventStartDate).utc(), 'day') ? -1 : 1))
     .map((event) => ({
-      id: event.EventId,
-      name: event.EventName,
-      genres: event.EventGenres.join(', '),
-      totalSeats: event.EventTotalSeats,
-      registrations: event.EventTotalSeats - event.EventRegisteredSeats,
-      startdate: dayjs(event.EventStartDate).format('DD MMM YYYY [at] hh:mm A'),
-      enddate: dayjs(event.EventEndDate).format('DD MMM YYYY [at] hh:mm A'),
-      status: event.EventStatus,
+      id: event.eventId,
+      name: event.eventName,
+      genres: event.eventGenres?.join(', '),
+      totalSeats: event.eventTotalSeats,
+      registrations: (event.eventTotalSeats ?? 0) - (event.eventRegisteredSeats ?? 0),
+      startdate: dayjs(event.eventStartDate).format('DD MMM YYYY [at] hh:mm A'),
+      enddate: dayjs(event.eventEndDate).format('DD MMM YYYY [at] hh:mm A'),
+      status: event.eventStatus,
     }));
 
   // Simulate API delay

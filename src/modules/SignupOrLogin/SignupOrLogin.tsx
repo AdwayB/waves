@@ -1,18 +1,26 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './signupOrLogin.module.scss';
 import { Button, Loading } from '../../components';
-import { getCookie } from '../../helpers';
+import { getUserCookie } from '../../helpers';
+import { useDispatch } from 'react-redux';
+import { setIsAuthenticated, setUser } from '../../redux';
+import { useEffect } from 'react';
 
 const SignupOrLogin = () => {
   const navigate = useNavigate();
-  const jwt = getCookie('jwt');
+  const dispatch = useDispatch();
+
+  const user = getUserCookie();
 
   useEffect(() => {
-    if (jwt) navigate('/user');
-  });
+    if (user) {
+      dispatch(setUser(user));
+      dispatch(setIsAuthenticated(true));
+      navigate('/user');
+    }
+  }, [dispatch, navigate, user]);
 
-  return jwt ? (
+  return user ? (
     <Loading loading />
   ) : (
     <>

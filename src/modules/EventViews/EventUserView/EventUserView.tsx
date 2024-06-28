@@ -16,7 +16,7 @@ const EventUserView: FC = () => {
   const userFeedback = UserFeedbackTestData;
 
   useEffect(() => {
-    const foundEvent = eventData.find((event) => event.EventId === eventId);
+    const foundEvent = eventData.find((event) => event.eventId === eventId);
     foundEvent && setEventInfo(foundEvent);
   }, [eventData, eventId]);
 
@@ -25,11 +25,11 @@ const EventUserView: FC = () => {
   }
 
   const handleRegisterEvent = () => {
-    console.log('Register event ' + eventInfo.EventId);
+    console.log('Register event ' + eventInfo.eventId);
   };
 
   const handleSaveEvent = () => {
-    console.log('Save event ' + eventInfo.EventId);
+    console.log('Save event ' + eventInfo.eventId);
   };
 
   const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) => {

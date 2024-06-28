@@ -1,23 +1,44 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import styles from './browseEvents.module.scss';
-import { CardProps, EventFilter, FilterTypes, PaginatedCards, Search, Sort, SortMethods } from '../../components';
-import { Event, EventTestData, UserTestData, calculateDistance, getCardData } from '../../helpers';
+import {
+  Alert,
+  Button,
+  CardProps,
+  EventFilter,
+  FilterTypes,
+  LoadingWithPagination,
+  PaginatedCards,
+  Search,
+  Sort,
+  SortMethods,
+} from '../../components';
+import { BulkEventsResponse, Event, User, calculateDistance, getCardData } from '../../helpers';
 import dayjs, { Dayjs } from 'dayjs';
+import { useMutation } from 'react-query';
+import { getBulkEvents } from '../../utils/API/eventAPICalls';
+import { getUserByIDList } from '../../utils';
 
 const BrowseEvents: FC = () => {
   document.title = 'Browse Events - Waves';
-  const EventData = EventTestData;
-  const UserData = UserTestData;
   const [genres, setGenres] = useState<string[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [apiPage, setApiPage] = useState<number>(1);
+  const [totalEvents, setTotalEvents] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [pageLength, setPageLength] = useState<number>(1);
   const [pageCount, setPageCount] = useState<number>(0);
+  const [eventsFetched, setEventsFetched] = useState<boolean>(false);
+  const [eventData, setEventData] = useState<Event[] | undefined>([]);
+  const [usersData, setUsersData] = useState<User[] | undefined>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [filters, setFilters] = useState<FilterTypes>({ startDate: null, endDate: null, distance: 0, genres: [] });
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortMethod, setSortMethod] = useState<SortMethods>('date-asc');
+  const [filteredEvents, setFilteredEvents] = useState<Event[] | undefined>([]);
+  const [eventsFiltered, setEventsFiltered] = useState<boolean>(false);
   const [mappedCardData, setMappedCardData] = useState<CardProps[]>([{}]);
   const [displayData, setDisplayData] = useState<CardProps[]>([{}]);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,19 +60,47 @@ const BrowseEvents: FC = () => {
     };
   }, []);
 
+  const { mutate, isLoading } = useMutation(
+    async (apiPage: number): Promise<BulkEventsResponse> => {
+      const response = await getBulkEvents(apiPage, 50);
+      return response.data as BulkEventsResponse;
+    },
+    {
+      onSuccess: (data) => {
+        setTotalEvents(data.numberOfEvents);
+        setEventData((prev) => {
+          if (!prev) return data?.events;
+          const filteredEvents = prev.filter((event) => {
+            return !data?.events?.some((e) => e.eventId === event.eventId);
+          });
+          return [...filteredEvents, ...(data?.events ?? [])];
+        });
+        setEventsFetched(true);
+      },
+      onError: (error) => {
+        console.error('Error during getBulkEvents:', error);
+        setError(true);
+      },
+    },
+  );
+
+  useEffect(() => {
+    mutate(apiPage);
+  }, [apiPage, mutate]);
+
   useEffect(() => {
     setPageCount(Math.ceil(mappedCardData.length / pageLength));
   }, [mappedCardData, pageLength]);
 
   useEffect(() => {
     const genreArray: string[] = [];
-    EventData.forEach((event) => {
-      event.EventGenres.forEach((genre) => {
+    eventData?.forEach((event) => {
+      event.eventGenres?.forEach((genre) => {
         if (!genreArray.includes(genre)) genreArray.push(genre);
       });
     });
     setGenres(genreArray.sort());
-  }, [EventData]);
+  }, [eventData]);
 
   useEffect(() => {
     const start = (page - 1) * pageLength;
@@ -59,13 +108,11 @@ const BrowseEvents: FC = () => {
     setDisplayData(mappedCardData.slice(start, end));
   }, [mappedCardData, page, pageLength]);
 
-  const mapCardData = useCallback((events: Event[]) => getCardData(events, UserData), [UserData]);
-
   const dateFilter = (events: Event[], startDate?: Dayjs | null, endDate?: Dayjs | null) => {
     if (!startDate && !endDate) return events;
 
     return events.filter((event) => {
-      const eventDate = dayjs(event.EventStartDate);
+      const eventDate = dayjs(event.eventStartDate);
       if (startDate && endDate) return eventDate.isAfter(startDate, 'day') && eventDate.isBefore(endDate, 'day');
       if (startDate) return eventDate.isAfter(startDate, 'day');
       if (endDate) return eventDate.isBefore(endDate, 'day');
@@ -88,8 +135,7 @@ const BrowseEvents: FC = () => {
     if (!userLocation) return events;
     if (distance) {
       return events.filter((event) => {
-        const xCoord = event.EventLocation.Coordinates[0];
-        const yCoord = event.EventLocation.Coordinates[1];
+        const [xCoord, yCoord] = event.eventLocation?.Coordinates ?? userLocation;
         const dist = calculateDistance(userLocation, [xCoord, yCoord]);
         return dist <= distance;
       });
@@ -100,7 +146,7 @@ const BrowseEvents: FC = () => {
   const genreFilter = (events: Event[], genres?: string[]) => {
     if (genres?.length === 0 || !genres) return events;
 
-    return events.filter((event) => event.EventGenres.some((genre) => genres?.includes(genre)));
+    return events.filter((event) => event.eventGenres?.some((genre) => genres?.includes(genre)));
   };
 
   const getSearchResults = (cardData: CardProps[], search?: string) => {
@@ -138,18 +184,64 @@ const BrowseEvents: FC = () => {
     setPage(v);
   };
 
+  const usersDataCallback = useCallback(
+    async (events: Event[]) => {
+      const artistIDs: string[] = [];
+      events
+        .filter((id) => id.eventCreatedBy !== '' && !usersData?.some((u) => u.UserId === id))
+        .forEach((event) => {
+          artistIDs.push(event.eventCreatedBy ?? '');
+        });
+      const userDataResponse = (await getUserByIDList(artistIDs)).data as User[];
+      return userDataResponse;
+    },
+    [usersData],
+  );
+
   useEffect(() => {
-    let events = EventData;
-    events = dateFilter(events, filters.startDate, filters.endDate);
-    events = distanceFilter(events, filters.distance, userLocation);
-    events = genreFilter(events, filters.genres);
+    if (eventsFetched && eventData && eventData.length > 0) {
+      const fetchUserData = async (events: Event[]) => {
+        const userDataResponse = await usersDataCallback(events);
 
-    let mappedEvents = mapCardData(events);
-    mappedEvents = getSearchResults(mappedEvents, searchTerm);
-    mappedEvents = sortResult(mappedEvents, sortMethod);
+        setLoading(false);
+        setUsersData((prev) => {
+          if (prev) {
+            return [...prev, ...userDataResponse];
+          }
+          return userDataResponse;
+        });
+      };
 
-    setMappedCardData(mappedEvents);
-  }, [EventData, genres, filters, mapCardData, pageLength, searchTerm, sortMethod, userLocation, UserData]);
+      fetchUserData(eventData);
+    }
+  }, [eventsFetched, eventData, usersDataCallback]);
+
+  const applyFilters = useCallback(
+    (events: Event[]) => {
+      let filteredEvents = dateFilter(events, filters.startDate, filters.endDate);
+      filteredEvents = distanceFilter(filteredEvents, filters.distance, userLocation);
+      filteredEvents = genreFilter(filteredEvents, filters.genres);
+      return filteredEvents;
+    },
+    [filters, userLocation],
+  );
+
+  useEffect(() => {
+    if (eventsFetched && eventData && eventData.length > 0) {
+      const filteredEvents = applyFilters(eventData);
+      setFilteredEvents(filteredEvents);
+      setEventsFiltered(true);
+    }
+  }, [eventsFetched, eventData, applyFilters]);
+
+  useEffect(() => {
+    if (eventsFiltered && filteredEvents && filteredEvents.length > 0) {
+      const mappedEvents = getCardData(filteredEvents, usersData as User[]);
+      const searchResults = getSearchResults(mappedEvents, searchTerm);
+      const sortedResults = sortResult(searchResults, sortMethod);
+      setMappedCardData(sortedResults);
+    }
+  }, [eventsFiltered, filteredEvents, searchTerm, sortMethod, usersData]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearchChange = (e: any) => {
@@ -158,13 +250,15 @@ const BrowseEvents: FC = () => {
   };
 
   const handleSortChange = (sort: SortMethods) => {
-    console.log(sort);
     setSortMethod(sort);
     setPage(1);
   };
 
   return (
     <div className={styles.browseEventsContainer}>
+      <Alert visible={error} severity="error" onClose={() => setError(false)}>
+        Error in fetching events. Please try again later.
+      </Alert>
       <div className={styles.browseEventsHeader}>
         <span className={styles.browseEventsHeading}>Browse All Events</span>
         <span className={styles.browseEventsText}>
@@ -182,7 +276,22 @@ const BrowseEvents: FC = () => {
           </span>
         </div>
       </div>
-      <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+      {loading || isLoading ? (
+        <LoadingWithPagination />
+      ) : (
+        <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+      )}
+      <div className={styles.browseEventsFooter}>
+        <div className={styles.browseEventsInfoWrapper}>
+          <span className={styles.browseEventsInfo}>
+            Total Events: <span className={styles.browseEventsCount}>{totalEvents}</span>
+          </span>
+          <span className={styles.browseEventsInfo}>
+            Visible Events: <span className={styles.browseEventsCount}>{mappedCardData.length}</span>
+          </span>
+        </div>
+        <Button label="Load More Events" onClick={() => setApiPage((prev) => prev + 1)} />
+      </div>
     </div>
   );
 };

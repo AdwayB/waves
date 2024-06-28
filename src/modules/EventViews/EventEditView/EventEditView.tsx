@@ -20,15 +20,15 @@ const EventEditView: FC = () => {
   const eventData = EventTestData;
 
   useEffect(() => {
-    const foundEvent = eventData.find((event) => event.EventId === eventId);
+    const foundEvent = eventData.find((event) => event.eventId === eventId);
     foundEvent &&
       (setEventInfo(foundEvent),
       setEditedData(foundEvent),
-      setStartDate(dayjs(foundEvent.EventStartDate)),
-      setEndDate(dayjs(foundEvent.EventEndDate)),
-      setStartTime(dayjs(foundEvent.EventStartDate).format('HH:mm A')),
-      setEndTime(dayjs(foundEvent.EventEndDate).format('HH:mm A')),
-      setStatus([foundEvent.EventStatus]));
+      setStartDate(dayjs(foundEvent.eventStartDate)),
+      setEndDate(dayjs(foundEvent.eventEndDate)),
+      setStartTime(dayjs(foundEvent.eventStartDate).format('HH:mm A')),
+      setEndTime(dayjs(foundEvent.eventEndDate).format('HH:mm A')),
+      setStatus([foundEvent.eventStatus ?? 'Scheduled']));
   }, [eventData, eventId]);
 
   if (!eventInfo) {
@@ -111,7 +111,7 @@ const EventEditView: FC = () => {
           <Button label="Back" onClick={() => navigate(-1)} className={styles.backButton} />
         </div>
         <span className={styles.eventTitle}>
-          Edit Event - <span className={styles.eventName}>{eventInfo.EventName}</span>
+          Edit Event - <span className={styles.eventName}>{eventInfo.eventName}</span>
         </span>
         <div className={styles.eventInfoHeaderRight}>
           <div className={styles.eventActions}>
@@ -136,8 +136,8 @@ const EventEditView: FC = () => {
               <InputField
                 type="text"
                 id={'event-name'}
-                value={editedData!['EventName']}
-                onChange={(e) => handleTextFieldChange(e, 'EventName')}
+                value={editedData!['eventName'] ?? 'No-Name Event'}
+                onChange={(e) => handleTextFieldChange(e, 'eventName')}
               />
             </div>
             <div className={styles.eventEditField}>
@@ -145,8 +145,8 @@ const EventEditView: FC = () => {
               <InputField
                 type="text"
                 id={'event-description'}
-                value={editedData!['EventDescription']}
-                onChange={(e) => handleTextFieldChange(e, 'EventDescription')}
+                value={editedData!['eventDescription'] ?? ''}
+                onChange={(e) => handleTextFieldChange(e, 'eventDescription')}
               />
             </div>
             <div className={styles.eventEditField}>
@@ -155,16 +155,16 @@ const EventEditView: FC = () => {
               <InputField
                 type="text"
                 id={'event-genres'}
-                value={editedData!['EventGenres']?.toString() ?? ''}
-                onChange={(e) => handleTextFieldChange(e, 'EventGenres')}
+                value={editedData!['eventGenres']?.toString() ?? ''}
+                onChange={(e) => handleTextFieldChange(e, 'eventGenres')}
               />
             </div>
             <div className={styles.eventEditField}>
               <span className={styles.eventEditFieldLabel}>Edit Total Seats for Event</span>
               <InputNumber
                 id={'event-total-seats'}
-                value={editedData!['EventTotalSeats'] ?? 0}
-                onChange={(e) => handleTextFieldChange(e, 'EventTotalSeats')}
+                value={editedData!['eventTotalSeats'] ?? 0}
+                onChange={(e) => handleTextFieldChange(e, 'eventTotalSeats')}
               />
             </div>
             <div className={styles.eventEditField}>

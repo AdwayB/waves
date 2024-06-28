@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { Event } from './Responses';
+import { Discount, Event } from './Responses';
 
 interface DateHighlight {
   date: Dayjs;
@@ -45,11 +45,34 @@ interface UserEventRegistrations {
 }
 
 interface BulkEventsResponse {
-  NumberOfEvents: number;
-  TotalPages: number;
-  PageNumber: number;
-  PageSize: number;
-  Events?: Event[];
+  numberOfEvents: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  events?: Event[];
+}
+
+interface UpdateEventRequest {
+  EventId?: string;
+  EventName?: string;
+  EventDescription?: string;
+  EventBackgroundImage?: string;
+  EventTotalSeats?: number;
+  EventRegisteredSeats?: number;
+  EventTicketPrice?: number;
+  EventGenres?: string[];
+  EventCollab?: string[];
+  EventStartDate?: string;
+  EventEndDate?: string;
+  EventLocation?: Location;
+  EventStatus?: string;
+  EventAgeRestriction?: number;
+  EventCountry?: string;
+  EventDiscounts?: Discount[];
+}
+
+interface IDList {
+  id: string[];
 }
 
 enum EventStatus {
@@ -67,4 +90,6 @@ export type {
   UserSavedEvents,
   UserEventRegistrations,
   BulkEventsResponse,
+  UpdateEventRequest,
+  IDList,
 };

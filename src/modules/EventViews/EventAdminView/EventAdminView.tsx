@@ -15,7 +15,7 @@ const EventAdminView: FC = () => {
   const userFeedback = UserFeedbackTestData;
 
   useEffect(() => {
-    const foundEvent = eventData.find((event) => event.EventId === eventId);
+    const foundEvent = eventData.find((event) => event.eventId === eventId);
     foundEvent && setEventInfo(foundEvent);
   }, [eventData, eventId]);
 

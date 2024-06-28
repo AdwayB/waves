@@ -36,57 +36,57 @@ const calculateDistance = (coords1: [number, number], coords2: [number, number])
 
 const getCardData = (eventData: Event[], userData: User[]): CardProps[] => {
   return eventData.map((event) => {
-    const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+    const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
     return {
-      eventId: event.EventId,
-      title: event.EventName,
+      eventId: event.eventId,
+      title: event.eventName,
       artist: artistInfo?.LegalName || 'Unknown Artist',
-      genres: event.EventGenres.join(', '),
+      genres: event.eventGenres?.join(', '),
       rating: Math.floor(Math.random() * 5) + 1,
-      startDate: dayjs(event.EventStartDate),
+      startDate: dayjs(event.eventStartDate),
     };
   });
 };
 
 const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
-  const filteredEvents = eventData.filter((event) => dayjs(event.EventStartDate).isSame(date.utc(), 'day'));
+  const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
     return [];
   }
 
   return filteredEvents
-    .sort((a, b) => (dayjs(a.EventStartDate).isBefore(b.EventStartDate) ? -1 : 1))
+    .sort((a, b) => (dayjs(a.eventStartDate).isBefore(b.eventStartDate) ? -1 : 1))
     .map((event) => {
-      const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+      const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
       return {
-        eventId: event.EventId,
-        title: event.EventName,
+        eventId: event.eventId,
+        title: event.eventName,
         artist: artistInfo?.LegalName || 'Unknown Artist',
-        startDate: dayjs(event.EventStartDate),
-        endDate: dayjs(event.EventEndDate),
+        startDate: dayjs(event.eventStartDate),
+        endDate: dayjs(event.eventEndDate),
         type: 'primary',
       };
     });
 };
 
 const getSavedEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
-  const filteredEvents = eventData.filter((event) => dayjs(event.EventStartDate).isSame(date.utc(), 'day'));
+  const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
     return [];
   }
 
   return filteredEvents
-    .sort((a, b) => (dayjs(a.EventStartDate).isBefore(b.EventStartDate) ? -1 : 1))
+    .sort((a, b) => (dayjs(a.eventStartDate).isBefore(b.eventStartDate) ? -1 : 1))
     .map((event) => {
-      const artistInfo = userData.find((user) => user.UserId === event.EventCreatedBy);
+      const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
       return {
-        eventId: event.EventId,
-        title: event.EventName,
+        eventId: event.eventId,
+        title: event.eventName,
         artist: artistInfo?.LegalName || 'Unknown Artist',
-        startDate: dayjs(event.EventStartDate),
-        endDate: dayjs(event.EventEndDate),
+        startDate: dayjs(event.eventStartDate),
+        endDate: dayjs(event.eventEndDate),
         type: 'secondary',
       };
     });

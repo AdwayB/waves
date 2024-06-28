@@ -56,7 +56,7 @@ const SavedEvents: FC = () => {
   useEffect(() => {
     const genreArray: string[] = [];
     EventData.forEach((event) => {
-      event.EventGenres.forEach((genre) => {
+      event.eventGenres?.forEach((genre) => {
         if (!genreArray.includes(genre)) genreArray.push(genre);
       });
     });
@@ -75,7 +75,7 @@ const SavedEvents: FC = () => {
     if (!startDate && !endDate) return events;
 
     return events.filter((event) => {
-      const eventDate = dayjs(event.EventStartDate);
+      const eventDate = dayjs(event.eventStartDate);
       if (startDate && endDate) return eventDate.isAfter(startDate, 'day') && eventDate.isBefore(endDate, 'day');
       if (startDate) return eventDate.isAfter(startDate, 'day');
       if (endDate) return eventDate.isBefore(endDate, 'day');
@@ -98,8 +98,8 @@ const SavedEvents: FC = () => {
     if (!userLocation) return events;
     if (distance) {
       return events.filter((event) => {
-        const xCoord = event.EventLocation.Coordinates[0];
-        const yCoord = event.EventLocation.Coordinates[1];
+        const xCoord = event.eventLocation?.Coordinates[0] ?? userLocation[0];
+        const yCoord = event.eventLocation?.Coordinates[1] ?? userLocation[1];
         const dist = calculateDistance(userLocation, [xCoord, yCoord]);
         return dist <= distance;
       });
@@ -110,7 +110,7 @@ const SavedEvents: FC = () => {
   const genreFilter = (events: Event[], genres?: string[]) => {
     if (genres?.length === 0 || !genres) return events;
 
-    return events.filter((event) => event.EventGenres.some((genre) => genres?.includes(genre)));
+    return events.filter((event) => event.eventGenres?.some((genre) => genres?.includes(genre)));
   };
 
   const getSearchResults = (cardData: CardProps[], search?: string) => {

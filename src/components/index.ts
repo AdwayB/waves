@@ -18,6 +18,7 @@ export * from './IconComponents';
 export * from './InputField';
 export * from './InputNumber';
 export * from './Loading';
+export * from './LoadingWithPagination';
 export * from './Menu';
 export * from './PaginatedCards';
 export * from './Pagination';
