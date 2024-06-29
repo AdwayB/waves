@@ -4,6 +4,7 @@ import {
   DateHighlight,
   Event,
   EventTestData,
+  UserDataResponse,
   UserTestData,
   getRegisteredEventsCardData,
   getSavedEventsCardData,
@@ -26,14 +27,14 @@ const CalendarPage: FC = () => {
 
   const getRegisteredEvents = useCallback(
     (date: Dayjs) => {
-      return getRegisteredEventsCardData(registeredEventData, userData, date);
+      return getRegisteredEventsCardData(registeredEventData, userData as unknown as UserDataResponse[], date);
     },
     [registeredEventData, userData],
   );
 
   const getSavedEvents = useCallback(
     (date: Dayjs) => {
-      return getSavedEventsCardData(savedEventData, userData, date);
+      return getSavedEventsCardData(savedEventData, userData as unknown as UserDataResponse[], date);
     },
     [savedEventData, userData],
   );

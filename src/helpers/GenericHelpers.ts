@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { CardProps, EventCardProps } from '../components';
-import { User, Event } from './Responses';
+import { Event } from './Responses';
+import { UserDataResponse } from './Types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Method = (...args: any[]) => void;
@@ -34,13 +35,13 @@ const calculateDistance = (coords1: [number, number], coords2: [number, number])
   return R * c;
 };
 
-const getCardData = (eventData: Event[], userData: User[]): CardProps[] => {
+const getCardData = (eventData: Event[], userData: UserDataResponse[]): CardProps[] => {
   return eventData.map((event) => {
-    const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
+    const artistInfo = userData.find((user) => user.userId === event.eventCreatedBy);
     return {
       eventId: event.eventId,
       title: event.eventName,
-      artist: artistInfo?.LegalName || 'Unknown Artist',
+      artist: artistInfo?.legalName || 'Unknown Artist',
       genres: event.eventGenres?.join(', '),
       rating: Math.floor(Math.random() * 5) + 1,
       startDate: dayjs(event.eventStartDate),
@@ -48,7 +49,11 @@ const getCardData = (eventData: Event[], userData: User[]): CardProps[] => {
   });
 };
 
-const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
+const getRegisteredEventsCardData = (
+  eventData: Event[],
+  userData: UserDataResponse[],
+  date: Dayjs = dayjs(),
+): EventCardProps[] => {
   const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
@@ -58,11 +63,11 @@ const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date:
   return filteredEvents
     .sort((a, b) => (dayjs(a.eventStartDate).isBefore(b.eventStartDate) ? -1 : 1))
     .map((event) => {
-      const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
+      const artistInfo = userData.find((user) => user.userId === event.eventCreatedBy);
       return {
         eventId: event.eventId,
         title: event.eventName,
-        artist: artistInfo?.LegalName || 'Unknown Artist',
+        artist: artistInfo?.legalName || 'Unknown Artist',
         startDate: dayjs(event.eventStartDate),
         endDate: dayjs(event.eventEndDate),
         type: 'primary',
@@ -70,7 +75,11 @@ const getRegisteredEventsCardData = (eventData: Event[], userData: User[], date:
     });
 };
 
-const getSavedEventsCardData = (eventData: Event[], userData: User[], date: Dayjs = dayjs()): EventCardProps[] => {
+const getSavedEventsCardData = (
+  eventData: Event[],
+  userData: UserDataResponse[],
+  date: Dayjs = dayjs(),
+): EventCardProps[] => {
   const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {
@@ -80,11 +89,11 @@ const getSavedEventsCardData = (eventData: Event[], userData: User[], date: Dayj
   return filteredEvents
     .sort((a, b) => (dayjs(a.eventStartDate).isBefore(b.eventStartDate) ? -1 : 1))
     .map((event) => {
-      const artistInfo = userData.find((user) => user.UserId === event.eventCreatedBy);
+      const artistInfo = userData.find((user) => user.userId === event.eventCreatedBy);
       return {
         eventId: event.eventId,
         title: event.eventName,
-        artist: artistInfo?.LegalName || 'Unknown Artist',
+        artist: artistInfo?.legalName || 'Unknown Artist',
         startDate: dayjs(event.eventStartDate),
         endDate: dayjs(event.eventEndDate),
         type: 'secondary',

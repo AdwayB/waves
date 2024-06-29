@@ -17,6 +17,17 @@ interface UserData {
   Type: string;
 }
 
+interface UserDataResponse {
+  userId: string;
+  userName?: string;
+  password?: string;
+  legalName?: string;
+  email: string;
+  mobileNumber?: string;
+  country?: string;
+  type: string;
+}
+
 interface UserLoginRequest {
   email: string;
   password: string;
@@ -85,6 +96,7 @@ export { EventStatus };
 export type {
   DateHighlight,
   UserData,
+  UserDataResponse,
   UserLoginRequest,
   UserFeedback,
   UserSavedEvents,

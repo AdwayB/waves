@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import styles from './savedEvents.module.scss';
-import { Event, EventTestData, UserTestData, calculateDistance, getCardData } from '../../helpers';
+import { Event, EventTestData, UserDataResponse, UserTestData, calculateDistance, getCardData } from '../../helpers';
 import {
   CardProps,
   EventFilter,
@@ -69,7 +69,10 @@ const SavedEvents: FC = () => {
     setDisplayData(mappedCardData.slice(start, end));
   }, [mappedCardData, page, pageLength]);
 
-  const mapCardData = useCallback((events: Event[]) => getCardData(events, UserData), [UserData]);
+  const mapCardData = useCallback(
+    (events: Event[]) => getCardData(events, UserData as unknown as UserDataResponse[]),
+    [UserData],
+  );
 
   const dateFilter = (events: Event[], startDate?: Dayjs | null, endDate?: Dayjs | null) => {
     if (!startDate && !endDate) return events;
