@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { Calendar, EventCardProps, Tabs } from '../../components';
 import {
   DateHighlight,
@@ -14,7 +14,7 @@ import styles from './calendarPage.module.scss';
 import { RegisteredEventsTab } from './RegisteredEvents/RegisteredEventsTab';
 import { SavedEventsTab } from './SavedEvents/SavedEventsTab';
 
-const CalendarPage: FC = () => {
+const MemoizedCalendarPage: FC = () => {
   document.title = 'Calendar - Waves';
   const registeredEventData = EventTestData.slice(0, 10);
   const savedEventData = EventTestData.slice(10);
@@ -22,33 +22,12 @@ const CalendarPage: FC = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>();
   const [registeredEventCards, setRegisteredEventCards] = useState<EventCardProps[]>([]);
   const [savedEventCards, setSavedEventCards] = useState<EventCardProps[]>([]);
-  const [registeredEventHighlights, setRegisteredEventHighlights] = useState<DateHighlight[]>([]);
-  const [savedEventHighlights, setSavedEventHighlights] = useState<DateHighlight[]>([]);
-
-  const getRegisteredEvents = useCallback(
-    (date: Dayjs) => {
-      return getRegisteredEventsCardData(registeredEventData, userData as unknown as UserDataResponse[], date);
-    },
-    [registeredEventData, userData],
-  );
-
-  const getSavedEvents = useCallback(
-    (date: Dayjs) => {
-      return getSavedEventsCardData(savedEventData, userData as unknown as UserDataResponse[], date);
-    },
-    [savedEventData, userData],
-  );
-
-  useEffect(() => {
-    setRegisteredEventHighlights(getHighlights(registeredEventData));
-    setSavedEventHighlights(getHighlights(savedEventData));
-  }, [registeredEventData, savedEventData]);
 
   const getHighlights = (events: Event[]): DateHighlight[] => {
     const highlights: DateHighlight[] = [];
     events.forEach((event) => {
       if (event.eventStartDate) {
-        const eventDate = dayjs(event.eventStartDate);
+        const eventDate = dayjs(event.eventStartDate).startOf('day');
         const existingHighlight = highlights.find((h) => h.date.utc().isSame(eventDate.utc(), 'day'));
         if (existingHighlight) {
           existingHighlight.count += 1;
@@ -64,10 +43,30 @@ const CalendarPage: FC = () => {
     return highlights;
   };
 
+  const registeredEventHighlights = getHighlights(registeredEventData);
+  const savedEventHighlights = getHighlights(savedEventData);
+
+  const getRegisteredEvents = useCallback(
+    (date: Dayjs) => {
+      return getRegisteredEventsCardData(registeredEventData, userData as unknown as UserDataResponse[], date);
+    },
+    [registeredEventData, userData],
+  );
+
+  const getSavedEvents = useCallback(
+    (date: Dayjs) => {
+      return getSavedEventsCardData(savedEventData, userData as unknown as UserDataResponse[], date);
+    },
+    [savedEventData, userData],
+  );
+
   const handleDateChange = (date: Dayjs) => {
-    date.startOf('day').isSame(selectedDate?.startOf('day')) ? null : setSelectedDate(date.startOf('day'));
-    setRegisteredEventCards(getRegisteredEvents(date.startOf('day')));
-    setSavedEventCards(getSavedEvents(date.startOf('day')));
+    const selectedStartDate = date.startOf('day');
+    if (!selectedDate || !selectedStartDate.isSame(selectedDate.startOf('day'))) {
+      setSelectedDate(selectedStartDate);
+      setRegisteredEventCards(getRegisteredEvents(selectedStartDate));
+      setSavedEventCards(getSavedEvents(selectedStartDate));
+    }
   };
 
   return (
@@ -98,5 +97,5 @@ const CalendarPage: FC = () => {
   );
 };
 
-memo(CalendarPage);
+const CalendarPage = memo(MemoizedCalendarPage);
 export { CalendarPage };
