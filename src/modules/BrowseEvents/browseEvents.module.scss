@@ -1,5 +1,9 @@
 @import '../../styles/variables.scss';
 
+.browse-events-loading {
+  height: 30rem;
+}
+
 .browse-events-container {
   color: $white;
 
@@ -51,6 +55,36 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+      }
+    }
+  }
+
+  .browse-events-footer {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    text-align: center;
+    text-wrap: balance;
+    white-space: wrap;
+    padding: 0 1rem;
+
+    .browse-events-info-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      .browse-events-info {
+        font: $small-text-font;
+        color: $disabled-text-color;
+      }
+
+      .browse-events-count {
+        color: $light-white;
       }
     }
   }

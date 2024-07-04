@@ -14,7 +14,7 @@ import {
 } from '../../components';
 import { Event, calculateDistance, getCardData } from '../../helpers';
 import dayjs, { Dayjs } from 'dayjs';
-import { useGetEventsAndUsers } from './useGetEventsAndUsers';
+import { useGetEventsAndUsers } from '../../hooks';
 
 const MemoizedBrowseEvents: FC = () => {
   document.title = 'Browse Events - Waves';
@@ -210,7 +210,9 @@ const MemoizedBrowseEvents: FC = () => {
         </div>
       </div>
       {isLoading ? (
-        <LoadingWithPagination />
+        <div className={styles.browseEventsLoading}>
+          <LoadingWithPagination />
+        </div>
       ) : (
         <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
       )}
