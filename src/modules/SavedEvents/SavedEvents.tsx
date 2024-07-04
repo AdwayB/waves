@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '../../components';
 import dayjs, { Dayjs } from 'dayjs';
-import { useGetSavedEventsAndUsers } from '../../hooks/useGetSavedEventsAndUsers';
+import { useGetSavedEventsAndUsers } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { setSavedEvents } from '../../redux';
 

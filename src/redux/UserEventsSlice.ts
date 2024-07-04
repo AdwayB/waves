@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Event } from '../helpers';
+import dayjs from 'dayjs';
 
 interface UserEventsState {
   savedEvents: Event[];
-  registeredEvents: { event: Event; cancelled: boolean }[];
+  numberOfUpcomingRegisteredEvents: number;
+  registeredEvents: Event[];
 }
 
 const initialState: UserEventsState = {
   savedEvents: [],
+  numberOfUpcomingRegisteredEvents: 0,
   registeredEvents: [],
 };
 
@@ -26,19 +29,21 @@ const userEventsSlice = createSlice({
     removeSavedEvent: (state, action: PayloadAction<string>) => {
       state.savedEvents = state.savedEvents.filter((eventId) => eventId !== action.payload);
     },
-    setRegisteredEvents: (state, action: PayloadAction<{ event: Event; cancelled: boolean }[]>) => {
+    setRegisteredEvents: (state, action: PayloadAction<Event[]>) => {
       state.registeredEvents = action.payload;
+      state.numberOfUpcomingRegisteredEvents = action.payload.filter((re) =>
+        dayjs(re.eventEndDate).utc().isAfter(dayjs().utc(), 'day'),
+      ).length;
     },
     addRegisteredEvent: (state, action: PayloadAction<Event>) => {
-      if (!state.registeredEvents.find((re) => re.event.eventId === action.payload.eventId)) {
-        state.registeredEvents.push({ event: action.payload, cancelled: false });
+      if (!state.registeredEvents.find((re) => re.eventId === action.payload.eventId)) {
+        state.registeredEvents.push(action.payload);
+        state.numberOfUpcomingRegisteredEvents++;
       }
     },
     cancelRegisteredEvent: (state, action: PayloadAction<string>) => {
-      const registeredEvent = state.registeredEvents.find((re) => re.event.eventId === action.payload);
-      if (registeredEvent) {
-        registeredEvent.cancelled = true;
-      }
+      state.registeredEvents = state.registeredEvents.filter((re) => re.eventId !== action.payload);
+      state.numberOfUpcomingRegisteredEvents--;
     },
   },
 });

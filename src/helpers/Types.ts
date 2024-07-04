@@ -47,12 +47,12 @@ interface UserSavedEvents {
 }
 
 interface UserEventRegistrations {
-  Cancelled: boolean;
-  NumberOfRegistrations: number;
-  TotalPages: number;
-  PageNumber: number;
-  PageSize: number;
-  RegisteredEventIds?: Event[];
+  cancelled: boolean;
+  numberOfRegistrations: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  registeredEvents?: Event[];
 }
 
 interface BulkEventsResponse {

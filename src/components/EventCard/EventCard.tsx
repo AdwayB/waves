@@ -10,6 +10,7 @@ interface EventCardProps {
   startDate?: Dayjs;
   endDate?: Dayjs;
   type?: 'primary' | 'secondary';
+  onClickHandler?: (eventId?: string) => void;
   className?: string;
 }
 
@@ -20,7 +21,7 @@ interface EventCardProps {
  * @param {EventCardProps} props - The props for configuring the EventCard.
  */
 const EventCard: FC<EventCardProps> = (props) => {
-  const { eventId, title, artist, startDate, endDate, type = 'primary', className } = props;
+  const { eventId, title, artist, startDate, endDate, type = 'primary', onClickHandler, className } = props;
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,9 +65,18 @@ const EventCard: FC<EventCardProps> = (props) => {
     };
   }, []);
 
+  const handleCardClick = () => {
+    if (onClickHandler) {
+      onClickHandler(eventId);
+    }
+  };
+
   return (
     <div ref={ref} className={`${styles.eventCardWrapper} ${className}`} key={eventId}>
-      <div className={`${styles.eventCard} ${type === 'primary' ? styles.primary : styles.secondary}`}>
+      <div
+        className={`${styles.eventCard} ${type === 'primary' ? styles.primary : styles.secondary}`}
+        onClick={handleCardClick}
+      >
         <div className={styles.eventCardTitle}>
           <span className={styles.eventCardTitleText}>{title}</span>
           <span className={styles.eventCardArtistText}>{artist}</span>

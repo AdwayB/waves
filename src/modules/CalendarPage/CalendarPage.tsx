@@ -1,61 +1,45 @@
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { Calendar, EventCardProps, Tabs } from '../../components';
-import {
-  DateHighlight,
-  Event,
-  EventTestData,
-  UserDataResponse,
-  UserTestData,
-  getRegisteredEventsCardData,
-  getSavedEventsCardData,
-} from '../../helpers';
-import dayjs, { Dayjs } from 'dayjs';
+import { getRegisteredEventsCardData, getSavedEventsCardData } from '../../helpers';
+import { Dayjs } from 'dayjs';
 import styles from './calendarPage.module.scss';
 import { RegisteredEventsTab } from './RegisteredEvents/RegisteredEventsTab';
 import { SavedEventsTab } from './SavedEvents/SavedEventsTab';
+import { useSelector } from 'react-redux';
+import { selectRegisteredEvents, selectSavedEvents } from '../../redux';
+import { useGetEventCreators, useGetHighlights } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 const MemoizedCalendarPage: FC = () => {
   document.title = 'Calendar - Waves';
-  const registeredEventData = EventTestData.slice(0, 10);
-  const savedEventData = EventTestData.slice(10);
-  const userData = UserTestData;
+
+  const registeredEventData = useSelector(selectRegisteredEvents);
+  const savedEventData = useSelector(selectSavedEvents);
+
+  const memoizedAggregatedEvents = useMemo(
+    () => [...registeredEventData, ...savedEventData],
+    [registeredEventData, savedEventData],
+  );
+  const userData = useGetEventCreators(memoizedAggregatedEvents);
+
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Dayjs>();
   const [registeredEventCards, setRegisteredEventCards] = useState<EventCardProps[]>([]);
   const [savedEventCards, setSavedEventCards] = useState<EventCardProps[]>([]);
 
-  const getHighlights = (events: Event[]): DateHighlight[] => {
-    const highlights: DateHighlight[] = [];
-    events.forEach((event) => {
-      if (event.eventStartDate) {
-        const eventDate = dayjs(event.eventStartDate).startOf('day');
-        const existingHighlight = highlights.find((h) => h.date.utc().isSame(eventDate.utc(), 'day'));
-        if (existingHighlight) {
-          existingHighlight.count += 1;
-        } else {
-          highlights.push({
-            date: eventDate,
-            count: 1,
-          });
-        }
-      }
-    });
+  const registeredEventHighlights = useGetHighlights(registeredEventData);
+  const savedEventHighlights = useGetHighlights(savedEventData);
 
-    return highlights;
-  };
-
-  const registeredEventHighlights = getHighlights(registeredEventData);
-  const savedEventHighlights = getHighlights(savedEventData);
-
-  const getRegisteredEvents = useCallback(
+  const getRegisteredEventCards = useCallback(
     (date: Dayjs) => {
-      return getRegisteredEventsCardData(registeredEventData, userData as unknown as UserDataResponse[], date);
+      return getRegisteredEventsCardData(registeredEventData, userData, date);
     },
     [registeredEventData, userData],
   );
 
-  const getSavedEvents = useCallback(
+  const getSavedEventCards = useCallback(
     (date: Dayjs) => {
-      return getSavedEventsCardData(savedEventData, userData as unknown as UserDataResponse[], date);
+      return getSavedEventsCardData(savedEventData, userData, date);
     },
     [savedEventData, userData],
   );
@@ -64,9 +48,13 @@ const MemoizedCalendarPage: FC = () => {
     const selectedStartDate = date.startOf('day');
     if (!selectedDate || !selectedStartDate.isSame(selectedDate.startOf('day'))) {
       setSelectedDate(selectedStartDate);
-      setRegisteredEventCards(getRegisteredEvents(selectedStartDate));
-      setSavedEventCards(getSavedEvents(selectedStartDate));
+      setRegisteredEventCards(getRegisteredEventCards(selectedStartDate));
+      setSavedEventCards(getSavedEventCards(selectedStartDate));
     }
+  };
+
+  const handleCardClick = (eventId?: string) => {
+    eventId && navigate(`/view-event/${eventId}`);
   };
 
   return (
@@ -79,8 +67,16 @@ const MemoizedCalendarPage: FC = () => {
         <div className={styles.eventsContainer}>
           <Tabs
             tabs={[
-              { tabTitle: 'Registered', tabContent: <RegisteredEventsTab registeredEvents={registeredEventCards} /> },
-              { tabTitle: 'Saved', tabContent: <SavedEventsTab savedEvents={savedEventCards} /> },
+              {
+                tabTitle: 'Registered',
+                tabContent: (
+                  <RegisteredEventsTab registeredEvents={registeredEventCards} handleCardClick={handleCardClick} />
+                ),
+              },
+              {
+                tabTitle: 'Saved',
+                tabContent: <SavedEventsTab savedEvents={savedEventCards} handleCardClick={handleCardClick} />,
+              },
             ]}
           />
         </div>

@@ -4,15 +4,23 @@ import styles from './userHome.module.scss';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../redux';
+import { selectCurrentUser, selectTotalUpcomingRegistrations } from '../../redux';
+import { useUpdateUserEventsState } from '../../hooks';
 
 const UserHome = () => {
   document.title = 'Home - Waves';
-  const testRegistrations = 5 as const;
-  const userName = useSelector(selectCurrentUser)?.LegalName;
+  const currentUser = useSelector(selectCurrentUser);
+  const currentUserName = currentUser?.LegalName ?? 'User';
+  const currentUserId = currentUser?.UserId;
+
+  useUpdateUserEventsState(currentUserId ?? '');
+
+  const numberOfUpcomingRegistrations = useSelector(selectTotalUpcomingRegistrations);
+
   const welcomeTextRef = useRef<HTMLSpanElement>(null);
   const welcomeNameRef = useRef<HTMLSpanElement>(null);
   const welcomeExclamationRef = useRef<HTMLSpanElement>(null);
+
   gsap.registerPlugin(TextPlugin);
 
   useEffect(() => {
@@ -29,7 +37,7 @@ const UserHome = () => {
     if (welcomeNameRef.current) {
       timeline.to(welcomeNameRef.current, {
         duration: 1,
-        text: userName,
+        text: currentUserName,
         ease: 'none',
       });
     }
@@ -41,7 +49,7 @@ const UserHome = () => {
         ease: 'none',
       });
     }
-  }, [userName]);
+  }, [currentUserName]);
 
   return (
     <>
@@ -52,7 +60,7 @@ const UserHome = () => {
             <span ref={welcomeNameRef} className={styles.welcomeName} />
             <span ref={welcomeExclamationRef} />
           </span>
-          <span className={styles.welcomeText}>You have {testRegistrations} upcoming events.</span>
+          <span className={styles.welcomeText}>You have {numberOfUpcomingRegistrations} upcoming events.</span>
         </div>
         <div className={styles.userHomeRegisteredEventsContainer}>
           <CardCarousel
