@@ -2,7 +2,6 @@ import { FC, useEffect, useRef } from 'react';
 import styles from './eventCard.module.scss';
 import { Dayjs } from 'dayjs';
 import { gsap } from 'gsap';
-import { throttle } from '../../helpers';
 
 interface EventCardProps {
   eventId?: string;
@@ -27,19 +26,20 @@ const EventCard: FC<EventCardProps> = (props) => {
   useEffect(() => {
     const card = ref.current;
     if (!card) return;
+    const perspective = 2000;
 
     const handleHover = (event: MouseEvent) => {
       const { clientX, clientY } = event;
-      const { left, top, width, height } = card!.getBoundingClientRect();
+      const { left, top, width, height } = card.getBoundingClientRect();
       const x = (clientX - (left + width / 2)) / 10;
       const y = -((clientY - (top + height / 2)) / 10);
 
-      gsap.to(card!, {
-        scale: 1.1,
+      gsap.to(card, {
+        scale: 1,
         rotationY: x,
         rotationX: y,
-        ease: 'inOut',
-        transformPerspective: 2000,
+        duration: 0,
+        transformPerspective: perspective,
         transformOrigin: 'center center',
       });
     };
@@ -49,19 +49,17 @@ const EventCard: FC<EventCardProps> = (props) => {
         scale: 1,
         rotationY: 0,
         rotationX: 0,
-        ease: 'power1.easeOut',
-        transformPerspective: 2000,
+        duration: 0.2,
+        transformPerspective: perspective,
         transformOrigin: 'center center',
       });
     };
 
-    const throttledHandleHover = throttle(handleHover, 20);
-
-    card!.addEventListener('mousemove', throttledHandleHover);
+    card!.addEventListener('mousemove', handleHover);
     card!.addEventListener('mouseleave', resetNormal);
 
     return () => {
-      card!.removeEventListener('mousemove', throttledHandleHover);
+      card!.removeEventListener('mousemove', handleHover);
       card!.removeEventListener('mouseleave', resetNormal);
     };
   }, []);
