@@ -16,4 +16,9 @@ const getUserByIDList = async (ids: string[]): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getUserByID, getUserByIDList };
+const getSavedEvents = async (): Promise<APIResponse> => {
+  const response = await usersAPI.get('/get-saved');
+  return { status: response.status, data: response.data };
+};
+
+export { getUserByID, getUserByIDList, getSavedEvents };

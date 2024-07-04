@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Event } from '../helpers';
 
 interface UserEventsState {
-  savedEvents: string[];
+  savedEvents: Event[];
   registeredEvents: { event: Event; cancelled: boolean }[];
 }
 
@@ -15,10 +15,10 @@ const userEventsSlice = createSlice({
   name: 'userEvents',
   initialState,
   reducers: {
-    setSavedEvents: (state, action: PayloadAction<string[]>) => {
+    setSavedEvents: (state, action: PayloadAction<Event[]>) => {
       state.savedEvents = action.payload;
     },
-    addSavedEvent: (state, action: PayloadAction<string>) => {
+    addSavedEvent: (state, action: PayloadAction<Event>) => {
       if (!state.savedEvents.includes(action.payload)) {
         state.savedEvents.push(action.payload);
       }

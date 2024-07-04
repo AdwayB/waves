@@ -11,7 +11,12 @@ const fetchEvents = async (apiPage: number) => {
 };
 
 const fetchUsers = async (artistIds: string[]) => {
+  if (!artistIds || artistIds.length === 0) {
+    throw new Error('No artist IDs provided');
+  }
+
   console.log('fetching users');
+
   const { data } = await getUserByIDList(artistIds);
   return data as UserDataResponse[];
 };

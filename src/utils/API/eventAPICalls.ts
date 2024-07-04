@@ -6,6 +6,16 @@ const getBulkEvents = async (pageNumber: number, pageSize: number): Promise<APIR
   return { status: response.status, data: response.data };
 };
 
+const getEventsByIDList = async (ids: string[]): Promise<APIResponse> => {
+  const filteredIds = ids.filter((id) => id !== undefined && id !== null && id !== '');
+  const response = await eventsAPI.post('/get-event-by-id-list', filteredIds, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return { status: response.status, data: response.data };
+};
+
 const addEvent = async (eventData: Event): Promise<APIResponse> => {
   const response = await eventsAPI.post('/create-event', eventData);
   return { status: response.status, data: response.data };
@@ -21,4 +31,4 @@ const deleteEvent = async (eventId: number): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getBulkEvents, addEvent, updateEvent, deleteEvent };
+export { getBulkEvents, getEventsByIDList, addEvent, updateEvent, deleteEvent };

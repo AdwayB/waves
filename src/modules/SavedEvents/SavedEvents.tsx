@@ -1,10 +1,12 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FC, memo, useEffect, useMemo, useState } from 'react';
 import styles from './savedEvents.module.scss';
-import { Event, EventTestData, UserDataResponse, UserTestData, calculateDistance, getCardData } from '../../helpers';
+import { Event, calculateDistance, getCardData } from '../../helpers';
 import {
+  Alert,
   CardProps,
   EventFilter,
   FilterTypes,
+  LoadingWithPagination,
   PaginatedCards,
   Search,
   Sort,
@@ -12,22 +14,26 @@ import {
   Tooltip,
 } from '../../components';
 import dayjs, { Dayjs } from 'dayjs';
+import { useGetSavedEventsAndUsers } from '../../hooks/useGetSavedEventsAndUsers';
+import { useDispatch } from 'react-redux';
+import { setSavedEvents } from '../../redux';
 
-const SavedEvents: FC = () => {
+const MemoizedSavedEvents: FC = () => {
   document.title = 'Saved Events - Waves';
-  const EventData = EventTestData;
-  const UserData = UserTestData;
-  const [savedEventsNumber, setSavedEventsNumber] = useState<number>(0);
+  const dispatch = useDispatch();
   const [genres, setGenres] = useState<string[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [page, setPage] = useState<number>(1);
   const [pageLength, setPageLength] = useState<number>(1);
-  const [pageCount, setPageCount] = useState<number>(0);
   const [filters, setFilters] = useState<FilterTypes>({ startDate: null, endDate: null, distance: 0, genres: [] });
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortMethod, setSortMethod] = useState<SortMethods>('date-asc');
   const [mappedCardData, setMappedCardData] = useState<CardProps[]>([{}]);
-  const [displayData, setDisplayData] = useState<CardProps[]>([{}]);
+  const [error, setError] = useState<boolean>(false);
+
+  const { totalEvents, eventData, userData, isLoading, isError } = useGetSavedEventsAndUsers();
+
+  dispatch(setSavedEvents(eventData));
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,29 +56,18 @@ const SavedEvents: FC = () => {
   }, []);
 
   useEffect(() => {
-    setPageCount(Math.ceil(mappedCardData.length / pageLength));
-  }, [mappedCardData, pageLength]);
+    setError(isError);
+  }, [isError]);
 
   useEffect(() => {
     const genreArray: string[] = [];
-    EventData.forEach((event) => {
+    eventData?.forEach((event) => {
       event.eventGenres?.forEach((genre) => {
         if (!genreArray.includes(genre)) genreArray.push(genre);
       });
     });
     setGenres(genreArray.sort());
-  }, [EventData]);
-
-  useEffect(() => {
-    const start = (page - 1) * pageLength;
-    const end = start + pageLength;
-    setDisplayData(mappedCardData.slice(start, end));
-  }, [mappedCardData, page, pageLength]);
-
-  const mapCardData = useCallback(
-    (events: Event[]) => getCardData(events, UserData as unknown as UserDataResponse[]),
-    [UserData],
-  );
+  }, [eventData]);
 
   const dateFilter = (events: Event[], startDate?: Dayjs | null, endDate?: Dayjs | null) => {
     if (!startDate && !endDate) return events;
@@ -101,8 +96,7 @@ const SavedEvents: FC = () => {
     if (!userLocation) return events;
     if (distance) {
       return events.filter((event) => {
-        const xCoord = event.eventLocation?.Coordinates[0] ?? userLocation[0];
-        const yCoord = event.eventLocation?.Coordinates[1] ?? userLocation[1];
+        const [xCoord, yCoord] = event.eventLocation?.Coordinates ?? userLocation;
         const dist = calculateDistance(userLocation, [xCoord, yCoord]);
         return dist <= distance;
       });
@@ -147,23 +141,41 @@ const SavedEvents: FC = () => {
     }
   };
 
+  const filteredEvents = useMemo(() => {
+    let result = dateFilter(eventData, filters.startDate, filters.endDate);
+    result = distanceFilter(result, filters.distance, userLocation);
+    result = genreFilter(result, filters.genres);
+    return result;
+  }, [eventData, filters, userLocation]);
+
+  const searchAndSortResults = useMemo(() => {
+    if (filteredEvents && filteredEvents.length > 0 && userData && userData.length > 0) {
+      const mappedEvents = getCardData(filteredEvents, userData!);
+      const searchResults = getSearchResults(mappedEvents, searchTerm);
+      const sortedResults = sortResult(searchResults, sortMethod);
+      return sortedResults;
+    }
+  }, [filteredEvents, searchTerm, sortMethod, userData]);
+
+  useEffect(() => {
+    if (searchAndSortResults) {
+      setMappedCardData(searchAndSortResults);
+    }
+  }, [searchAndSortResults]);
+
+  const pageCount = useMemo(() => {
+    return Math.ceil(mappedCardData.length / pageLength);
+  }, [mappedCardData.length, pageLength]);
+
+  const displayData = useMemo(() => {
+    const start = (page - 1) * pageLength;
+    const end = start + pageLength;
+    return mappedCardData.slice(start, end);
+  }, [mappedCardData, page, pageLength]);
+
   const handlePageChange = (e: ChangeEvent<unknown>, v: number) => {
     setPage(v);
   };
-
-  useEffect(() => {
-    let events = EventData;
-    setSavedEventsNumber(events.length);
-    events = dateFilter(events, filters.startDate, filters.endDate);
-    events = distanceFilter(events, filters.distance, userLocation);
-    events = genreFilter(events, filters.genres);
-
-    let mappedEvents = mapCardData(events);
-    mappedEvents = getSearchResults(mappedEvents, searchTerm);
-    mappedEvents = sortResult(mappedEvents, sortMethod);
-
-    setMappedCardData(mappedEvents);
-  }, [EventData, genres, filters, mapCardData, pageLength, searchTerm, sortMethod, userLocation, UserData]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearchChange = (e: any) => {
@@ -179,6 +191,9 @@ const SavedEvents: FC = () => {
 
   return (
     <div className={styles.savedEventsContainer}>
+      <Alert visible={error} severity="error" onClose={() => setError(false)}>
+        Error in fetching saved events. Please try again later.
+      </Alert>
       <div className={styles.savedEventsHeader}>
         <div className={styles.savedEventsHeadingGroup}>
           <Tooltip
@@ -186,7 +201,7 @@ const SavedEvents: FC = () => {
             placement="right"
           >
             <span className={styles.savedEventsHeading}>
-              You have <span className={styles.savedEventsCount}>{savedEventsNumber}</span> Saved Events.
+              You have <span className={styles.savedEventsCount}>{totalEvents}</span> Saved Events.
             </span>
           </Tooltip>
           <span className={styles.savedEventsText}>
@@ -205,9 +220,17 @@ const SavedEvents: FC = () => {
           </span>
         </div>
       </div>
-      <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+      {isLoading ? (
+        <div className={styles.savedEventsLoading}>
+          <LoadingWithPagination />
+        </div>
+      ) : (
+        <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+      )}
     </div>
   );
 };
+
+const SavedEvents = memo(MemoizedSavedEvents);
 
 export { SavedEvents };

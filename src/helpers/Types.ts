@@ -42,8 +42,8 @@ interface UserFeedback {
 }
 
 interface UserSavedEvents {
-  UserId: string;
-  Events: string[];
+  userId: string;
+  events: string[];
 }
 
 interface UserEventRegistrations {
