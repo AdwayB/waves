@@ -1,7 +1,7 @@
 import { APIResponse } from '../../helpers';
 import { usersAPI } from './apiObjects';
 
-const getUserByID = async (id: number): Promise<APIResponse> => {
+const getUserByID = async (id: string): Promise<APIResponse> => {
   const response = await usersAPI.get(`/get-user-by-id/${id}`);
   return { status: response.status, data: response.data };
 };

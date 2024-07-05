@@ -34,13 +34,6 @@ interface UserLoginRequest {
   type: string;
 }
 
-interface UserFeedback {
-  FeedbackId: string;
-  UserId: string;
-  Rating: number;
-  Comment: string;
-}
-
 interface UserSavedEvents {
   userId: string;
   events: string[];
@@ -61,6 +54,21 @@ interface BulkEventsResponse {
   pageNumber: number;
   pageSize: number;
   events?: Event[];
+}
+
+interface UserFeedback {
+  feedbackId?: string;
+  userId?: string;
+  rating?: number;
+  comment?: string;
+}
+
+interface EventFeedbackResponse {
+  numberOfFeedback?: number;
+  totalPages?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  feedbacks?: UserFeedback[];
 }
 
 interface UpdateEventRequest {
@@ -98,10 +106,11 @@ export type {
   UserData,
   UserDataResponse,
   UserLoginRequest,
-  UserFeedback,
   UserSavedEvents,
   UserEventRegistrations,
   BulkEventsResponse,
+  UserFeedback,
+  EventFeedbackResponse,
   UpdateEventRequest,
   IDList,
 };

@@ -1,10 +1,13 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Button, DatePicker, InputField, InputNumber, Select } from '../../../components';
+import { Alert, Button, DatePicker, InputField, InputNumber, Loading, Select } from '../../../components';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './eventEditView.module.scss';
-import { Event, EventStatus, EventTestData } from '../../../helpers';
+import { Event, EventStatus } from '../../../helpers';
 import { EventBody } from '../EventBody';
 import dayjs, { Dayjs } from 'dayjs';
+import { useGetEventView } from '../../../hooks';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux';
 
 const EventEditView: FC = () => {
   document.title = 'Edit Event - Waves';
@@ -17,19 +20,33 @@ const EventEditView: FC = () => {
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [status, setStatus] = useState<string[]>();
-  const eventData = EventTestData;
+  const [eventError, setEventError] = useState<boolean>(false);
+
+  const { eventData, userData, averageRating, isLoading, isError } = useGetEventView(eventId ?? '', true, true);
+
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    const foundEvent = eventData.find((event) => event.eventId === eventId);
-    foundEvent &&
-      (setEventInfo(foundEvent),
-      setEditedData(foundEvent),
-      setStartDate(dayjs(foundEvent.eventStartDate)),
-      setEndDate(dayjs(foundEvent.eventEndDate)),
-      setStartTime(dayjs(foundEvent.eventStartDate).format('HH:mm A')),
-      setEndTime(dayjs(foundEvent.eventEndDate).format('HH:mm A')),
-      setStatus([foundEvent.eventStatus ?? 'Scheduled']));
-  }, [eventData, eventId]);
+    if (eventData?.eventCreatedBy !== currentUser?.UserId) {
+      navigate(`/view-event/${eventId}`);
+    }
+  }, [eventData, currentUser, eventId, navigate]);
+
+  useEffect(() => {
+    setEventError(isError);
+  }, [isError]);
+
+  useEffect(() => {
+    if (eventData) {
+      setEventInfo(eventData);
+      setEditedData(eventData);
+      setStartDate(dayjs(eventData.eventStartDate));
+      setEndDate(dayjs(eventData.eventEndDate));
+      setStartTime(dayjs(eventData.eventStartDate).format('HH:mm A'));
+      setEndTime(dayjs(eventData.eventEndDate).format('HH:mm A'));
+      setStatus([eventData.eventStatus ?? 'Scheduled']);
+    }
+  }, [eventData]);
 
   if (!eventInfo) {
     return (
@@ -106,6 +123,9 @@ const EventEditView: FC = () => {
 
   return (
     <div className={styles.eventContainer}>
+      <Alert visible={eventError} severity="error" onClose={() => setEventError(false)}>
+        An error occurred when fetching event data, please try again later.
+      </Alert>
       <div className={styles.eventInfoHeader}>
         <div className={styles.eventInfoHeaderLeft}>
           <Button label="Back" onClick={() => navigate(-1)} className={styles.backButton} />
@@ -125,102 +145,112 @@ const EventEditView: FC = () => {
         </div>
       </div>
       <div className={styles.eventEditBody}>
-        <div className={styles.eventViewBody}>
-          <EventBody eventInfo={eventInfo} />
-        </div>
-        <div className={styles.eventEditFields}>
-          <span className={styles.eventEditFieldsTitle}>Edit Fields</span>
-          <div className={styles.eventEditFieldsBody}>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Event Name</span>
-              <InputField
-                type="text"
-                id={'event-name'}
-                value={editedData!['eventName'] ?? 'No-Name Event'}
-                onChange={(e) => handleTextFieldChange(e, 'eventName')}
-              />
+        {isLoading ? (
+          <div className={styles.eventLoading}>
+            <Loading type="progress" />
+          </div>
+        ) : (
+          <>
+            <div className={styles.eventViewBody}>
+              <EventBody eventInfo={eventInfo} rating={averageRating ?? '0'} userInfo={userData!} />
             </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Event Description</span>
-              <InputField
-                type="text"
-                id={'event-description'}
-                value={editedData!['eventDescription'] ?? ''}
-                onChange={(e) => handleTextFieldChange(e, 'eventDescription')}
-              />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Event Genres</span>
-              <span className={styles.eventEditFieldSubTitle}>Enter a list separated by commas, e.g. Rock, Pop</span>
-              <InputField
-                type="text"
-                id={'event-genres'}
-                value={editedData!['eventGenres']?.toString() ?? ''}
-                onChange={(e) => handleTextFieldChange(e, 'eventGenres')}
-              />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Total Seats for Event</span>
-              <InputNumber
-                id={'event-total-seats'}
-                value={editedData!['eventTotalSeats'] ?? 0}
-                onChange={(e) => handleTextFieldChange(e, 'eventTotalSeats')}
-              />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Start Date</span>
-              <DatePicker id={'start-date'} value={startDate} onChange={(v) => handleDateChange(v, 'startDate')} />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit End Date</span>
-              <DatePicker id={'end-date'} value={endDate} onChange={(v) => handleDateChange(v, 'endDate')} />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Start Time</span>
-              <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
-              <InputField
-                type="text"
-                id={'start-time'}
-                value={startTime}
-                onChange={(e) => handleTimeChange(e, 'startTime')}
-              />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit End Time</span>
-              <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
-              <InputField
-                type="text"
-                id={'end-time'}
-                value={endTime}
-                onChange={(e) => handleTimeChange(e, 'endTime')}
-              />
-            </div>
-            <div className={styles.eventEditField}>
-              <span className={styles.eventEditFieldLabel}>Edit Event Status</span>
-              <div className={styles.selectWrapper}>
-                <Select
-                  value={status}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(e: any) => setStatus(e.target.value)}
-                  options={[
-                    {
-                      label: EventStatus.Scheduled,
-                      value: EventStatus.Scheduled,
-                    },
-                    {
-                      label: EventStatus.Completed,
-                      value: EventStatus.Completed,
-                    },
-                    {
-                      label: EventStatus.Cancelled,
-                      value: EventStatus.Cancelled,
-                    },
-                  ]}
-                />
+            <div className={styles.eventEditFields}>
+              <span className={styles.eventEditFieldsTitle}>Edit Fields</span>
+              <div className={styles.eventEditFieldsBody}>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Event Name</span>
+                  <InputField
+                    type="text"
+                    id={'event-name'}
+                    value={editedData!['eventName'] ?? 'No-Name Event'}
+                    onChange={(e) => handleTextFieldChange(e, 'eventName')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Event Description</span>
+                  <InputField
+                    type="text"
+                    id={'event-description'}
+                    value={editedData!['eventDescription'] ?? ''}
+                    onChange={(e) => handleTextFieldChange(e, 'eventDescription')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Event Genres</span>
+                  <span className={styles.eventEditFieldSubTitle}>
+                    Enter a list separated by commas, e.g. Rock, Pop
+                  </span>
+                  <InputField
+                    type="text"
+                    id={'event-genres'}
+                    value={editedData!['eventGenres']?.toString() ?? ''}
+                    onChange={(e) => handleTextFieldChange(e, 'eventGenres')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Total Seats for Event</span>
+                  <InputNumber
+                    id={'event-total-seats'}
+                    value={editedData!['eventTotalSeats'] ?? 0}
+                    onChange={(e) => handleTextFieldChange(e, 'eventTotalSeats')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Start Date</span>
+                  <DatePicker id={'start-date'} value={startDate} onChange={(v) => handleDateChange(v, 'startDate')} />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit End Date</span>
+                  <DatePicker id={'end-date'} value={endDate} onChange={(v) => handleDateChange(v, 'endDate')} />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Start Time</span>
+                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
+                  <InputField
+                    type="text"
+                    id={'start-time'}
+                    value={startTime}
+                    onChange={(e) => handleTimeChange(e, 'startTime')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit End Time</span>
+                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
+                  <InputField
+                    type="text"
+                    id={'end-time'}
+                    value={endTime}
+                    onChange={(e) => handleTimeChange(e, 'endTime')}
+                  />
+                </div>
+                <div className={styles.eventEditField}>
+                  <span className={styles.eventEditFieldLabel}>Edit Event Status</span>
+                  <div className={styles.selectWrapper}>
+                    <Select
+                      value={status}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      onChange={(e: any) => setStatus(e.target.value)}
+                      options={[
+                        {
+                          label: EventStatus.Scheduled,
+                          value: EventStatus.Scheduled,
+                        },
+                        {
+                          label: EventStatus.Completed,
+                          value: EventStatus.Completed,
+                        },
+                        {
+                          label: EventStatus.Cancelled,
+                          value: EventStatus.Cancelled,
+                        },
+                      ]}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

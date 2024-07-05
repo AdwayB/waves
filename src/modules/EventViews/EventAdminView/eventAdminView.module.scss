@@ -1,5 +1,10 @@
 @import '../../../styles/variables.scss';
 
+.event-loading,
+.feedback-loader {
+  height: inherit;
+}
+
 .event-friendly-screen {
   height: 100%;
   width: 100%;

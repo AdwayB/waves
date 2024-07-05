@@ -1,25 +1,41 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './eventAdminView.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Event, EventTestData, UserFeedbackTestData } from '../../../helpers';
-import { Button, Rating } from '../../../components';
+import { Alert, Button, Loading, Rating } from '../../../components';
 import { EventBody } from '../EventBody';
 import EditIcon from '@mui/icons-material/Edit';
+import { useGetEventView } from '../../../hooks';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux';
 
 const EventAdminView: FC = () => {
   document.title = 'View Event - Waves';
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
-  const [eventInfo, setEventInfo] = useState<Event>();
-  const eventData = EventTestData;
-  const userFeedback = UserFeedbackTestData;
+  const [eventError, setEventError] = useState<boolean>(false);
+  const [feedbackError, setFeedbackError] = useState<boolean>(false);
+
+  const { eventData, userData, feedbackData, averageRating, isLoading, isError, isFeedbackLoading, isFeedbackError } =
+    useGetEventView(eventId ?? '', true);
 
   useEffect(() => {
-    const foundEvent = eventData.find((event) => event.eventId === eventId);
-    foundEvent && setEventInfo(foundEvent);
-  }, [eventData, eventId]);
+    setEventError(isError);
+    setFeedbackError(!!isFeedbackError && isFeedbackError);
+  }, [isError, isFeedbackError]);
 
-  if (!eventInfo) {
+  const currentUser = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if (eventData?.eventCreatedBy !== currentUser?.UserId) {
+      navigate(`/view-event/${eventId}`);
+    }
+  }, [eventData, currentUser, eventId, navigate]);
+
+  if (!eventId) {
+    return <div className={styles.eventFriendlyScreen}>Request a valid event!</div>;
+  }
+
+  if (!eventData) {
     return <div className={styles.eventFriendlyScreen}>Event not found!</div>;
   }
 
@@ -29,6 +45,12 @@ const EventAdminView: FC = () => {
 
   return (
     <div className={styles.eventContainer}>
+      <Alert visible={eventError} severity="error" onClose={() => setEventError(false)}>
+        An error occurred when fetching event data, please try again later.
+      </Alert>
+      <Alert visible={feedbackError} severity="error" onClose={() => setFeedbackError(false)}>
+        An error occurred when fetching feedback data, please try again later.
+      </Alert>
       <div className={styles.eventInfoHeader}>
         <div className={styles.eventInfoHeaderLeft}>
           <Button label="Back" onClick={() => navigate(-1)} className={styles.backButton} />
@@ -51,20 +73,32 @@ const EventAdminView: FC = () => {
         </div>
       </div>
       <div className={styles.eventBody}>
-        <EventBody eventInfo={eventInfo} />
-        <div className={styles.eventFeedbackContainer}>
-          <div className={styles.viewFeedbackContainer}>
-            <div className={styles.viewFeedbackHeading}>View Feedback</div>
-            <div className={styles.viewFeedbackBody}>
-              {userFeedback.map((feedback, index) => (
-                <div key={index} className={styles.viewFeedbackUnit}>
-                  <Rating value={feedback.Rating} precision={0.1} />
-                  <div className={styles.viewFeedbackComment}>{feedback.Comment}</div>
-                </div>
-              ))}
+        {isLoading ? (
+          <div className={styles.eventLoading}>
+            <Loading type="progress" />
+          </div>
+        ) : (
+          <EventBody eventInfo={eventData} rating={averageRating ?? '0'} userInfo={userData!} />
+        )}
+        {isFeedbackLoading ? (
+          <div className={styles.feedbackLoading}>
+            <Loading type="progress" />
+          </div>
+        ) : (
+          <div className={styles.eventFeedbackContainer}>
+            <div className={styles.viewFeedbackContainer}>
+              <div className={styles.viewFeedbackHeading}>View Feedback</div>
+              <div className={styles.viewFeedbackBody}>
+                {feedbackData?.map((feedback, index) => (
+                  <div key={index} className={styles.viewFeedbackUnit}>
+                    <Rating value={feedback.rating} precision={0.1} />
+                    <div className={styles.viewFeedbackComment}>{feedback.comment}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

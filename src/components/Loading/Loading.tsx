@@ -1,9 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import spinner from '../../assets/spinner.svg';
 import styles from './loading.module.scss';
+import { CircularProgress } from '@mui/material';
 
 interface LoadingProps {
   loading?: boolean;
+  type?: 'spinner' | 'progress';
 }
 
 /**
@@ -11,13 +13,35 @@ interface LoadingProps {
  * @param {LoadingProps} props - The props for the component.
  */
 const Loading: FC<LoadingProps> = (props) => {
-  const { loading = true } = props;
+  const { loading = true, type = 'spinner' } = props;
+  const [loaderSize, setLoaderSize] = useState('4rem');
 
-  return (
-    <div className={styles.loadingScreen}>
-      <img src={spinner} alt={loading ? 'Loading...' : 'Loaded!'} className={styles.spinner} />
-    </div>
-  );
+  useEffect(() => {
+    const handleResize = () => {
+      const windowSize = window.innerWidth < 1366 ? '3rem' : '4rem';
+      setLoaderSize(windowSize);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const getLoader = () => {
+    switch (type) {
+      case 'spinner':
+        return <img src={spinner} alt={loading ? 'Loading...' : 'Loaded!'} className={styles.spinner} />;
+      case 'progress':
+        return <CircularProgress size={loaderSize} color="inherit" />;
+      default:
+        return <img src={spinner} alt={loading ? 'Loading...' : 'Loaded!'} className={styles.spinner} />;
+    }
+  };
+
+  return <div className={styles.loadingScreen}>{loading && getLoader()}</div>;
 };
 
 export { Loading, LoadingProps };

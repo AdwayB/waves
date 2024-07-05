@@ -3,3 +3,4 @@ export * from './authAPICalls';
 export * from './userAPICalls';
 export * from './eventAPICalls';
 export * from './registrationsAPICalls';
+export * from './feedbackAPICalls';

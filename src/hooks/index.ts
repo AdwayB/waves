@@ -4,3 +4,4 @@ export * from './useGetEventsAndUsers';
 export * from './useGetSavedEventsAndUsers';
 export * from './useGetEventCreators';
 export * from './useGetHighlights';
+export * from './useGetEventView';

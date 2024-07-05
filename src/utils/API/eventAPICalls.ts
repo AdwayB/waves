@@ -1,6 +1,11 @@
 import { APIResponse, Event, UpdateEventRequest } from '../../helpers';
 import { eventsAPI } from './apiObjects';
 
+const getEventById = async (eventId: string): Promise<APIResponse> => {
+  const response = await eventsAPI.get(`/get-event-by-id/${eventId}`);
+  return { status: response.status, data: response.data };
+};
+
 const getBulkEvents = async (pageNumber: number, pageSize: number): Promise<APIResponse> => {
   const response = await eventsAPI.get(`/get-all-events/${pageNumber}/${pageSize}`);
   return { status: response.status, data: response.data };
@@ -31,4 +36,4 @@ const deleteEvent = async (eventId: number): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getBulkEvents, getEventsByIDList, addEvent, updateEvent, deleteEvent };
+export { getEventById, getBulkEvents, getEventsByIDList, addEvent, updateEvent, deleteEvent };
