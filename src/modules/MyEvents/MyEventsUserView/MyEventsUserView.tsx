@@ -77,7 +77,7 @@ const MyEventsUserView: FC<MyEventsUserViewProps> = (props) => {
         rowAlign="center"
         isLoading={isLoading}
         rowsPerPage={6}
-        friendlyScreenMessage={isError ? 'Error loading events, please try again later.' : 'No events created yet!'}
+        friendlyScreenMessage={isError ? 'Error loading events, please try again later.' : 'No events registered yet!'}
         columns={MyEventsTableColumns}
         rows={MyEventsTableRows as RowType}
         handleViewClick={(id) => navigate(`/user/view-event/${id}`)}
