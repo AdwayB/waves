@@ -36,7 +36,7 @@ const useUpdateUserEventsState = async (userId: string) => {
 
   const savedEventIDs = await fetchSavedEventIDs();
 
-  const savedEvents = await fetchEventsByIDs(savedEventIDs.events);
+  const savedEvents = savedEventIDs.events?.length > 0 ? await fetchEventsByIDs(savedEventIDs.events) : [];
 
   const registeredEventsResponse = await fetchRegisteredEvents(userId, 1);
 

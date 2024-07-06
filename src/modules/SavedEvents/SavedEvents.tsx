@@ -1,11 +1,12 @@
 import { ChangeEvent, FC, memo, useEffect, useMemo, useState } from 'react';
 import styles from './savedEvents.module.scss';
-import { Event, calculateDistance, getCardData } from '../../helpers';
+import { Event, UserSavedEvents, calculateDistance, getCardData } from '../../helpers';
 import {
   Alert,
   CardProps,
   EventFilter,
   FilterTypes,
+  FriendlyScreenWithPagination,
   LoadingWithPagination,
   PaginatedCards,
   Search,
@@ -17,10 +18,19 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useGetSavedEventsAndUsers } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { setSavedEvents } from '../../redux';
+import { getSavedEvents } from '../../utils';
+
+const fetchSavedEventIDs = async () => {
+  console.log('fetching saved events');
+
+  const { data } = await getSavedEvents();
+  return data as UserSavedEvents;
+};
 
 const MemoizedSavedEvents: FC = () => {
   document.title = 'Saved Events - Waves';
   const dispatch = useDispatch();
+  const [savedEventIDs, setSavedEventIDs] = useState<string[]>([]);
   const [genres, setGenres] = useState<string[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -31,9 +41,25 @@ const MemoizedSavedEvents: FC = () => {
   const [mappedCardData, setMappedCardData] = useState<CardProps[]>([{}]);
   const [error, setError] = useState<boolean>(false);
 
-  const { totalEvents, eventData, userData, isLoading, isError } = useGetSavedEventsAndUsers();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchSavedEventIDs();
+        if (data.events) {
+          setSavedEventIDs(data.events);
+        }
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      }
+    };
 
-  dispatch(setSavedEvents(eventData));
+    fetchData();
+  }, []);
+
+  const { totalEvents, eventData, userData, isLoading, isError } = useGetSavedEventsAndUsers(savedEventIDs);
+
+  eventData && dispatch(setSavedEvents(eventData));
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,6 +86,9 @@ const MemoizedSavedEvents: FC = () => {
   }, [isError]);
 
   useEffect(() => {
+    if (eventData.length === 0) {
+      return;
+    }
     const genreArray: string[] = [];
     eventData?.forEach((event) => {
       event.eventGenres?.forEach((genre) => {
@@ -142,6 +171,7 @@ const MemoizedSavedEvents: FC = () => {
   };
 
   const filteredEvents = useMemo(() => {
+    if (eventData.length === 0) return [];
     let result = dateFilter(eventData, filters.startDate, filters.endDate);
     result = distanceFilter(result, filters.distance, userLocation);
     result = genreFilter(result, filters.genres);
@@ -224,6 +254,8 @@ const MemoizedSavedEvents: FC = () => {
         <div className={styles.savedEventsLoading}>
           <LoadingWithPagination />
         </div>
+      ) : eventData.length === 0 ? (
+        <FriendlyScreenWithPagination friendlyScreenHeight="500px" />
       ) : (
         <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
       )}

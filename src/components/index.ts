@@ -13,6 +13,7 @@ export * from './Divider';
 export * from './Error';
 export * from './EventCard';
 export * from './EventsFilter';
+export * from './FriendlyScreenWithPagination';
 export * from './FullScreenLoading';
 export * from './IconComponents';
 export * from './InputField';

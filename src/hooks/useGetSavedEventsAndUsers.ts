@@ -1,14 +1,7 @@
 import { useQuery } from 'react-query';
 import { useState, useEffect, useCallback } from 'react';
-import { Event, UserDataResponse, UserSavedEvents } from '../helpers';
-import { getEventsByIDList, getSavedEvents, getUserByIDList } from '../utils';
-
-const fetchSavedEventIDs = async () => {
-  console.log('fetching saved events');
-
-  const { data } = await getSavedEvents();
-  return data as UserSavedEvents;
-};
+import { Event, UserDataResponse } from '../helpers';
+import { getEventsByIDList, getUserByIDList } from '../utils';
 
 const fetchEvents = async (ids: string[]) => {
   if (!ids || ids.length === 0) {
@@ -32,31 +25,19 @@ const fetchUsers = async (artistIds: string[]) => {
   return data as UserDataResponse[];
 };
 
-const useGetSavedEventsAndUsers = () => {
-  const [savedEventIDs, setSavedEventIDs] = useState<string[]>([]);
+const useGetSavedEventsAndUsers = (savedEventIDs: string[]) => {
   const [eventData, setEventData] = useState<Event[]>([]);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [uniqueArtistIds, setUniqueArtistIds] = useState<string[]>([]);
 
-  const memoizedFetchSavedEventIDs = useCallback(() => fetchSavedEventIDs(), []);
   const memoizedFetchEvents = useCallback(() => fetchEvents(savedEventIDs), [savedEventIDs]);
   const memoizedFetchUsers = useCallback(() => fetchUsers(uniqueArtistIds), [uniqueArtistIds]);
-
-  const { isLoading: savedEventsLoading, isError: savedEventsError } = useQuery(
-    'getSavedEvents',
-    memoizedFetchSavedEventIDs,
-    {
-      onSuccess: (data) => {
-        setSavedEventIDs(data.events);
-      },
-    },
-  );
 
   const { isLoading: eventsLoading, isError: eventsError } = useQuery(
     ['getEvents', savedEventIDs],
     memoizedFetchEvents,
     {
-      enabled: savedEventIDs.length > 0,
+      enabled: savedEventIDs.length >= 1,
       keepPreviousData: true,
       onSuccess: (data) => {
         setEventData((prevEvents) => {
@@ -96,15 +77,25 @@ const useGetSavedEventsAndUsers = () => {
     isLoading: usersLoading,
     isError: usersError,
   } = useQuery(['getUsers', uniqueArtistIds], memoizedFetchUsers, {
-    // enabled: uniqueArtistIds.length > 0,
+    enabled: uniqueArtistIds.length >= 1,
   });
+
+  if (savedEventIDs.length === 0) {
+    return {
+      totalEvents: 0,
+      eventData: [],
+      userData: [],
+      isLoading: false,
+      isError: false,
+    };
+  }
 
   return {
     totalEvents,
     eventData,
     userData,
-    isLoading: eventsLoading || usersLoading || savedEventsLoading,
-    isError: eventsError || usersError || savedEventsError,
+    isLoading: eventsLoading || usersLoading,
+    isError: eventsError || usersError,
   };
 };
 
