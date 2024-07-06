@@ -5,7 +5,7 @@
   "author": "AdwayB <adwaybyju@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn && webpack serve --open --config .webpack/webpack.dev.js --progress --hot",
+    "start": "yarn && webpack serve --open --config .webpack/webpack.dev.js --progress",
     "typescript": "tsc -p tsconfig.json --noEmit",
     "prepare": "husky install",
     "rimraf": "rmdir /S /Q node_modules && yarn cache clean",

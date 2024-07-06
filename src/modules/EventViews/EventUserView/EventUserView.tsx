@@ -135,17 +135,19 @@ const EventUserView: FC = () => {
                 <Button label="Submit" onClick={handleCommentSubmit} />
               </div>
             </div>
-            <div className={styles.viewFeedbackContainer}>
-              <div className={styles.viewFeedbackHeading}>View Feedback</div>
-              <div className={styles.viewFeedbackBody}>
-                {feedbackData?.map((feedback, index) => (
-                  <div key={index} className={styles.viewFeedbackUnit}>
-                    <Rating value={feedback.rating} precision={0.1} />
-                    <div className={styles.viewFeedbackComment}>{feedback.comment}</div>
-                  </div>
-                ))}
+            {!!feedbackData && feedbackData.length > 0 && (
+              <div className={styles.viewFeedbackContainer}>
+                <div className={styles.viewFeedbackHeading}>View Feedback</div>
+                <div className={styles.viewFeedbackBody}>
+                  {feedbackData.map((feedback, index) => (
+                    <div key={index} className={styles.viewFeedbackUnit}>
+                      <Rating value={feedback.rating} precision={0.1} />
+                      <div className={styles.viewFeedbackComment}>{feedback.comment}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

@@ -40,10 +40,10 @@ const EventEditView: FC = () => {
     if (eventData) {
       setEventInfo(eventData);
       setEditedData(eventData);
-      setStartDate(dayjs(eventData.eventStartDate));
-      setEndDate(dayjs(eventData.eventEndDate));
-      setStartTime(dayjs(eventData.eventStartDate).format('HH:mm A'));
-      setEndTime(dayjs(eventData.eventEndDate).format('HH:mm A'));
+      setStartDate(dayjs(eventData.eventStartDate).local());
+      setEndDate(dayjs(eventData.eventEndDate).local());
+      setStartTime(dayjs(eventData.eventStartDate).local().format('HH:mm A'));
+      setEndTime(dayjs(eventData.eventEndDate).local().format('HH:mm A'));
       setStatus([eventData.eventStatus ?? 'Scheduled']);
     }
   }, [eventData]);

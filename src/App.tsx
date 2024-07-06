@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { AppRoutes } from './routes';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import { Provider } from 'react-redux';
 import { store } from './redux';
 
@@ -16,6 +17,7 @@ const THEME = createTheme({
 });
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const App = () => {
   const queryClient = new QueryClient();

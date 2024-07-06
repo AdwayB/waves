@@ -84,7 +84,7 @@ const EventAdminView: FC = () => {
           <div className={styles.feedbackLoading}>
             <Loading type="progress" />
           </div>
-        ) : (
+        ) : !!feedbackData && feedbackData.length > 0 ? (
           <div className={styles.eventFeedbackContainer}>
             <div className={styles.viewFeedbackContainer}>
               <div className={styles.viewFeedbackHeading}>View Feedback</div>
@@ -98,6 +98,8 @@ const EventAdminView: FC = () => {
               </div>
             </div>
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </div>

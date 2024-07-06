@@ -11,7 +11,7 @@ interface EventBodyProps {
 }
 
 const EventBody: FC<EventBodyProps> = (props) => {
-  const { eventInfo } = props;
+  const { eventInfo, userInfo, rating } = props;
   return (
     <div className={styles.eventInfoContainer}>
       <div className={styles.eventInfoBlockGroup}>
@@ -22,13 +22,13 @@ const EventBody: FC<EventBodyProps> = (props) => {
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Created By:</span>
-            <span className={styles.eventInfoValue}>{eventInfo.eventCreatedBy}</span>
+            <span className={styles.eventInfoValue}>{userInfo.legalName}</span>
           </div>
         </div>
         <div className={styles.eventInfoRightBlock}>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Rating:</span>
-            <Rating value={Math.floor(Math.random() * 5) + 1} precision={0.1} className={styles.eventRating} />
+            <Rating value={parseFloat(rating)} precision={0.1} className={styles.eventRating} />
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Event Genres:</span>
@@ -44,11 +44,13 @@ const EventBody: FC<EventBodyProps> = (props) => {
         <div className={styles.eventInfoLeftBlock}>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Start Date:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventStartDate).format('DD MMM YYYY')}</span>
+            <span className={styles.eventInfoValue}>
+              {dayjs(eventInfo.eventStartDate).local().format('DD MMM YYYY')}
+            </span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>End Date:</span>
-            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventEndDate).format('DD MMM YYYY')}</span>
+            <span className={styles.eventInfoValue}>{dayjs(eventInfo.eventEndDate).local().format('DD MMM YYYY')}</span>
           </div>
           <div className={styles.eventInfoUnit}>
             <span className={styles.eventInfoLabel}>Total Seats:</span>
