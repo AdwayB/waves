@@ -5,3 +5,5 @@ export * from './useGetSavedEventsAndUsers';
 export * from './useGetEventCreators';
 export * from './useGetHighlights';
 export * from './useGetEventView';
+export * from './useGetUserRegisteredEventData';
+export * from './useGetEventsByUser';

@@ -11,6 +11,11 @@ const getBulkEvents = async (pageNumber: number, pageSize: number): Promise<APIR
   return { status: response.status, data: response.data };
 };
 
+const getEventsByArtist = async (artistId: string, pageNumber: number, pageSize: number): Promise<APIResponse> => {
+  const response = await eventsAPI.get(`/get-events-by-artist/${artistId}/${pageNumber}/${pageSize}`);
+  return { status: response.status, data: response.data };
+};
+
 const getEventsByIDList = async (ids: string[]): Promise<APIResponse> => {
   const filteredIds = ids.filter((id) => id !== undefined && id !== null && id !== '');
   const response = await eventsAPI.post('/get-event-by-id-list', filteredIds, {
@@ -36,4 +41,4 @@ const deleteEvent = async (eventId: number): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getEventById, getBulkEvents, getEventsByIDList, addEvent, updateEvent, deleteEvent };
+export { getEventById, getBulkEvents, getEventsByArtist, getEventsByIDList, addEvent, updateEvent, deleteEvent };

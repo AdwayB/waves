@@ -37,6 +37,9 @@ interface TableProps {
   handleViewClick?: (id?: string | number) => void;
   handleEditClick?: (id?: string | number) => void;
   handleDeleteClick?: (id?: string | number) => void;
+  showView?: boolean;
+  showEdit?: boolean;
+  showDelete?: boolean;
   isLoading?: boolean;
   friendlyScreenMessage?: string;
   friendlyScreenHeight?: string;
@@ -60,6 +63,9 @@ const TableSet: FC<TableProps> = (props) => {
     handleViewClick,
     handleEditClick,
     handleDeleteClick,
+    showView = true,
+    showEdit = true,
+    showDelete = true,
   } = props;
 
   const [searchWord, setSearchWord] = useState<string>('');
@@ -105,6 +111,23 @@ const TableSet: FC<TableProps> = (props) => {
     return sortedData().slice(startIndex, startIndex + rowsPerPage);
   };
 
+  const getMenuActions = (rowId: string | number) => {
+    const menuActions = [];
+
+    if (showView) {
+      menuActions.push({ label: 'View', onClick: () => handleViewClick && handleViewClick(rowId) });
+    }
+
+    if (showEdit) {
+      menuActions.push({ label: 'Edit', onClick: () => handleEditClick && handleEditClick(rowId) });
+    }
+
+    if (showDelete) {
+      menuActions.push({ label: 'Delete', onClick: () => handleDeleteClick && handleDeleteClick(rowId) });
+    }
+    return menuActions;
+  };
+
   return (
     <Box className={styles.tableWrapper}>
       <TableContainer component={Paper} className={styles.tableContainer}>
@@ -144,17 +167,7 @@ const TableSet: FC<TableProps> = (props) => {
                 ))}
                 {showActions && (
                   <TableCell align={rowAlign}>
-                    {customMenu ? (
-                      <Menu {...customMenu} />
-                    ) : (
-                      <Menu
-                        items={[
-                          { label: 'View', onClick: () => handleViewClick && handleViewClick(row.id) },
-                          { label: 'Edit', onClick: () => handleEditClick && handleEditClick(row.id) },
-                          { label: 'Delete', onClick: () => handleDeleteClick && handleDeleteClick(row.id) },
-                        ]}
-                      />
-                    )}
+                    {customMenu ? <Menu {...customMenu} /> : <Menu items={getMenuActions(row.id)} />}
                   </TableCell>
                 )}
               </TableRow>

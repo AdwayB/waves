@@ -1,94 +1,30 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styles from './myEvents.module.scss';
-import { Button, ColumnType, RowType, Table } from '../../components';
-import { EventTestData } from '../../helpers';
-import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
-
-const MyEventsTableColumns: ColumnType[] = [
-  { id: 0, title: 'Name', name: 'name' },
-  { id: 1, title: 'Genres', name: 'genres' },
-  { id: 2, title: 'Total Seats', name: 'totalSeats' },
-  { id: 3, title: 'Registrations', name: 'registrations' },
-  { id: 4, title: 'Start Date', name: 'startdate' },
-  { id: 5, title: 'End Date', name: 'enddate' },
-  { id: 6, title: 'Status', name: 'status' },
-];
-
-interface MyEventsColumnNames {
-  name?: string;
-  genres?: string;
-  totalSeats?: number;
-  registrations?: number;
-  startdate?: string;
-  enddate?: string;
-  status?: string;
-}
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux';
+import { MyEventsAdminView } from './MyEventsAdminView';
+import { MyEventsUserView } from './MyEventsUserView';
 
 const MyEvents: FC = () => {
   document.title = 'My Events - Waves';
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const EventData = EventTestData;
-  const userId = ['1', '2', '3', '4', '5'];
-
-  const userEvents = EventData.filter((event) => userId.includes(event.eventCreatedBy ?? '1'));
-
-  const MyEventsTableRows: MyEventsColumnNames[] = userEvents
-    .sort((a, b) => (dayjs(a.eventStartDate).utc().isBefore(dayjs(b.eventStartDate).utc(), 'day') ? -1 : 1))
-    .map((event) => ({
-      id: event.eventId,
-      name: event.eventName,
-      genres: event.eventGenres?.join(', '),
-      totalSeats: event.eventTotalSeats,
-      registrations: (event.eventTotalSeats ?? 0) - (event.eventRegisteredSeats ?? 0),
-      startdate: dayjs(event.eventStartDate).format('DD MMM YYYY [at] hh:mm A'),
-      enddate: dayjs(event.eventEndDate).format('DD MMM YYYY [at] hh:mm A'),
-      status: event.eventStatus,
-    }));
-
-  // Simulate API delay
-  const falseLoading = () => setIsLoading(false);
-  setTimeout(falseLoading, 1500);
-
-  const handleSync = () => {
-    setIsSyncing(true);
-    console.log('Syncing...');
-    setTimeout(() => {
-      console.log('Sync complete!');
-      setIsSyncing(false);
-    }, 1000);
-  };
+  const currentUser = useSelector(selectCurrentUser);
 
   return (
     <div className={styles.myEventsContainer}>
       <div className={styles.myEventsHeader}>
         <div className={styles.myEventsHeading}>
           <span className={styles.myEventsTitle}>My Events</span>
-          <span className={styles.myEventsText}>View your events and registrations.</span>
+          <span className={styles.myEventsText}>
+            {currentUser?.Type === 'Admin' ? 'View your events.' : 'View your registrations.'}
+          </span>
         </div>
-        <Button
-          buttontype="secondary"
-          label="Sync My Events"
-          onClick={handleSync}
-          buttonloading={isSyncing}
-          className={styles.syncButton}
-        />
       </div>
       <div className={styles.myEventsTable}>
-        <Table
-          headerAlign="center"
-          rowAlign="center"
-          isLoading={isLoading}
-          rowsPerPage={6}
-          friendlyScreenMessage="No events created yet!"
-          columns={MyEventsTableColumns}
-          rows={MyEventsTableRows as RowType}
-          handleViewClick={(id) => navigate(`/user/view-event/admin/${id}`)}
-          handleEditClick={(id) => navigate(`/user/edit-event/${id}`)}
-          handleDeleteClick={(id) => console.log('Delete id ' + id)}
-        />
+        {currentUser?.Type === 'Admin' ? (
+          <MyEventsAdminView userId={currentUser?.UserId ?? ''} />
+        ) : (
+          <MyEventsUserView userId={currentUser?.UserId ?? ''} />
+        )}
       </div>
     </div>
   );
