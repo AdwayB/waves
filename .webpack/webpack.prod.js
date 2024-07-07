@@ -1,9 +1,10 @@
 const { merge } = require('webpack-merge');
+const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const commonConfig = require('./webpack.common.js');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = merge(commonConfig, {
   mode: 'production',
@@ -19,6 +20,13 @@ module.exports = merge(commonConfig, {
     minimizer: [
       new TerserPlugin({
         parallel: 2,
+      }),
+      new CssMinimizerPlugin(),
+      new CompressionPlugin({
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
       }),
     ],
     splitChunks: {

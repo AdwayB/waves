@@ -7,7 +7,8 @@ module.exports = {
     publicPath: '/',
     filename: '[name].bundle.[contenthash].js',
     chunkFilename: '[name].bundle.js',
-    path: path.resolve(__dirname, '.dist'),
+    clean: true,
+    path: path.resolve(__dirname, '../.dist'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
