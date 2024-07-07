@@ -1,12 +1,26 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './eventAdminView.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Alert, Button, Loading, Rating } from '../../../components';
+import { Alert, Button, ColumnType, Loading, Rating, RowType, Table } from '../../../components';
 import { EventBody } from '../EventBody';
 import EditIcon from '@mui/icons-material/Edit';
-import { useGetEventView } from '../../../hooks';
+import { useGetEventView, useGetRegisteredUsers } from '../../../hooks';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux';
+
+const RegisteredUsersTableColumns: ColumnType[] = [
+  { id: 0, title: 'Name', name: 'name' },
+  { id: 1, title: 'E-Mail ID', name: 'email' },
+  { id: 2, title: 'Mobile Number', name: 'mobileNumber' },
+  { id: 3, title: 'Country', name: 'country' },
+];
+
+interface RegisteredUsersColumnNames {
+  name?: string;
+  email?: string;
+  mobileNumber?: string;
+  country?: string;
+}
 
 const EventAdminView: FC = () => {
   document.title = 'View Event - Waves';
@@ -14,14 +28,34 @@ const EventAdminView: FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const [eventError, setEventError] = useState<boolean>(false);
   const [feedbackError, setFeedbackError] = useState<boolean>(false);
+  const [registeredUsersError, setRegisteredUsersError] = useState<boolean>(false);
 
   const { eventData, userData, feedbackData, averageRating, isLoading, isError, isFeedbackLoading, isFeedbackError } =
     useGetEventView(eventId ?? '', true);
 
+  const {
+    totalRegistrations,
+    users: registeredUsersData,
+    isLoading: isRegisteredUsersLoading,
+    isError: isRegisteredUsersError,
+    setApiPage,
+  } = useGetRegisteredUsers(eventId ?? '');
+
+  const RegisteredUserTableRows: RegisteredUsersColumnNames[] =
+    registeredUsersData
+      ?.filter((user) => user !== null && user !== undefined)
+      .map((user) => ({
+        name: user.legalName ?? '',
+        email: user.email ?? '',
+        mobileNumber: user.mobileNumber ?? '',
+        country: user.country ?? '',
+      })) ?? [];
+
   useEffect(() => {
     setEventError(isError);
     setFeedbackError(!!isFeedbackError && isFeedbackError);
-  }, [isError, isFeedbackError]);
+    setRegisteredUsersError(isRegisteredUsersError);
+  }, [isError, isFeedbackError, isRegisteredUsersError]);
 
   const currentUser = useSelector(selectCurrentUser);
 
@@ -43,6 +77,10 @@ const EventAdminView: FC = () => {
     navigate(`/user/edit-event/${eventId}`);
   };
 
+  const handleGetNextApiPage = () => {
+    setApiPage((prev) => prev + 1);
+  };
+
   return (
     <div className={styles.eventContainer}>
       <Alert visible={eventError} severity="error" onClose={() => setEventError(false)}>
@@ -50,6 +88,9 @@ const EventAdminView: FC = () => {
       </Alert>
       <Alert visible={feedbackError} severity="error" onClose={() => setFeedbackError(false)}>
         An error occurred when fetching feedback data, please try again later.
+      </Alert>
+      <Alert visible={registeredUsersError} severity="error" onClose={() => setRegisteredUsersError(false)}>
+        An error occurred when fetching registered users data, please try again later.
       </Alert>
       <div className={styles.eventInfoHeader}>
         <div className={styles.eventInfoHeaderLeft}>
@@ -101,6 +142,34 @@ const EventAdminView: FC = () => {
         ) : (
           <></>
         )}
+        <div className={styles.registeredUsersTable}>
+          <Table
+            headerAlign="center"
+            rowAlign="center"
+            isLoading={isRegisteredUsersLoading}
+            rowsPerPage={6}
+            friendlyScreenMessage={
+              isRegisteredUsersError
+                ? 'Error loading registered users data, please try again later.'
+                : 'No events created yet!'
+            }
+            columns={RegisteredUsersTableColumns}
+            rows={RegisteredUserTableRows as RowType}
+            showActions={false}
+          />
+        </div>
+        <div className={styles.registeredUsersFooter}>
+          <div className={styles.registeredUsersInfoWrapper}>
+            <span className={styles.registeredUsersInfo}>
+              Total Registrations: <span className={styles.registeredUsersCount}>{totalRegistrations}</span>
+            </span>
+            <span className={styles.registeredUsersInfo}>
+              Visible Registrations:{' '}
+              <span className={styles.registeredUsersCount}>{RegisteredUserTableRows.length}</span>
+            </span>
+          </div>
+          <Button label="Load More Users" onClick={handleGetNextApiPage} />
+        </div>
       </div>
     </div>
   );

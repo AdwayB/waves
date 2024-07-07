@@ -48,6 +48,15 @@ interface UserEventRegistrations {
   registeredEvents?: Event[];
 }
 
+interface EventRegistrations {
+  cancelled: boolean;
+  numberOfRegistrations: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  registeredUsers?: string[];
+}
+
 interface BulkEventsResponse {
   numberOfEvents: number;
   totalPages: number;
@@ -108,6 +117,7 @@ export type {
   UserLoginRequest,
   UserSavedEvents,
   UserEventRegistrations,
+  EventRegistrations,
   BulkEventsResponse,
   UserFeedback,
   EventFeedbackResponse,
