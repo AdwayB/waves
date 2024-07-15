@@ -1,9 +1,28 @@
 import { Dayjs } from 'dayjs';
-import { Discount, Event } from './Responses';
+import { Discount, Event, Location } from './Responses';
 
 interface DateHighlight {
   date: Dayjs;
   count: number;
+}
+
+interface CreateEvent {
+  eventName?: string;
+  eventDescription?: string;
+  eventBackgroundImage?: string;
+  eventTotalSeats?: number;
+  eventRegisteredSeats?: number;
+  eventTicketPrice?: number;
+  eventGenres?: string[];
+  eventCollab?: string[];
+  eventStartDate?: string;
+  eventEndDate?: string;
+  eventLocation?: Location;
+  eventStatus?: string;
+  eventCreatedBy?: string;
+  eventAgeRestriction?: number;
+  eventCountry?: string;
+  eventDiscounts?: Discount[];
 }
 
 interface UserData {
@@ -112,6 +131,7 @@ enum EventStatus {
 export { EventStatus };
 export type {
   DateHighlight,
+  CreateEvent,
   UserData,
   UserDataResponse,
   UserLoginRequest,

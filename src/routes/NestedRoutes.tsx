@@ -11,6 +11,7 @@ const Profile = lazy(() => import('../modules').then((m) => ({ default: m.Profil
 const EventUserView = lazy(() => import('../modules').then((m) => ({ default: m.EventUserView })));
 const EventAdminView = lazy(() => import('../modules').then((m) => ({ default: m.EventAdminView })));
 const EventEditView = lazy(() => import('../modules').then((m) => ({ default: m.EventEditView })));
+const EventCreateView = lazy(() => import('../modules').then((m) => ({ default: m.EventCreateView })));
 
 const NestedRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const NestedRoutes = () => {
         <Route path="/view-event/:eventId" element={<EventUserView />} />
         <Route path="/view-event/admin/:eventId" element={<EventAdminView />} />
         <Route path="/edit-event/:eventId" element={<EventEditView />} />
+        <Route path="/create-event" element={<EventCreateView />} />
         <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </Suspense>
