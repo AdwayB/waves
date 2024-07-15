@@ -6,6 +6,7 @@ import {
   CardProps,
   EventFilter,
   FilterTypes,
+  FriendlyScreenWithPagination,
   LoadingWithPagination,
   PaginatedCards,
   Search,
@@ -25,7 +26,7 @@ const MemoizedBrowseEvents: FC = () => {
   const [filters, setFilters] = useState<FilterTypes>({ startDate: null, endDate: null, distance: 0, genres: [] });
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortMethod, setSortMethod] = useState<SortMethods>('date-asc');
-  const [mappedCardData, setMappedCardData] = useState<CardProps[]>([{}]);
+  const [mappedCardData, setMappedCardData] = useState<CardProps[]>();
   const [error, setError] = useState<boolean>(false);
 
   const { totalEvents, eventData, userData, isLoading, isError, setApiPage } = useGetEventsAndUsers();
@@ -159,13 +160,13 @@ const MemoizedBrowseEvents: FC = () => {
   }, [searchAndSortResults]);
 
   const pageCount = useMemo(() => {
-    return Math.ceil(mappedCardData.length / pageLength);
-  }, [mappedCardData.length, pageLength]);
+    return !!mappedCardData ? Math.ceil(mappedCardData.length / pageLength) : 0;
+  }, [mappedCardData, pageLength]);
 
   const displayData = useMemo(() => {
     const start = (page - 1) * pageLength;
     const end = start + pageLength;
-    return mappedCardData.slice(start, end);
+    return !!mappedCardData ? mappedCardData.slice(start, end) : [];
   }, [mappedCardData, page, pageLength]);
 
   const handlePageChange = (e: ChangeEvent<unknown>, v: number) => {
@@ -213,6 +214,8 @@ const MemoizedBrowseEvents: FC = () => {
         <div className={styles.browseEventsLoading}>
           <LoadingWithPagination />
         </div>
+      ) : searchAndSortResults?.length === 0 ? (
+        <FriendlyScreenWithPagination friendlyScreenHeight="500px" friendlyScreenMessage="No events found." />
       ) : (
         <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
       )}
@@ -222,7 +225,8 @@ const MemoizedBrowseEvents: FC = () => {
             Total Events: <span className={styles.browseEventsCount}>{totalEvents}</span>
           </span>
           <span className={styles.browseEventsInfo}>
-            Visible Events: <span className={styles.browseEventsCount}>{mappedCardData.length}</span>
+            Visible Events:{' '}
+            <span className={styles.browseEventsCount}>{!!mappedCardData ? mappedCardData.length : 0}</span>
           </span>
         </div>
         <Button label="Load More Events" onClick={handleGetNextApiPage} />

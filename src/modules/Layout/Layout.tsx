@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Sidebar } from '../../components';
-import { isAuth } from '../../helpers';
+import { AuthAndInit } from '../../helpers';
 import { NestedRoutes } from '../../routes';
 import styles from './layout.module.scss';
 import { selectCurrentUser } from '../../redux';
@@ -21,5 +21,5 @@ const AppLayout: FC = () => {
   );
 };
 
-const Layout = isAuth(AppLayout);
+const Layout = AuthAndInit(AppLayout);
 export { Layout };

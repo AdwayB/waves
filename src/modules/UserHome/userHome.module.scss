@@ -1,5 +1,9 @@
 @import '../../styles/variables.scss';
 
+.user-home-registered-events-loading {
+  height: 30rem;
+}
+
 .user-home-container {
   color: $white;
 
@@ -36,32 +40,35 @@
     justify-content: center;
   }
 
-  .user-home-recommended-events-container {
-    display: flex;
+  .user-home-registered-events-container {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-
-    .recommended-events-header {
-      width: 100%;
+    .load-more-registrations-container {
+      margin-top: 2rem;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-end;
       justify-content: center;
-      text-align: left;
+      text-align: center;
       text-wrap: balance;
       white-space: wrap;
-      padding: 2rem;
+      padding: 0 1rem;
 
-      .recommended-events-heading {
-        font: $subheading-font;
-        padding-bottom: 0.2rem;
-      }
+      .load-more-registrations-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
 
-      .recommended-events-text {
-        font: $tall-text-font;
-        color: $light-white;
+        .registrations-info {
+          font: $small-text-font;
+          color: $disabled-text-color;
+        }
+
+        .registrations-count {
+          color: $light-white;
+        }
       }
     }
   }

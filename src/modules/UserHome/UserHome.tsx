@@ -1,11 +1,19 @@
-import { useEffect, useRef } from 'react';
-import { CardCarousel } from '../../components';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Alert,
+  Button,
+  CardProps,
+  FriendlyScreenWithPagination,
+  LoadingWithPagination,
+  PaginatedCards,
+} from '../../components';
 import styles from './userHome.module.scss';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser, selectTotalUpcomingRegistrations } from '../../redux';
-import { useUpdateUserEventsState } from '../../hooks';
+import { selectCurrentUser } from '../../redux';
+import { useGetUserRegisteredEventData } from '../../hooks';
+import { getCardData } from '../../helpers';
 
 const UserHome = () => {
   document.title = 'Home - Waves';
@@ -13,9 +21,10 @@ const UserHome = () => {
   const currentUserName = currentUser?.LegalName ?? 'User';
   const currentUserId = currentUser?.UserId;
 
-  useUpdateUserEventsState(currentUserId ?? '');
-
-  const numberOfUpcomingRegistrations = useSelector(selectTotalUpcomingRegistrations);
+  const [page, setPage] = useState<number>(1);
+  const [pageLength, setPageLength] = useState<number>(1);
+  const [mappedCardData, setMappedCardData] = useState<CardProps[]>([]);
+  const [error, setError] = useState<boolean>(false);
 
   const welcomeTextRef = useRef<HTMLSpanElement>(null);
   const welcomeNameRef = useRef<HTMLSpanElement>(null);
@@ -51,58 +60,106 @@ const UserHome = () => {
     }
   }, [currentUserName]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1366) {
+        setPageLength(8);
+        if (window.innerWidth < 1165) setPageLength(6);
+        if (window.innerWidth < 768) setPageLength(4);
+        if (window.innerWidth < 615) setPageLength(3);
+      } else {
+        setPageLength(12);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const { registeredEventData, numberOfRegistrations, userData, isLoading, isError, setApiPage } =
+    useGetUserRegisteredEventData(currentUserId ?? '');
+
+  registeredEventData.forEach((event) => {
+    if (event?.eventCreatedBy && !!userData) {
+      const artistName = userData.find((user) => user.userId === event.eventCreatedBy)?.legalName;
+      event.eventCreatedBy = artistName;
+    }
+  });
+
+  const memoizedCardData = useMemo(() => getCardData(registeredEventData, userData!), [registeredEventData, userData]);
+
+  useEffect(() => {
+    if (memoizedCardData) {
+      setMappedCardData(memoizedCardData);
+    }
+  }, [memoizedCardData]);
+
+  const pageCount = useMemo(() => {
+    return !!mappedCardData ? Math.ceil(mappedCardData.length / pageLength) : 0;
+  }, [mappedCardData, pageLength]);
+
+  const displayData = useMemo(() => {
+    const start = (page - 1) * pageLength;
+    const end = start + pageLength;
+    return !!mappedCardData ? mappedCardData.slice(start, end) : [];
+  }, [mappedCardData, page, pageLength]);
+
+  useEffect(() => {
+    setError(isError);
+  }, [isError]);
+
+  const handlePageChange = (e: ChangeEvent<unknown>, v: number) => {
+    setPage(v);
+  };
+
+  const handleGetNextApiPage = () => {
+    setApiPage((prev) => prev + 1);
+  };
+
   return (
     <>
       <div className={styles.userHomeContainer}>
+        <Alert visible={error} severity="error" onClose={() => setError(false)}>
+          Error in fetching registered events. Please try again later.
+        </Alert>
         <div className={styles.userHomeWelcomeContainer}>
           <span className={styles.welcomeHeading}>
             <span ref={welcomeTextRef} />
             <span ref={welcomeNameRef} className={styles.welcomeName} />
             <span ref={welcomeExclamationRef} />
           </span>
-          <span className={styles.welcomeText}>You have {numberOfUpcomingRegistrations} upcoming events.</span>
+          <span className={styles.welcomeText}>You have {numberOfRegistrations} upcoming events.</span>
         </div>
         <div className={styles.userHomeRegisteredEventsContainer}>
-          <CardCarousel
-            fixedGradient
-            items={[
-              { title: 'Test Card Carousel', artist: 'Test Artist', genres: 'Test Genres', rating: 1 },
-              { title: 'Test Card Carousel 2', artist: 'Test Artist 2', genres: 'Test Genres 2', rating: 1.5 },
-              { title: 'Test Card Carousel 3', artist: 'Test Artist 3', genres: 'Test Genres 3', rating: 2 },
-              { title: 'Test Card Carousel 4', artist: 'Test Artist 4', genres: 'Test Genres 4', rating: 2.5 },
-              { title: 'Test Card Carousel 5', artist: 'Test Artist 5', genres: 'Test Genres 5', rating: 3 },
-              { title: 'Test Card Carousel 6', artist: 'Test Artist 6', genres: 'Test Genres 6', rating: 3.5 },
-              { title: 'Test Card Carousel 7', artist: 'Test Artist 7', genres: 'Test Genres 7', rating: 4 },
-              { title: 'Test Card Carousel 8', artist: 'Test Artist 8', genres: 'Test Genres 8', rating: 4.5 },
-              { title: 'Test Card Carousel 9', artist: 'Test Artist 9', genres: 'Test Genres 9', rating: 5 },
-              { title: 'Test Card Carousel 10', artist: 'Test Artist 10', genres: 'Test Genres 10', rating: 0 },
-            ]}
-          />
-        </div>
-        <div className={styles.userHomeRecommendedEventsContainer}>
-          <div className={styles.recommendedEventsHeader}>
-            <span className={styles.recommendedEventsHeading}>Here are some other events you may like!</span>
-            <span className={styles.recommendedEventsText}>(Recommendations are based on your activity)</span>
-          </div>
-          <div className={styles.recommendedEventsCarouselContainer}>
-            <CardCarousel
-              fixedGradient
-              gradientType="radial"
-              circular={false}
-              uniformSize
-              items={[
-                { title: 'Test Recommendation 1', artist: 'Test Artist 1', genres: 'Test Genre 1', rating: 1 },
-                { title: 'Test Recommendation 2', artist: 'Test Artist 2', genres: 'Test Genre 2', rating: 2 },
-                { title: 'Test Recommendation 3', artist: 'Test Artist 3', genres: 'Test Genre 3', rating: 3 },
-                { title: 'Test Recommendation 4', artist: 'Test Artist 4', genres: 'Test Genre 4', rating: 4 },
-                { title: 'Test Recommendation 5', artist: 'Test Artist 5', genres: 'Test Genre 5', rating: 5 },
-                { title: 'Test Recommendation 6', artist: 'Test Artist 6', genres: 'Test Genre 6', rating: 0 },
-                { title: 'Test Recommendation 7', artist: 'Test Artist 7', genres: 'Test Genre 7', rating: 0 },
-                { title: 'Test Recommendation 8', artist: 'Test Artist 8', genres: 'Test Genre 8', rating: 0 },
-                { title: 'Test Recommendation 9', artist: 'Test Artist 9', genres: 'Test Genre 9', rating: 0 },
-                { title: 'Test Recommendation 10', artist: 'Test Artist 10', genres: 'Test Genre 10', rating: 0 },
-              ]}
+          {isLoading ? (
+            <div className={styles.userHomeRegisteredEventsLoading}>
+              <LoadingWithPagination />
+            </div>
+          ) : registeredEventData.length === 0 ? (
+            <FriendlyScreenWithPagination
+              friendlyScreenHeight="500px"
+              friendlyScreenMessage="No events registered yet."
             />
+          ) : (
+            <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+          )}
+          <div className={styles.loadMoreRegistrationsContainer}>
+            <div className={styles.loadMoreRegistrationsWrapper}>
+              <span className={styles.registrationsInfo}>
+                Total Events: <span className={styles.registrationsCount}>{numberOfRegistrations}</span>
+              </span>
+              <span className={styles.registrationsInfo}>
+                Visible Events:{' '}
+                <span className={styles.registrationsCount}>
+                  {!!registeredEventData[0]?.eventId ? 0 : registeredEventData.length}
+                </span>
+              </span>
+            </div>
+            <Button label="Load More Events" onClick={handleGetNextApiPage} />
           </div>
         </div>
       </div>
