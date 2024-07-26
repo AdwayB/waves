@@ -73,7 +73,7 @@ interface EventRegistrations {
   totalPages: number;
   pageNumber: number;
   pageSize: number;
-  registeredUsers?: string[];
+  registeredUserIds?: string[];
 }
 
 interface BulkEventsResponse {

@@ -68,9 +68,8 @@
     height: 100%;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
-    flex-wrap: wrap;
     gap: 3rem;
 
     .event-feedback-container {
@@ -117,38 +116,44 @@
       }
     }
 
-    .registered-users-table {
-      height: 55vh;
-      min-height: 50vh;
-      max-height: 60vh;
-    }
-
-    .registered-users-footer {
-      margin-top: 2rem;
+    .registered-users-section {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      gap: 1rem;
       justify-content: center;
-      text-align: center;
-      text-wrap: balance;
-      white-space: wrap;
-      padding: 0 1rem;
 
-      .registered-users-info-wrapper {
+      .registered-users-table {
+        min-height: 30vh;
+        max-height: 60vh;
+      }
+
+      .registered-users-footer {
+        margin-top: 2rem;
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-end;
         justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        text-align: center;
+        text-wrap: balance;
+        white-space: wrap;
+        padding: 0 1rem;
 
-        .registered-users-info {
-          font: $small-text-font;
-          color: $disabled-text-color;
-        }
+        .registered-users-info-wrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 1rem;
 
-        .registered-users-count {
-          color: $light-white;
+          .registered-users-info {
+            font: $small-text-font;
+            color: $disabled-text-color;
+          }
+
+          .registered-users-count {
+            color: $light-white;
+          }
         }
       }
     }

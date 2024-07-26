@@ -35,17 +35,18 @@ const useGetRegisteredUsers = (eventId: string) => {
     data: registeredUsers,
     isLoading: isLoadingRegisteredUsers,
     isError: isErrorRegisteredUsers,
-  } = useQuery('getRegisteredUsers', memoizedFetchRegisteredUserIds, {
+  } = useQuery(['getRegisteredUsers', apiPage, eventId], memoizedFetchRegisteredUserIds, {
     enabled: !!eventId,
     keepPreviousData: true,
   });
 
   useEffect(() => {
-    if (!registeredUsers || !registeredUsers.registeredUsers) {
+    if (!registeredUsers || !registeredUsers.registeredUserIds) {
       return;
     }
+
     const newArtistIds = new Set(artistIds);
-    registeredUsers.registeredUsers
+    registeredUsers.registeredUserIds
       .filter((id) => !!id && !newArtistIds.has(id))
       .forEach((id) => {
         newArtistIds.add(id);
@@ -53,13 +54,14 @@ const useGetRegisteredUsers = (eventId: string) => {
     newArtistIds.delete('');
 
     setArtistIds(Array.from(newArtistIds));
-  }, [registeredUsers, artistIds]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [registeredUsers]);
 
   const {
     data: users,
     isLoading: isLoadingUsers,
     isError: isErrorUsers,
-  } = useQuery('getUsers', memoizedFetchUsers, {
+  } = useQuery(['getUsers', artistIds], memoizedFetchUsers, {
     enabled: !!artistIds && artistIds.length > 0,
     keepPreviousData: true,
   });

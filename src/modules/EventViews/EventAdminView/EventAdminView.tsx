@@ -119,7 +119,9 @@ const EventAdminView: FC = () => {
             <Loading type="progress" />
           </div>
         ) : (
-          <EventBody eventInfo={eventData} rating={averageRating ?? '0'} userInfo={userData!} />
+          <div style={{ width: '56%' }}>
+            <EventBody eventInfo={eventData} rating={averageRating ?? '0'} userInfo={userData!} />
+          </div>
         )}
         {isFeedbackLoading ? (
           <div className={styles.feedbackLoading}>
@@ -142,33 +144,35 @@ const EventAdminView: FC = () => {
         ) : (
           <></>
         )}
-        <div className={styles.registeredUsersTable}>
-          <Table
-            headerAlign="center"
-            rowAlign="center"
-            isLoading={isRegisteredUsersLoading}
-            rowsPerPage={6}
-            friendlyScreenMessage={
-              isRegisteredUsersError
-                ? 'Error loading registered users data, please try again later.'
-                : 'No events created yet!'
-            }
-            columns={RegisteredUsersTableColumns}
-            rows={RegisteredUserTableRows as RowType}
-            showActions={false}
-          />
-        </div>
-        <div className={styles.registeredUsersFooter}>
-          <div className={styles.registeredUsersInfoWrapper}>
-            <span className={styles.registeredUsersInfo}>
-              Total Registrations: <span className={styles.registeredUsersCount}>{totalRegistrations}</span>
-            </span>
-            <span className={styles.registeredUsersInfo}>
-              Visible Registrations:{' '}
-              <span className={styles.registeredUsersCount}>{RegisteredUserTableRows.length}</span>
-            </span>
+        <div className={styles.registeredUsersSection}>
+          <div className={styles.registeredUsersTable}>
+            <Table
+              headerAlign="center"
+              rowAlign="center"
+              isLoading={isRegisteredUsersLoading}
+              rowsPerPage={6}
+              friendlyScreenMessage={
+                isRegisteredUsersError
+                  ? 'Error loading registered users data, please try again later.'
+                  : 'No registrations yet!'
+              }
+              columns={RegisteredUsersTableColumns}
+              rows={RegisteredUserTableRows as RowType}
+              showActions={false}
+            />
           </div>
-          <Button label="Load More Users" onClick={handleGetNextApiPage} />
+          <div className={styles.registeredUsersFooter}>
+            <div className={styles.registeredUsersInfoWrapper}>
+              <span className={styles.registeredUsersInfo}>
+                Total Registrations: <span className={styles.registeredUsersCount}>{totalRegistrations}</span>
+              </span>
+              <span className={styles.registeredUsersInfo}>
+                Visible Registrations:{' '}
+                <span className={styles.registeredUsersCount}>{RegisteredUserTableRows.length}</span>
+              </span>
+            </div>
+            <Button label="Load More Users" onClick={handleGetNextApiPage} />
+          </div>
         </div>
       </div>
     </div>
