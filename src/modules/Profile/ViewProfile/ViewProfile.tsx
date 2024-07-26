@@ -33,7 +33,7 @@ const ViewProfile: FC<ViewProfileProps> = (props) => {
           />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="Username" id="UserName" value={userData?.UserName ?? ''} readOnly />
+          <InputField type="text" label="Username" id="Username" value={userData?.Username ?? ''} readOnly />
         </div>
         <div className={styles.inputFieldContainer}>
           <InputField type="text" label="GMail ID" id="Email" value={userData?.Email} readOnly />

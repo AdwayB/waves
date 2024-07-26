@@ -35,7 +35,7 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
     if (firstName && lastName) {
       setFormFields((previousValue) => ({
         ...previousValue,
-        UserName: getUserName(firstName, lastName),
+        Username: getUserName(firstName, lastName),
         LegalName: `${firstName[0].toUpperCase()}${firstName.slice(1)} ${lastName[0].toUpperCase()}${lastName.slice(1)}`,
       }));
     }

@@ -27,7 +27,7 @@ interface CreateEvent {
 
 interface UserData {
   UserId?: string;
-  UserName?: string;
+  Username?: string;
   Password?: string;
   LegalName?: string;
   Email: string;

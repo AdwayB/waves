@@ -19,7 +19,7 @@ const Profile: FC = () => {
   const UserData = useSelector(selectCurrentUser);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserData>({
-    UserName: '',
+    Username: '',
     LegalName: '',
     Email: '',
     Password: '',
@@ -29,7 +29,7 @@ const Profile: FC = () => {
 
   useEffect(() => {
     setProfileData({
-      UserName: UserData?.UserName,
+      Username: UserData?.Username,
       LegalName: UserData?.LegalName,
       Email: UserData?.Email ?? '',
       Password: UserData?.Password,
