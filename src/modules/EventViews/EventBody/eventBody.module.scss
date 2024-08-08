@@ -29,6 +29,7 @@
 
   .event-info-unit {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     justify-content: center;

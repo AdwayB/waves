@@ -14,7 +14,6 @@ const EventEditView: FC = () => {
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
   const [eventInfo, setEventInfo] = useState<Event>();
-  const [editedData, setEditedData] = useState<Event | null>(null);
   const [startDate, setStartDate] = useState<Dayjs>();
   const [endDate, setEndDate] = useState<Dayjs>();
   const [startTime, setStartTime] = useState<string>('');
@@ -39,7 +38,6 @@ const EventEditView: FC = () => {
   useEffect(() => {
     if (eventData) {
       setEventInfo(eventData);
-      setEditedData(eventData);
       setStartDate(dayjs(eventData.eventStartDate).local());
       setEndDate(dayjs(eventData.eventEndDate).local());
       setStartTime(dayjs(eventData.eventStartDate).local().format('HH:mm A'));
@@ -62,7 +60,9 @@ const EventEditView: FC = () => {
 
       const newValue =
         fieldName === 'eventGenres'
-          ? e.target.value.split(', ')?.map((word) => (word[0].toUpperCase() + word.slice(1)).replace('.', ''))
+          ? e.target.value
+              .split(',')
+              ?.map((word) => (!!word ? word[0].toUpperCase() + word.slice(1) : '').replace('.', ''))
           : e.target.value;
 
       return { ...prev, [fieldName]: newValue };
@@ -90,7 +90,7 @@ const EventEditView: FC = () => {
     } else if (time.includes('pm')) {
       time = time.replace('pm', '');
       const [hours, minutes] = time.split(':')?.map(Number);
-      const updatedTime = `${((hours % 12) + 12).toString()}:${minutes.toString()}`;
+      const updatedTime = `${((hours % 12) + 12).toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
       time = updatedTime;
     }
 
@@ -107,6 +107,9 @@ const EventEditView: FC = () => {
   };
 
   const updateEventDateTime = (fieldName: string, date?: Dayjs, time?: string) => {
+    console.log('====================================');
+    console.log(`Setting: ${fieldName}, Date: ${date}, Time: ${time}`);
+    console.log('====================================');
     if (date && time) {
       const [hours, minutes] = time.split(':')?.map(Number);
       const updatedDateTime = date.hour(hours).minute(minutes).second(0).millisecond(0).utc().format();
@@ -162,7 +165,7 @@ const EventEditView: FC = () => {
                   <InputField
                     type="text"
                     id={'event-name'}
-                    value={editedData!['eventName'] ?? 'No-Name Event'}
+                    value={eventInfo!['eventName'] ?? 'No-Name Event'}
                     onChange={(e) => handleTextFieldChange(e, 'eventName')}
                   />
                 </div>
@@ -171,7 +174,7 @@ const EventEditView: FC = () => {
                   <InputField
                     type="text"
                     id={'event-description'}
-                    value={editedData!['eventDescription'] ?? ''}
+                    value={eventInfo!['eventDescription'] ?? ''}
                     onChange={(e) => handleTextFieldChange(e, 'eventDescription')}
                   />
                 </div>
@@ -183,7 +186,7 @@ const EventEditView: FC = () => {
                   <InputField
                     type="text"
                     id={'event-genres'}
-                    value={editedData!['eventGenres']?.toString() ?? ''}
+                    value={eventInfo!['eventGenres']?.toString() ?? ''}
                     onChange={(e) => handleTextFieldChange(e, 'eventGenres')}
                   />
                 </div>
@@ -191,7 +194,7 @@ const EventEditView: FC = () => {
                   <span className={styles.eventEditFieldLabel}>Edit Total Seats for Event</span>
                   <InputNumber
                     id={'event-total-seats'}
-                    value={editedData!['eventTotalSeats'] ?? 0}
+                    value={eventInfo!['eventTotalSeats'] ?? 0}
                     onChange={(e) => handleTextFieldChange(e, 'eventTotalSeats')}
                   />
                 </div>

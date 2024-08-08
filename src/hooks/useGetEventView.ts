@@ -11,7 +11,7 @@ import {
 
 const fetchEvent = async (id: string) => {
   if (!id || id.length === 0) {
-    // throw new Error('No event ID provided');
+    throw new Error('No event ID provided');
   }
 
   console.log('fetching event');
@@ -22,7 +22,7 @@ const fetchEvent = async (id: string) => {
 
 const fetchUser = async (artistId: string) => {
   if (!artistId || artistId.length === 0) {
-    // throw new Error('No artist ID provided');
+    throw new Error('No artist ID provided');
   }
 
   console.log('fetching user');
@@ -33,7 +33,7 @@ const fetchUser = async (artistId: string) => {
 
 const fetchEventFeedback = async (eventId: string) => {
   if (!eventId || eventId.length === 0) {
-    // throw new Error('Unable to fetch feedback: No event ID provided');
+    throw new Error('Unable to fetch feedback: No event ID provided');
   }
 
   console.log('fetching event feedback');
@@ -45,7 +45,7 @@ const fetchEventFeedback = async (eventId: string) => {
 
 const fetchAverageRating = async (eventId: string) => {
   if (!eventId || eventId.length === 0) {
-    // throw new Error('Unable to fetch rating: No event ID provided');
+    throw new Error('Unable to fetch rating: No event ID provided');
   }
 
   console.log('fetching average rating');
@@ -56,11 +56,11 @@ const fetchAverageRating = async (eventId: string) => {
 
 const fetchEventFeedbackByUser = async (eventId: string, userId: string) => {
   if (!eventId || eventId.length === 0) {
-    // throw new Error('Unable to fetch feedback: No event ID provided');
+    throw new Error('Unable to fetch feedback: No event ID provided');
   }
 
   if (!userId || userId.length === 0) {
-    // throw new Error('Unable to fetch feedback: No user ID provided');
+    throw new Error('Unable to fetch feedback: No user ID provided');
   }
 
   console.log('fetching event feedback by user');
