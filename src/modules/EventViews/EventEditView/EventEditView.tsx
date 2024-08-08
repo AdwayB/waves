@@ -61,8 +61,8 @@ const EventEditView: FC = () => {
       if (!prev) return undefined;
 
       const newValue =
-        fieldName === 'EventGenres'
-          ? e.target.value.split(', ').map((word) => (word[0].toUpperCase() + word.slice(1)).replace('.', ''))
+        fieldName === 'eventGenres'
+          ? e.target.value.split(', ')?.map((word) => (word[0].toUpperCase() + word.slice(1)).replace('.', ''))
           : e.target.value;
 
       return { ...prev, [fieldName]: newValue };
@@ -73,11 +73,11 @@ const EventEditView: FC = () => {
     switch (fieldName) {
       case 'startDate':
         setStartDate(date);
-        updateEventDateTime('EventStartDate', date, startTime);
+        updateEventDateTime('eventStartDate', date, startTime);
         break;
       case 'endDate':
         setEndDate(date);
-        updateEventDateTime('EventEndDate', date, endTime);
+        updateEventDateTime('eventEndDate', date, endTime);
         break;
     }
   };
@@ -89,7 +89,7 @@ const EventEditView: FC = () => {
       time = time.replace('am', '');
     } else if (time.includes('pm')) {
       time = time.replace('pm', '');
-      const [hours, minutes] = time.split(':').map(Number);
+      const [hours, minutes] = time.split(':')?.map(Number);
       const updatedTime = `${((hours % 12) + 12).toString()}:${minutes.toString()}`;
       time = updatedTime;
     }
@@ -97,18 +97,18 @@ const EventEditView: FC = () => {
     switch (fieldName) {
       case 'startTime':
         setStartTime(time);
-        updateEventDateTime('EventStartDate', startDate, time);
+        updateEventDateTime('eventStartDate', startDate, time);
         break;
       case 'endTime':
         setEndTime(time);
-        updateEventDateTime('EventEndDate', endDate, time);
+        updateEventDateTime('eventEndDate', endDate, time);
         break;
     }
   };
 
   const updateEventDateTime = (fieldName: string, date?: Dayjs, time?: string) => {
     if (date && time) {
-      const [hours, minutes] = time.split(':').map(Number);
+      const [hours, minutes] = time.split(':')?.map(Number);
       const updatedDateTime = date.hour(hours).minute(minutes).second(0).millisecond(0).utc().format();
       setEventInfo((prev) => {
         if (!prev) return undefined;

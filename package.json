@@ -52,7 +52,6 @@
     "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
-    "@storybook/react": "^7.6.17",
     "@types/core-js": "^2.5.8",
     "@types/css-modules": "^1.0.5",
     "@types/html-webpack-plugin": "^3.2.9",
@@ -87,7 +86,6 @@
     "prop-types": "^15.8.1",
     "sass-loader": "^14.1.1",
     "source-map-loader": "^5.0.0",
-    "storybook": "^7.6.17",
     "stylelint": "^16.2.1",
     "stylelint-config-standard-scss": "^13.1.0",
     "terser-webpack-plugin": "^5.3.10",
