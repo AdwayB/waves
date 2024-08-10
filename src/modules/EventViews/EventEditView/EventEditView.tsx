@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Alert, Button, DatePicker, InputField, InputNumber, Loading, Select } from '../../../components';
+import { Alert, Button, DatePicker, InputField, InputNumber, Loading, Select, TimeField } from '../../../components';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './eventEditView.module.scss';
 import { Event, EventStatus } from '../../../helpers';
@@ -16,8 +16,10 @@ const EventEditView: FC = () => {
   const [eventInfo, setEventInfo] = useState<Event>();
   const [startDate, setStartDate] = useState<Dayjs>();
   const [endDate, setEndDate] = useState<Dayjs>();
-  const [startTime, setStartTime] = useState<string>('');
-  const [endTime, setEndTime] = useState<string>('');
+  const [startTime, setStartTime] = useState<Dayjs>();
+  const [endTime, setEndTime] = useState<Dayjs>();
+  const [startTimeError, setStartTimeError] = useState<string | null>();
+  const [endTimeError, setEndTimeError] = useState<string | null>();
   const [status, setStatus] = useState<string[]>();
   const [eventError, setEventError] = useState<boolean>(false);
 
@@ -40,8 +42,8 @@ const EventEditView: FC = () => {
       setEventInfo(eventData);
       setStartDate(dayjs(eventData.eventStartDate).local());
       setEndDate(dayjs(eventData.eventEndDate).local());
-      setStartTime(dayjs(eventData.eventStartDate).local().format('HH:mm A'));
-      setEndTime(dayjs(eventData.eventEndDate).local().format('HH:mm A'));
+      setStartTime(dayjs(eventData.eventStartDate).local());
+      setEndTime(dayjs(eventData.eventEndDate).local());
       setStatus([eventData.eventStatus ?? 'Scheduled']);
     }
   }, [eventData]);
@@ -82,37 +84,26 @@ const EventEditView: FC = () => {
     }
   };
 
-  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    var time = e.target.value.replace(' ', '').replace('.', '').toLowerCase();
-
-    if (time.includes('am')) {
-      time = time.replace('am', '');
-    } else if (time.includes('pm')) {
-      time = time.replace('pm', '');
-      const [hours, minutes] = time.split(':')?.map(Number);
-      const updatedTime = `${((hours % 12) + 12).toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      time = updatedTime;
-    }
-
+  const handleTimeChange = (time: Dayjs, fieldName: string) => {
     switch (fieldName) {
-      case 'startTime':
+      case 'startDate':
         setStartTime(time);
         updateEventDateTime('eventStartDate', startDate, time);
         break;
-      case 'endTime':
+      case 'endDate':
         setEndTime(time);
         updateEventDateTime('eventEndDate', endDate, time);
         break;
     }
   };
 
-  const updateEventDateTime = (fieldName: string, date?: Dayjs, time?: string) => {
+  const updateEventDateTime = (fieldName: string, date?: Dayjs, time?: Dayjs) => {
     console.log('====================================');
     console.log(`Setting: ${fieldName}, Date: ${date}, Time: ${time}`);
     console.log('====================================');
+
     if (date && time) {
-      const [hours, minutes] = time.split(':')?.map(Number);
-      const updatedDateTime = date.hour(hours).minute(minutes).second(0).millisecond(0).utc().format();
+      const updatedDateTime = date.hour(time.hour()).minute(time.minute()).second(0).millisecond(0).utc().format();
       setEventInfo((prev) => {
         if (!prev) return undefined;
         return { ...prev, [fieldName]: updatedDateTime };
@@ -208,25 +199,35 @@ const EventEditView: FC = () => {
                 </div>
                 <div className={styles.eventEditField}>
                   <span className={styles.eventEditFieldLabel}>Edit Start Time</span>
-                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
-                  <InputField
-                    type="text"
+                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the 24H format, eg: 18:00</span>
+                  <TimeField
                     id={'start-time'}
-                    value={startTime}
-                    onChange={(e) => handleTimeChange(e, 'startTime')}
+                    value={startTime ?? dayjs()}
+                    onChange={(v) => handleTimeChange(v ?? dayjs(), 'startDate')}
+                    onError={(error) => setStartTimeError(error)}
+                    slotProps={{
+                      textField: {
+                        helperText: startTimeError && 'Please enter a valid time.',
+                      },
+                    }}
                   />
                 </div>
                 <div className={styles.eventEditField}>
                   <span className={styles.eventEditFieldLabel}>Edit End Time</span>
-                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the formats: 6:00 PM or 18:00</span>
-                  <InputField
-                    type="text"
+                  <span className={styles.eventEditFieldSubTitle}>Enter a time in the 24H format, eg: 18:00</span>
+                  <TimeField
                     id={'end-time'}
-                    value={endTime}
-                    onChange={(e) => handleTimeChange(e, 'endTime')}
+                    value={endTime ?? dayjs()}
+                    onChange={(v) => handleTimeChange(v ?? dayjs(), 'endDate')}
+                    onError={(error) => setEndTimeError(error)}
+                    slotProps={{
+                      textField: {
+                        helperText: endTimeError && 'Please enter a valid time.',
+                      },
+                    }}
                   />
                 </div>
-                <div className={styles.eventEditField}>
+                <div className={styles.eventEditField} style={{ marginTop: '1rem', marginLeft: '0.3rem' }}>
                   <span className={styles.eventEditFieldLabel}>Edit Event Status</span>
                   <div className={styles.selectWrapper}>
                     <Select

@@ -1,0 +1,46 @@
+@import '../../styles/variables.scss';
+
+.time-field-wrapper {
+  height: inherit;
+  width: 100%;
+  margin: 0.5rem;
+
+  :global(.MuiFormControl-root) {
+    :global(.Mui-focused) {
+      color: $input-field-color;
+    }
+
+    :global(.MuiFormHelperText-root) {
+      width: fit-content;
+      color: $white;
+    }
+  }
+  :global(.MuiFormLabel-root) {
+    color: $input-field-color;
+  }
+
+  :global(.MuiInputBase-root) {
+    fieldset {
+      border-color: $input-field-color !important;
+    }
+
+    :global(.MuiInputAdornment-root) {
+      color: $input-field-color !important;
+    }
+  }
+
+  :global(.MuiIconButton-edgeEnd) {
+    color: $input-field-color;
+  }
+
+  :global(.MuiInputBase-input) {
+    appearance: unset !important;
+    background-color: transparent !important;
+    color: $input-field-color !important;
+    padding: 1rem 1rem;
+  }
+
+  :global(.MuiInputBase-input::placeholder) {
+    color: $input-field-color;
+  }
+}
