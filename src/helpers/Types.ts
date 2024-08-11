@@ -100,22 +100,22 @@ interface EventFeedbackResponse {
 }
 
 interface UpdateEventRequest {
-  EventId?: string;
-  EventName?: string;
-  EventDescription?: string;
-  EventBackgroundImage?: string;
-  EventTotalSeats?: number;
-  EventRegisteredSeats?: number;
-  EventTicketPrice?: number;
-  EventGenres?: string[];
-  EventCollab?: string[];
-  EventStartDate?: string;
-  EventEndDate?: string;
-  EventLocation?: Location;
-  EventStatus?: string;
-  EventAgeRestriction?: number;
-  EventCountry?: string;
-  EventDiscounts?: Discount[];
+  eventId?: string;
+  eventName?: string;
+  eventDescription?: string;
+  eventBackgroundImage?: string;
+  eventTotalSeats?: number;
+  eventRegisteredSeats?: number;
+  eventTicketPrice?: number;
+  eventGenres?: string[];
+  eventCollab?: string[];
+  eventStartDate?: string;
+  eventEndDate?: string;
+  eventLocation?: Location;
+  eventStatus?: string;
+  eventAgeRestriction?: number;
+  eventCountry?: string;
+  eventDiscounts?: Discount[];
 }
 
 interface IDList {

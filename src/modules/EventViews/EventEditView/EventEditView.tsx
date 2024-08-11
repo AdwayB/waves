@@ -8,6 +8,12 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useGetEventView } from '../../../hooks';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux';
+import { updateEvent } from '../../../utils';
+
+const sendUpdateEvent = async (eventData: Event) => {
+  const response = await updateEvent(eventData);
+  return response.status;
+};
 
 const EventEditView: FC = () => {
   document.title = 'Edit Event - Waves';
@@ -22,6 +28,9 @@ const EventEditView: FC = () => {
   const [endTimeError, setEndTimeError] = useState<string | null>();
   const [status, setStatus] = useState<string[]>();
   const [eventError, setEventError] = useState<boolean>(false);
+  const [eventUpdateError, setEventUpdateError] = useState<boolean>(false);
+  const [formDataError, setFormDataError] = useState<boolean>(false);
+  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
 
   const { eventData, userData, averageRating, isLoading, isError } = useGetEventView(eventId ?? '', true, true);
 
@@ -98,10 +107,6 @@ const EventEditView: FC = () => {
   };
 
   const updateEventDateTime = (fieldName: string, date?: Dayjs, time?: Dayjs) => {
-    console.log('====================================');
-    console.log(`Setting: ${fieldName}, Date: ${date}, Time: ${time}`);
-    console.log('====================================');
-
     if (date && time) {
       const updatedDateTime = date.hour(time.hour()).minute(time.minute()).second(0).millisecond(0).utc().format();
       setEventInfo((prev) => {
@@ -111,14 +116,56 @@ const EventEditView: FC = () => {
     }
   };
 
+  const validateFormData = () => {
+    let isValid = true;
+    if (
+      (eventInfo.eventStartDate && eventInfo.eventEndDate && eventInfo.eventStartDate > eventInfo.eventEndDate) ||
+      startTimeError ||
+      endTimeError
+    ) {
+      isValid = false;
+    }
+    if (
+      eventInfo.eventTotalSeats &&
+      eventInfo.eventRegisteredSeats &&
+      eventInfo.eventTotalSeats < eventInfo.eventRegisteredSeats
+    ) {
+      isValid = false;
+    }
+    if (eventInfo.eventStatus === EventStatus.Scheduled && dayjs().local().isAfter(eventInfo?.eventEndDate, 'hour')) {
+      isValid = false;
+    }
+    if (eventInfo?.eventName?.length === 0) {
+      isValid = false;
+    }
+    return isValid;
+  };
+
   const handleEditEvent = () => {
-    console.log('Edited event');
+    if (!validateFormData()) {
+      setFormDataError(true);
+      return;
+    }
+    setUpdateLoading(true);
+    setTimeout(async () => {
+      const responseStatus = await sendUpdateEvent(eventInfo);
+      if (responseStatus !== 200) {
+        setEventUpdateError(true);
+      }
+      setUpdateLoading(false);
+    }, 500);
   };
 
   return (
     <div className={styles.eventContainer}>
       <Alert visible={eventError} severity="error" onClose={() => setEventError(false)}>
         An error occurred when fetching event data, please try again later.
+      </Alert>
+      <Alert visible={eventUpdateError} severity="error" onClose={() => setEventUpdateError(false)}>
+        An error occurred when updating event data, please try again later.
+      </Alert>
+      <Alert visible={formDataError} severity="error" onClose={() => setFormDataError(false)}>
+        Invalid Data! Please verify your inputs and try again.
       </Alert>
       <div className={styles.eventInfoHeader}>
         <div className={styles.eventInfoHeaderLeft}>
@@ -134,6 +181,8 @@ const EventEditView: FC = () => {
               buttontype="secondary"
               onClick={handleEditEvent}
               className={styles.saveButton}
+              disabled={eventUpdateError}
+              buttonloading={updateLoading}
             />
           </div>
         </div>
