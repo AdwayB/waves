@@ -57,6 +57,14 @@ const EventEditView: FC = () => {
     }
   }, [eventData]);
 
+  useEffect(() => {
+    setEventInfo((prev) => {
+      if (!prev) return undefined;
+      if (!status) return prev;
+      return { ...prev, eventStatus: status[0] };
+    });
+  }, [status]);
+
   if (!eventInfo) {
     return (
       <div className={styles.eventFriendlyScreen}>
