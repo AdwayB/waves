@@ -127,7 +127,9 @@ const EventEditView: FC = () => {
   const validateFormData = () => {
     let isValid = true;
     if (
-      (eventInfo.eventStartDate && eventInfo.eventEndDate && eventInfo.eventStartDate > eventInfo.eventEndDate) ||
+      (eventInfo.eventStartDate &&
+        eventInfo.eventEndDate &&
+        dayjs(eventInfo.eventStartDate).utc().isAfter(dayjs(eventInfo.eventEndDate), 'hour')) ||
       startTimeError ||
       endTimeError
     ) {

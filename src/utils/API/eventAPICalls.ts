@@ -26,7 +26,7 @@ const getEventsByIDList = async (ids: string[]): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-const addEvent = async (eventData: Event): Promise<APIResponse> => {
+const createEvent = async (eventData: Event): Promise<APIResponse> => {
   const response = await eventsAPI.post('/create-event', eventData);
   return { status: response.status, data: response.data };
 };
@@ -41,4 +41,4 @@ const deleteEvent = async (eventId: number): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getEventById, getBulkEvents, getEventsByArtist, getEventsByIDList, addEvent, updateEvent, deleteEvent };
+export { getEventById, getBulkEvents, getEventsByArtist, getEventsByIDList, createEvent, updateEvent, deleteEvent };

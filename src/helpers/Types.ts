@@ -128,7 +128,12 @@ enum EventStatus {
   Cancelled = 'Cancelled',
 }
 
-export { EventStatus };
+enum UserType {
+  User = 'User',
+  Admin = 'Admin',
+}
+
+export { EventStatus, UserType };
 export type {
   DateHighlight,
   CreateEvent,

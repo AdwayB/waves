@@ -1,8 +1,7 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './editProfileForm.module.scss';
 import { Alert, Button, Checkbox, InputField, Switch } from '../../../components';
-import { UserType } from '../../SignupOrLogin/dataModels';
-import { UserData } from '../../../helpers';
+import { UserData, UserType } from '../../../helpers';
 
 interface EditProfileFormProps {
   userData: UserData;
