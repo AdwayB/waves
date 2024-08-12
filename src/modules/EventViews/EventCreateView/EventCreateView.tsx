@@ -1,5 +1,5 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Alert, Button, DatePicker, InputField, InputNumber, Select, TimeField } from '../../../components';
+import { ChangeEvent, FC, useState } from 'react';
+import { Alert, Button, DatePicker, InputField, InputNumber, TimeField } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import styles from './eventCreateView.module.scss';
 import { CreateEvent, Event, EventStatus, UserType } from '../../../helpers';
@@ -17,10 +17,11 @@ const sendCreateEvent = async (eventData: Event) => {
 const EventCreateView: FC = () => {
   document.title = 'Create Event - Waves';
   const navigate = useNavigate();
+  const currentUser = useSelector(selectCurrentUser);
   const [eventInfo, setEventInfo] = useState<CreateEvent>({
     eventName: '',
     eventDescription: '',
-    eventBackgroundImage: '',
+    eventBackgroundImage: ' ',
     eventTotalSeats: 0,
     eventRegisteredSeats: 0,
     eventTicketPrice: 0,
@@ -28,44 +29,24 @@ const EventCreateView: FC = () => {
     eventCollab: [],
     eventStartDate: '',
     eventEndDate: '',
-    eventLocation: { Type: 'Point', Coordinates: [] },
+    eventLocation: { Type: 'Point', Coordinates: [78.486671, 17.385044] },
     eventStatus: EventStatus.Scheduled,
-    eventCreatedBy: '',
+    eventCreatedBy: currentUser?.UserId || '',
     eventAgeRestriction: 0,
-    eventCountry: '',
+    eventCountry: 'IND',
     eventDiscounts: [],
   });
-  const [startDate, setStartDate] = useState<Dayjs>();
-  const [endDate, setEndDate] = useState<Dayjs>();
-  const [startTime, setStartTime] = useState<Dayjs>();
-  const [endTime, setEndTime] = useState<Dayjs>();
+  const [startDate, setStartDate] = useState<Dayjs>(dayjs().local());
+  const [endDate, setEndDate] = useState<Dayjs>(dayjs().local().add(1, 'day'));
+  const [startTime, setStartTime] = useState<Dayjs>(dayjs().local());
+  const [endTime, setEndTime] = useState<Dayjs>(dayjs().local().add(1, 'hour'));
   const [startTimeError, setStartTimeError] = useState<string | null>();
   const [endTimeError, setEndTimeError] = useState<string | null>();
-  const [status, setStatus] = useState<string[]>();
   const [eventError, setEventError] = useState<boolean>(false);
   const [eventCreateError, setEventCreateError] = useState<boolean>(false);
   const [eventCreateSuccess, setEventCreateSuccess] = useState<boolean>(false);
   const [formDataError, setFormDataError] = useState<boolean>(false);
   const [createLoading, setCreateLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (eventInfo) {
-      setStartDate(dayjs(eventInfo.eventStartDate).local());
-      setEndDate(dayjs(eventInfo.eventEndDate).local());
-      setStartTime(dayjs(eventInfo.eventStartDate).local());
-      setEndTime(dayjs(eventInfo.eventEndDate).local());
-      setStatus([eventInfo.eventStatus ?? 'Scheduled']);
-    }
-  }, [eventInfo]);
-
-  useEffect(() => {
-    setEventInfo((prev) => {
-      if (!status) return prev;
-      return { ...prev, eventStatus: status[0] };
-    });
-  }, [status]);
-
-  const currentUser = useSelector(selectCurrentUser);
 
   if (!eventInfo) {
     return (
@@ -80,6 +61,7 @@ const EventCreateView: FC = () => {
       const newValue =
         fieldName === 'eventGenres'
           ? e.target.value
+              .replace(' ', '')
               .split(',')
               ?.map((word) => (!!word ? word[0].toUpperCase() + word.slice(1) : '').replace('.', ''))
           : e.target.value;
@@ -101,15 +83,16 @@ const EventCreateView: FC = () => {
     }
   };
 
-  const handleTimeChange = (time: Dayjs, fieldName: string) => {
+  const handleTimeChange = (time: Dayjs | null, fieldName: string) => {
+    const sanitisedTime = time ?? dayjs().local();
     switch (fieldName) {
       case 'startDate':
-        setStartTime(time);
-        updateEventDateTime('eventStartDate', startDate, time);
+        setStartTime(sanitisedTime);
+        updateEventDateTime('eventStartDate', startDate, sanitisedTime);
         break;
       case 'endDate':
-        setEndTime(time);
-        updateEventDateTime('eventEndDate', endDate, time);
+        setEndTime(sanitisedTime);
+        updateEventDateTime('eventEndDate', endDate, sanitisedTime);
         break;
     }
   };
@@ -150,19 +133,18 @@ const EventCreateView: FC = () => {
     return isValid;
   };
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
     if (!validateFormData()) {
       setFormDataError(true);
       return;
     }
     setCreateLoading(true);
-    setTimeout(async () => {
-      const responseStatus = await sendCreateEvent(eventInfo);
-      if (responseStatus !== 200) {
-        setEventCreateError(true);
-      }
-      setCreateLoading(false);
-    }, 500);
+    const responseStatus = await sendCreateEvent(eventInfo);
+    if (responseStatus !== 200) {
+      setEventCreateError(true);
+    }
+    setCreateLoading(false);
+    setEventCreateSuccess(true);
   };
 
   return (
@@ -178,7 +160,7 @@ const EventCreateView: FC = () => {
         severity="success"
         onClose={() => {
           setEventCreateSuccess(false);
-          navigate('/');
+          navigate('/user/');
         }}
       >
         Successfully created event!
@@ -190,14 +172,17 @@ const EventCreateView: FC = () => {
         <div className={styles.eventInfoHeaderLeft}>
           <Button label="Back" onClick={() => navigate(-1)} className={styles.backButton} />
         </div>
-        <span className={styles.eventTitle}>Create Event</span>
+        <div className={styles.eventInfoHeaderCenter}>
+          <span className={styles.eventTitle}>Create Event</span>
+          <span className={styles.eventSubTitle}>See how your event will appear to users.</span>
+        </div>
         <div className={styles.eventInfoHeaderRight}>
           <div className={styles.eventActions}>
             <Button
-              label="Save Changes"
+              label="Create Event"
               buttontype="secondary"
               onClick={handleCreateEvent}
-              className={styles.saveButton}
+              className={styles.createButton}
               disabled={eventCreateError}
               buttonloading={createLoading}
             />
@@ -206,7 +191,6 @@ const EventCreateView: FC = () => {
       </div>
       <div className={styles.eventCreateBody}>
         <div className={styles.eventViewBody}>
-          <span className={styles.eventViewTitle}>See how your event will appear to users.</span>
           <EventBody
             eventInfo={eventInfo}
             rating={'0'}
@@ -274,8 +258,8 @@ const EventCreateView: FC = () => {
               <span className={styles.eventCreateFieldSubTitle}>Enter a time in the 24H format, eg: 18:00</span>
               <TimeField
                 id={'start-time'}
-                value={startTime ?? dayjs()}
-                onChange={(v) => handleTimeChange(v ?? dayjs(), 'startDate')}
+                value={startTime}
+                onChange={(v) => handleTimeChange(v, 'startDate')}
                 onError={(error) => setStartTimeError(error)}
                 slotProps={{
                   textField: {
@@ -289,8 +273,8 @@ const EventCreateView: FC = () => {
               <span className={styles.eventCreateFieldSubTitle}>Enter a time in the 24H format, eg: 18:00</span>
               <TimeField
                 id={'end-time'}
-                value={endTime ?? dayjs()}
-                onChange={(v) => handleTimeChange(v ?? dayjs(), 'endDate')}
+                value={endTime}
+                onChange={(v) => handleTimeChange(v, 'endDate')}
                 onError={(error) => setEndTimeError(error)}
                 slotProps={{
                   textField: {
@@ -298,30 +282,6 @@ const EventCreateView: FC = () => {
                   },
                 }}
               />
-            </div>
-            <div className={styles.eventCreateField} style={{ marginTop: '1rem', marginLeft: '0.3rem' }}>
-              <span className={styles.eventCreateFieldLabel}>Enter Event Status</span>
-              <div className={styles.selectWrapper}>
-                <Select
-                  value={status}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(e: any) => setStatus(e.target.value)}
-                  options={[
-                    {
-                      label: EventStatus.Scheduled,
-                      value: EventStatus.Scheduled,
-                    },
-                    {
-                      label: EventStatus.Completed,
-                      value: EventStatus.Completed,
-                    },
-                    {
-                      label: EventStatus.Cancelled,
-                      value: EventStatus.Cancelled,
-                    },
-                  ]}
-                />
-              </div>
             </div>
           </div>
         </div>

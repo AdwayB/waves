@@ -14,7 +14,7 @@ const MyEvents: FC = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleCreateEvent = () => {
-    navigate('/create-event');
+    navigate('/user/create-event');
   };
 
   return (

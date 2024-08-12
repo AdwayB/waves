@@ -44,7 +44,7 @@ const EventUserView: FC = () => {
 
   useEffect(() => {
     if (eventData?.eventCreatedBy === currentUser?.UserId) {
-      navigate(`/view-event/admin/${eventId}`);
+      navigate(`/user/view-event/admin/${eventId}`);
     }
   }, [eventData, currentUser, eventId, navigate]);
 

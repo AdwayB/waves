@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { APIResponse, Event, UpdateEventRequest } from '../../helpers';
 import { eventsAPI } from './apiObjects';
 
@@ -27,12 +28,24 @@ const getEventsByIDList = async (ids: string[]): Promise<APIResponse> => {
 };
 
 const createEvent = async (eventData: Event): Promise<APIResponse> => {
-  const response = await eventsAPI.post('/create-event', eventData);
+  let response: AxiosResponse;
+  try {
+    response = await eventsAPI.post('/create-event', eventData);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+  }
   return { status: response.status, data: response.data };
 };
 
 const updateEvent = async (eventData: UpdateEventRequest): Promise<APIResponse> => {
-  const response = await eventsAPI.patch('/update-event', eventData);
+  let response: AxiosResponse;
+  try {
+    response = await eventsAPI.patch('/update-event', eventData);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+  }
   return { status: response.status, data: response.data };
 };
 

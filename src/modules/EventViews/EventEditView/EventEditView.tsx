@@ -31,6 +31,7 @@ const EventEditView: FC = () => {
   const [eventUpdateError, setEventUpdateError] = useState<boolean>(false);
   const [formDataError, setFormDataError] = useState<boolean>(false);
   const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+  const [updateComplete, setUpdateComplete] = useState<boolean>(false);
 
   const { eventData, userData, averageRating, isLoading, isError } = useGetEventView(eventId ?? '', true, true);
 
@@ -151,19 +152,18 @@ const EventEditView: FC = () => {
     return isValid;
   };
 
-  const handleEditEvent = () => {
+  const handleEditEvent = async () => {
     if (!validateFormData()) {
       setFormDataError(true);
       return;
     }
     setUpdateLoading(true);
-    setTimeout(async () => {
-      const responseStatus = await sendUpdateEvent(eventInfo);
-      if (responseStatus !== 200) {
-        setEventUpdateError(true);
-      }
-      setUpdateLoading(false);
-    }, 500);
+    const responseStatus = await sendUpdateEvent(eventInfo);
+    if (responseStatus !== 200) {
+      setEventUpdateError(true);
+    }
+    setUpdateLoading(false);
+    setUpdateComplete(true);
   };
 
   return (
@@ -173,6 +173,16 @@ const EventEditView: FC = () => {
       </Alert>
       <Alert visible={eventUpdateError} severity="error" onClose={() => setEventUpdateError(false)}>
         An error occurred when updating event data, please try again later.
+      </Alert>
+      <Alert
+        visible={updateComplete}
+        severity="success"
+        onClose={() => {
+          setUpdateComplete(false);
+          navigate('/');
+        }}
+      >
+        Successfully created event!
       </Alert>
       <Alert visible={formDataError} severity="error" onClose={() => setFormDataError(false)}>
         Invalid Data! Please verify your inputs and try again.

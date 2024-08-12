@@ -24,10 +24,6 @@
 }
 
 .event-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
   padding: 1rem;
   overflow-y: auto;
 
@@ -45,9 +41,30 @@
       align-items: center;
     }
 
-    .event-title {
-      font: $heading-font;
-      color: $white;
+    .event-info-header-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      .event-title {
+        font: $heading-font;
+        color: $white;
+      }
+
+      .event-sub-title {
+        font: $subtext-font;
+        color: $disabled-text-color;
+      }
+    }
+
+    .event-info-header-right {
+      .event-actions {
+        .create-button {
+          padding: 0.5rem 1rem;
+        }
+      }
     }
   }
 
@@ -58,15 +75,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    padding: 1rem;
 
     .event-view-body {
       align-self: flex-start;
       max-width: 52rem;
-
-      .event-view-title {
-        font: $subheading-font;
-        color: $white;
-      }
     }
 
     .event-create-fields {
