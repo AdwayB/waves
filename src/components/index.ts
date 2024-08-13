@@ -9,6 +9,7 @@ export * from './CardCarousel';
 export * from './Checkbox';
 export * from './Chip';
 export * from './DatePicker';
+export * from './DeleteModal';
 export * from './Divider';
 export * from './Error';
 export * from './EventCard';

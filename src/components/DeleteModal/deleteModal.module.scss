@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+
+.delete-modal {
+  :global(.MuiPaper-root) {
+    background-color: $delete-modal-bg-color !important;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+  }
+
+  :global(.MuiTypography-root) {
+    color: $input-field-color !important;
+  }
+}

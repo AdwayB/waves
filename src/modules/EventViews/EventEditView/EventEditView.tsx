@@ -182,7 +182,7 @@ const EventEditView: FC = () => {
           navigate('/');
         }}
       >
-        Successfully created event!
+        Successfully edited event!
       </Alert>
       <Alert visible={formDataError} severity="error" onClose={() => setFormDataError(false)}>
         Invalid Data! Please verify your inputs and try again.

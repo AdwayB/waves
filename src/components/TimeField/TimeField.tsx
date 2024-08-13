@@ -17,6 +17,14 @@ interface TimeFieldProps extends MTimeFieldProps<Dayjs> {
   onError?: (error: string | null, value: Dayjs | null) => void;
 }
 
+/**
+ * A controlled TimeField component.
+ * Has configurable format and keyboard accessibility.
+ *
+ * @param format - The format for displaying the time. Defaults to 'HH:mm'.
+ *
+ * @param {TimeFieldProps} props - The props for configuring the TimeField.
+ */
 const TimeField: FC<TimeFieldProps> = (props) => {
   const {
     label,

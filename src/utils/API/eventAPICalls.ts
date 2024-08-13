@@ -49,8 +49,14 @@ const updateEvent = async (eventData: UpdateEventRequest): Promise<APIResponse> 
   return { status: response.status, data: response.data };
 };
 
-const deleteEvent = async (eventId: number): Promise<APIResponse> => {
-  const response = await eventsAPI.delete(`/delete-event/${eventId}`);
+const deleteEvent = async (eventId: string): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await eventsAPI.delete(`/delete-event/${eventId}`);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+  }
   return { status: response.status, data: response.data };
 };
 
