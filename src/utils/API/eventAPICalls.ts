@@ -33,7 +33,7 @@ const createEvent = async (eventData: Event): Promise<APIResponse> => {
     response = await eventsAPI.post('/create-event', eventData);
   } catch (error: unknown) {
     const requestError: AxiosError = error as AxiosError;
-    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
   }
   return { status: response.status, data: response.data };
 };
@@ -44,7 +44,7 @@ const updateEvent = async (eventData: UpdateEventRequest): Promise<APIResponse> 
     response = await eventsAPI.patch('/update-event', eventData);
   } catch (error: unknown) {
     const requestError: AxiosError = error as AxiosError;
-    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
   }
   return { status: response.status, data: response.data };
 };
@@ -55,7 +55,7 @@ const deleteEvent = async (eventId: string): Promise<APIResponse> => {
     response = await eventsAPI.delete(`/delete-event/${eventId}`);
   } catch (error: unknown) {
     const requestError: AxiosError = error as AxiosError;
-    return { status: requestError.response?.status ?? 500, data: requestError.response?.status };
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
   }
   return { status: response.status, data: response.data };
 };

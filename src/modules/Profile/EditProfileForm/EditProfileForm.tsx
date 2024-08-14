@@ -2,16 +2,21 @@ import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './editProfileForm.module.scss';
 import { Alert, Button, Checkbox, InputField, Switch } from '../../../components';
 import { UserData, UserType } from '../../../helpers';
+import { getUserByID, updateUserInfo } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux';
 
 interface EditProfileFormProps {
   userData: UserData;
-  onSubmit: (data: UserData) => void;
 }
 
 const EditProfileForm: FC<EditProfileFormProps> = (props) => {
-  const { userData, onSubmit } = props;
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  const { userData } = props;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [firstName, setFirstName] = useState<string>(userData.LegalName?.split(' ')[0] ?? '');
+  const [lastName, setLastName] = useState<string>(userData.LegalName?.split(' ')[1] ?? '');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [mobileNumberError, setMobileNumberError] = useState<boolean>(false);
   const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
@@ -19,7 +24,9 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
   const [recheckPasswordError, setRecheckPasswordError] = useState<boolean>(false);
   const [recheckPassword, setRecheckPassword] = useState<string>('');
   const [admin, setAdmin] = useState<boolean>(false);
-  const [formSubmissionError, setFormSubmissionError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [formFields, setFormFields] = useState<UserData>(userData);
 
   const getUserName = (firstName: string, lastName: string) => {
@@ -111,34 +118,50 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     setFormSubmissionError(true);
-  //   }
-  // }, [isError]);
+  const sendUpdateData = async (data: UserData) => {
+    setIsLoading(true);
+    const responseStatus = await updateUserInfo(data);
+    if (responseStatus.status !== 200) {
+      setIsError(true);
+      setIsLoading(false);
+      return;
+    }
+    const newUserData = await getUserByID(data.UserId ?? '12');
+    console.log(newUserData);
+    dispatch(setUser(newUserData.data as UserData));
+    setIsLoading(false);
+    setIsSuccess(true);
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    console.table(formFields);
     if (passwordError || recheckPasswordError || emailError || mobileNumberError) {
       return false;
     }
     try {
-      onSubmit(formFields);
+      sendUpdateData(formFields);
     } catch (err) {
-      setFormSubmissionError(true);
+      setIsError(true);
       console.log('Error while submitting the form' + err);
     }
     return false;
+  };
+
+  const handleSuccessAlertClose = () => {
+    setIsSuccess(false);
+    navigate('/user');
   };
 
   const form = useRef<HTMLFormElement>(null);
 
   return (
     <>
-      <Alert visible={formSubmissionError} severity="error" onClose={() => setFormSubmissionError(false)}>
+      <Alert visible={isError} severity="error" onClose={() => setIsError(false)}>
         An error occurred while submitting the form. Please refresh and try again.
+      </Alert>
+      <Alert visible={isSuccess} severity="success" onClose={handleSuccessAlertClose}>
+        Profile updated successfully!
       </Alert>
       <div className={styles.editProfileContainer}>
         <div className={styles.editFormHeading}>Edit Profile</div>
@@ -250,7 +273,7 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
             onClick={() => console.log('Profile Details Updated.')}
             disabled={passwordError || emailError}
             className={styles.button}
-            // buttonloading={isLoading}
+            buttonloading={isLoading}
           />
         </form>
       </div>

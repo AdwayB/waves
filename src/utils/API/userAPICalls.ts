@@ -1,4 +1,5 @@
-import { APIResponse } from '../../helpers';
+import { AxiosError, AxiosResponse } from 'axios';
+import { APIResponse, UserData } from '../../helpers';
 import { usersAPI } from './apiObjects';
 
 const getUserByID = async (id: string): Promise<APIResponse> => {
@@ -21,4 +22,18 @@ const getSavedEvents = async (): Promise<APIResponse> => {
   return { status: response.status, data: response.data };
 };
 
-export { getUserByID, getUserByIDList, getSavedEvents };
+const updateUserInfo = async (data: UserData): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    console.log('Updating user data: ');
+    console.log(data);
+
+    response = await usersAPI.patch('/update-user', data);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+export { getUserByID, getUserByIDList, getSavedEvents, updateUserInfo };

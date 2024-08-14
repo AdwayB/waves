@@ -19,6 +19,7 @@ const Profile: FC = () => {
   const UserData = useSelector(selectCurrentUser);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserData>({
+    UserId: '',
     Username: '',
     LegalName: '',
     Email: '',
@@ -29,6 +30,7 @@ const Profile: FC = () => {
 
   useEffect(() => {
     setProfileData({
+      UserId: UserData?.UserId,
       Username: UserData?.Username,
       LegalName: UserData?.LegalName,
       Email: UserData?.Email ?? '',
@@ -50,18 +52,8 @@ const Profile: FC = () => {
     setIsEdit(true);
   };
 
-  const handleEditFormSubmit = (data: UserData) => {
-    console.table(data);
-    setProfileData(data);
-    setIsEdit(false);
-  };
-
   const getFormComponent = () => {
-    return isEdit ? (
-      <EditProfileForm userData={profileData} onSubmit={handleEditFormSubmit} />
-    ) : (
-      <ViewProfile userData={profileData} />
-    );
+    return isEdit ? <EditProfileForm userData={profileData} /> : <ViewProfile userData={profileData} />;
   };
 
   return (
