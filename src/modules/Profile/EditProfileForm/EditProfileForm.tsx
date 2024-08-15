@@ -70,13 +70,13 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
       setAdmin(true);
       setFormFields((previousValue) => ({
         ...previousValue,
-        type: UserType.Admin,
+        Type: UserType.Admin,
       }));
     } else {
       setAdmin(false);
       setFormFields((previousValue) => ({
         ...previousValue,
-        type: UserType.User,
+        Type: UserType.User,
       }));
     }
   };
@@ -87,13 +87,13 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
       setFormFields((previousValue) => ({
         ...previousValue,
         [name]: value,
-        type: UserType.Admin,
+        Type: UserType.Admin,
       }));
     } else {
       setFormFields((previousValue) => ({
         ...previousValue,
         [name]: value,
-        type: UserType.User,
+        Type: UserType.User,
       }));
     }
     if (name === 'Email') {
@@ -127,7 +127,6 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
       return;
     }
     const newUserData = await getUserByID(data.UserId ?? '12');
-    console.log(newUserData);
     dispatch(setUser(newUserData.data as UserData));
     setIsLoading(false);
     setIsSuccess(true);

@@ -25,6 +25,7 @@ const Profile: FC = () => {
     Email: '',
     Password: '',
     MobileNumber: '',
+    Country: '',
     Type: '',
   });
 
@@ -36,6 +37,7 @@ const Profile: FC = () => {
       Email: UserData?.Email ?? '',
       Password: UserData?.Password,
       MobileNumber: UserData?.MobileNumber,
+      Country: UserData?.Country,
       Type: UserData?.Type ?? 'User',
     });
   }, [UserData]);
