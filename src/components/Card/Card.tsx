@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from 'react';
 import { Card as MCard } from '@mui/material';
 import styles from './card.module.scss';
-import { Rating } from '../Rating';
+// import { Rating } from '../Rating';
 import { Tooltip } from '../Tooltip';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -93,7 +93,7 @@ const Card: FC<CardProps> = (props) => {
     title,
     artist,
     genres,
-    rating,
+    // rating,
     startDate = dayjs(),
     onClick,
     fixedGradient = false,
@@ -117,9 +117,9 @@ const Card: FC<CardProps> = (props) => {
               >
                 <span className={styles.cardTitle}>{title}</span>
               </Tooltip>
-              <span className={styles.cardRating}>
+              {/* <span className={styles.cardRating}>
                 <Rating precision={0.1} value={rating} />
-              </span>
+              </span> */}
             </div>
             <div className={styles.cardArtist}>{artist}</div>
             <div className={styles.cardGenres}>{genres}</div>

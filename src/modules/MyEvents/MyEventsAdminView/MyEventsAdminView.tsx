@@ -76,7 +76,7 @@ const MyEventsAdminView: FC<MyEventsAdminViewProps> = (props) => {
     name: event.eventName,
     genres: event.eventGenres?.join(', '),
     totalSeats: event.eventTotalSeats,
-    registrations: event.eventRegisteredSeats ?? 0,
+    registrations: event.eventRegisteredSeats,
     startdate: dayjs(event.eventStartDate).local().format('DD MMM YYYY [at] hh:mm A'),
     enddate: dayjs(event.eventEndDate).local().format('DD MMM YYYY [at] hh:mm A'),
     status: event.eventStatus,

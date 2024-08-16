@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Event, UserDataResponse, UserEventRegistrations } from '../helpers';
 import { getUserByIDList, getUserRegistrations } from '../utils';
 import { useQuery } from 'react-query';
@@ -24,10 +24,8 @@ const fetchUsers = async (artistIds: string[]) => {
 const useGetUserRegisteredEventData = (userID: string) => {
   const [eventData, setEventData] = useState<Event[]>([]);
   const [apiPage, setApiPage] = useState<number>(1);
-  const [artistIds, setArtistIds] = useState<string[]>([]);
 
   const memoizedFetchRegisteredEvents = useCallback(() => fetchRegisteredEvents(userID, apiPage), [userID, apiPage]);
-  const memoizedFetchUsers = useCallback(() => fetchUsers(artistIds), [artistIds]);
 
   const {
     data: registeredEventsData,
@@ -47,27 +45,23 @@ const useGetUserRegisteredEventData = (userID: string) => {
     },
   });
 
-  useEffect(() => {
-    if (!!eventData && eventData.length > 0) {
-      const newArtistIds = new Set(artistIds);
-      eventData
-        .filter((event) => event.eventCreatedBy && !newArtistIds.has(event.eventCreatedBy))
-        .forEach((event) => {
-          newArtistIds.add(event?.eventCreatedBy ?? '');
-        });
-      newArtistIds.delete('');
-
-      setArtistIds(Array.from(newArtistIds));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedArtistIds = useMemo(() => {
+    const newArtistIds = new Set<string>();
+    eventData.forEach((event) => {
+      newArtistIds.add(event?.eventCreatedBy ?? '');
+    });
+    newArtistIds.delete('');
+    return Array.from(newArtistIds);
   }, [eventData]);
+
+  const memoizedFetchUsers = useCallback(() => fetchUsers(memoizedArtistIds), [memoizedArtistIds]);
 
   const {
     data: userData,
     isLoading: usersLoading,
     isError: usersError,
-  } = useQuery(['getUsers', artistIds], memoizedFetchUsers, {
-    enabled: artistIds.length > 0,
+  } = useQuery(['getUsers'], memoizedFetchUsers, {
+    enabled: memoizedArtistIds.length > 0,
     keepPreviousData: true,
   });
 

@@ -1,4 +1,5 @@
-import { APIResponse } from '../../helpers';
+import { AxiosError, AxiosResponse } from 'axios';
+import { APIResponse, RegistrationRequest } from '../../helpers';
 import { paymentsAPI } from './apiObjects';
 
 const getUserRegistrations = async (userId: string, pageNumber: number, pageSize: number): Promise<APIResponse> => {
@@ -11,4 +12,15 @@ const getEventRegistrations = async (eventId: string, pageNumber: number, pageSi
   return { status: response.status, data: response.data };
 };
 
-export { getUserRegistrations, getEventRegistrations };
+const registerForEvent = async (registrationRequest: RegistrationRequest): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await paymentsAPI.post('/register-for-event', registrationRequest);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+export { getUserRegistrations, getEventRegistrations, registerForEvent };

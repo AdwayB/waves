@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux';
 import { useGetUserRegisteredEventData } from '../../hooks';
 import { getCardData } from '../../helpers';
+import dayjs from 'dayjs';
 
 const UserHome = () => {
   document.title = 'Home - Waves';
@@ -83,20 +84,24 @@ const UserHome = () => {
   const { registeredEventData, numberOfRegistrations, userData, isLoading, isError, setApiPage } =
     useGetUserRegisteredEventData(currentUserId ?? '');
 
-  registeredEventData.forEach((event) => {
-    if (event?.eventCreatedBy && !!userData) {
-      const artistName = userData.find((user) => user.userId === event.eventCreatedBy)?.legalName;
-      event.eventCreatedBy = artistName;
-    }
-  });
-
-  const memoizedCardData = useMemo(() => getCardData(registeredEventData, userData!), [registeredEventData, userData]);
+  const filteredRegisteredEventsWithArtistNames = useMemo(() => {
+    return registeredEventData
+      .filter((event) => dayjs(event.eventEndDate).utc().isAfter(dayjs().utc(), 'day'))
+      .map((event) => {
+        return {
+          ...event,
+          eventCreatedBy: event.eventCreatedBy
+            ? userData?.find((user) => user.userId === event.eventCreatedBy)?.legalName
+            : '',
+        };
+      });
+  }, [registeredEventData, userData]);
 
   useEffect(() => {
-    if (memoizedCardData) {
-      setMappedCardData(memoizedCardData);
+    if (!!filteredRegisteredEventsWithArtistNames && userData) {
+      setMappedCardData(getCardData(filteredRegisteredEventsWithArtistNames, userData));
     }
-  }, [memoizedCardData]);
+  }, [filteredRegisteredEventsWithArtistNames, userData]);
 
   const pageCount = useMemo(() => {
     return !!mappedCardData ? Math.ceil(mappedCardData.length / pageLength) : 0;
@@ -132,17 +137,19 @@ const UserHome = () => {
             <span ref={welcomeNameRef} className={styles.welcomeName} />
             <span ref={welcomeExclamationRef} />
           </span>
-          <span className={styles.welcomeText}>You have {numberOfRegistrations} upcoming events.</span>
+          <span className={styles.welcomeText}>
+            You have {filteredRegisteredEventsWithArtistNames.length} upcoming events.
+          </span>
         </div>
         <div className={styles.userHomeRegisteredEventsContainer}>
           {isLoading ? (
             <div className={styles.userHomeRegisteredEventsLoading}>
               <LoadingWithPagination />
             </div>
-          ) : registeredEventData.length === 0 ? (
+          ) : numberOfRegistrations === 0 || filteredRegisteredEventsWithArtistNames.length === 0 ? (
             <FriendlyScreenWithPagination
               friendlyScreenHeight="500px"
-              friendlyScreenMessage="No events registered yet."
+              friendlyScreenMessage="No upcoming registrations."
             />
           ) : (
             <PaginatedCards data={displayData} page={page} pageCount={pageCount} onPageChange={handlePageChange} />
@@ -150,13 +157,11 @@ const UserHome = () => {
           <div className={styles.loadMoreRegistrationsContainer}>
             <div className={styles.loadMoreRegistrationsWrapper}>
               <span className={styles.registrationsInfo}>
-                Total Events: <span className={styles.registrationsCount}>{numberOfRegistrations}</span>
+                Total Events:{' '}
+                <span className={styles.registrationsCount}>{filteredRegisteredEventsWithArtistNames.length}</span>
               </span>
               <span className={styles.registrationsInfo}>
-                Visible Events:{' '}
-                <span className={styles.registrationsCount}>
-                  {!!registeredEventData[0]?.eventId ? 0 : registeredEventData.length}
-                </span>
+                Visible Events: <span className={styles.registrationsCount}>{mappedCardData.length}</span>
               </span>
             </div>
             <Button label="Load More Events" onClick={handleGetNextApiPage} />

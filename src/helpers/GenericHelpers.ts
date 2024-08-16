@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { CardProps, EventCardProps } from '../components';
 import { Event } from './Responses';
-import { UserDataResponse } from './Types';
+import { UserDataResponse, UserType } from './Types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Method = (...args: any[]) => void;
@@ -37,11 +37,11 @@ const calculateDistance = (coords1: [number, number], coords2: [number, number])
 
 const getCardData = (eventData: Event[], userData: UserDataResponse[]): CardProps[] => {
   return eventData.map((event) => {
-    const artistInfo = userData.find((user) => user.userId === event.eventCreatedBy);
+    const artistInfo = userData.find((user) => user.legalName === event.eventCreatedBy && user.type === UserType.Admin);
     return {
       eventId: event.eventId,
       title: event.eventName,
-      artist: artistInfo?.legalName || 'Unknown Artist',
+      artist: artistInfo?.legalName,
       genres: event.eventGenres?.join(', '),
       rating: Math.floor(Math.random() * 5) + 1,
       startDate: dayjs(event.eventStartDate),

@@ -122,6 +122,22 @@ interface IDList {
   id: string[];
 }
 
+type UserDetailsWithEventIdList = UserData & { eventID: string[] };
+
+interface RegistrationRequest {
+  UserId: string;
+  EventId: string;
+  UserEmail: string;
+}
+
+interface RegistrationResponse {
+  EventId: string;
+  PaymentId: string;
+  InvoiceId: string;
+  Amount: number;
+  Status: string;
+}
+
 enum EventStatus {
   Scheduled = 'Scheduled',
   Completed = 'Completed',
@@ -148,4 +164,7 @@ export type {
   EventFeedbackResponse,
   UpdateEventRequest,
   IDList,
+  UserDetailsWithEventIdList,
+  RegistrationRequest,
+  RegistrationResponse,
 };
