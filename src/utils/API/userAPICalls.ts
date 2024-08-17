@@ -3,22 +3,40 @@ import { APIResponse, UserData, UserDetailsWithEventIdList } from '../../helpers
 import { usersAPI } from './apiObjects';
 
 const getUserByID = async (id: string): Promise<APIResponse> => {
-  const response = await usersAPI.get(`/get-user-by-id/${id}`);
+  let response: AxiosResponse;
+  try {
+    response = await usersAPI.get(`/get-user-by-id/${id}`);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
   return { status: response.status, data: response.data };
 };
 
 const getUserByIDList = async (ids: string[]): Promise<APIResponse> => {
-  const filteredIds = ids.filter((id) => id !== undefined && id !== null && id !== '');
-  const response = await usersAPI.post('/get-user-by-id-list', filteredIds, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  let response: AxiosResponse;
+  try {
+    const filteredIds = ids.filter((id) => id !== undefined && id !== null && id !== '');
+    response = await usersAPI.post('/get-user-by-id-list', filteredIds, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
   return { status: response.status, data: response.data };
 };
 
 const getSavedEvents = async (): Promise<APIResponse> => {
-  const response = await usersAPI.get('/get-saved');
+  let response: AxiosResponse;
+  try {
+    response = await usersAPI.get('/get-saved');
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
   return { status: response.status, data: response.data };
 };
 
