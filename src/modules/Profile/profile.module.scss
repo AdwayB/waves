@@ -58,6 +58,15 @@
         height: 3rem;
       }
     }
+
+    .logout-button-container {
+      height: 0rem;
+
+      .logout-button {
+        height: 3rem;
+        width: 9rem;
+      }
+    }
   }
 
   .right-container {
