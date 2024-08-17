@@ -54,7 +54,7 @@ const MemoizedCalendarPage: FC = () => {
   };
 
   const handleCardClick = (eventId?: string) => {
-    eventId && navigate(`/view-event/${eventId}`);
+    eventId && navigate(`/user/view-event/${eventId}`);
   };
 
   return (

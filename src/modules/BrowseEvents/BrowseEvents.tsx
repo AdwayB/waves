@@ -145,7 +145,13 @@ const MemoizedBrowseEvents: FC = () => {
   }, [eventData, filters, userLocation]);
 
   const searchAndSortResults = useMemo(() => {
-    if (filteredEvents && filteredEvents.length > 0 && userData && userData.length > 0) {
+    if (
+      filteredEvents &&
+      filteredEvents.length > 0 &&
+      userData &&
+      userData.every((user) => user.userId) &&
+      userData.length > 0
+    ) {
       const mappedEvents = getCardData(filteredEvents, userData!);
       const searchResults = getSearchResults(mappedEvents, searchTerm);
       const sortedResults = sortResult(searchResults, sortMethod);

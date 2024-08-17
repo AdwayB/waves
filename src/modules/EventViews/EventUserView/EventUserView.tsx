@@ -8,6 +8,13 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser, selectRegisteredEvents, selectSavedEvents } from '../../../redux';
 import { RegistrationRequest, UserDetailsWithEventIdList } from '../../../helpers';
 import { registerForEvent, saveEvent } from '../../../utils';
+import DoneIcon from '@mui/icons-material/Done';
+
+const CheckIcon = () => (
+  <div className={styles.checkIcon}>
+    <DoneIcon />
+  </div>
+);
 
 const EventUserView: FC = () => {
   document.title = 'View Event - Waves';
@@ -23,8 +30,8 @@ const EventUserView: FC = () => {
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
   const [isSaveError, setIsSaveError] = useState<boolean>(false);
   const [isSaveSuccess, setIsSaveSuccess] = useState<boolean>(false);
-  const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(false);
-  const [isRegisterDisabled, setIsRegisterDisabled] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   const {
     eventData,
@@ -62,14 +69,14 @@ const EventUserView: FC = () => {
 
   useEffect(() => {
     if (savedEvents.filter((event) => event.eventId === eventData?.eventId).length > 0) {
-      setIsSaveDisabled(true);
-      setIsRegisterDisabled(false);
+      setIsSaved(true);
+      setIsRegistered(false);
     } else if (registeredEvents.filter((event) => event.eventId === eventData?.eventId).length > 0) {
-      setIsRegisterDisabled(true);
-      setIsSaveDisabled(false);
+      setIsRegistered(true);
+      setIsSaved(false);
     } else {
-      setIsSaveDisabled(false);
-      setIsRegisterDisabled(false);
+      setIsSaved(false);
+      setIsRegistered(false);
     }
   }, [eventData, registeredEvents, savedEvents]);
 
@@ -86,6 +93,9 @@ const EventUserView: FC = () => {
   };
 
   const handleRegisterEvent = async () => {
+    if (isRegistered) {
+      return;
+    }
     setIsRegisterLoading(true);
     const registrationRequest: RegistrationRequest = {
       UserId: currentUser?.UserId ?? '',
@@ -101,6 +111,9 @@ const EventUserView: FC = () => {
   };
 
   const handleSaveEvent = async () => {
+    if (isSaved) {
+      return;
+    }
     setIsSaveLoading(true);
     const saveRequest: UserDetailsWithEventIdList = {
       ...currentUser!,
@@ -178,18 +191,16 @@ const EventUserView: FC = () => {
           <span className={styles.eventTitle}>View Event</span>
           <div className={styles.eventActions}>
             <Button
-              label="Register"
+              label={isRegistered ? CheckIcon() : 'Register'}
               onClick={handleRegisterEvent}
               buttonloading={isRegisterLoading}
-              disabled={isRegisterDisabled}
               className={styles.registerButton}
             />
             <Button
-              label="Save"
+              label={isSaved ? CheckIcon() : 'Save'}
               buttontype="secondary"
               onClick={handleSaveEvent}
               buttonloading={isSaveLoading}
-              disabled={isSaveDisabled}
               className={styles.saveButton}
             />
           </div>

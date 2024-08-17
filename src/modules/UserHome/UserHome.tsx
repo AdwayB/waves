@@ -84,24 +84,20 @@ const UserHome = () => {
   const { registeredEventData, numberOfRegistrations, userData, isLoading, isError, setApiPage } =
     useGetUserRegisteredEventData(currentUserId ?? '');
 
-  const filteredRegisteredEventsWithArtistNames = useMemo(() => {
-    return registeredEventData
-      .filter((event) => dayjs(event.eventEndDate).utc().isAfter(dayjs().utc(), 'day'))
-      .map((event) => {
-        return {
-          ...event,
-          eventCreatedBy: event.eventCreatedBy
-            ? userData?.find((user) => user.userId === event.eventCreatedBy)?.legalName
-            : '',
-        };
-      });
-  }, [registeredEventData, userData]);
+  const memoizedCardData = useMemo(
+    () =>
+      getCardData(
+        registeredEventData.filter((event) => dayjs(event.eventEndDate).utc().isAfter(dayjs().utc(), 'day')),
+        userData ?? [],
+      ),
+    [registeredEventData, userData],
+  );
 
   useEffect(() => {
-    if (!!filteredRegisteredEventsWithArtistNames && userData) {
-      setMappedCardData(getCardData(filteredRegisteredEventsWithArtistNames, userData));
+    if (memoizedCardData) {
+      setMappedCardData(memoizedCardData);
     }
-  }, [filteredRegisteredEventsWithArtistNames, userData]);
+  }, [memoizedCardData]);
 
   const pageCount = useMemo(() => {
     return !!mappedCardData ? Math.ceil(mappedCardData.length / pageLength) : 0;
@@ -137,16 +133,14 @@ const UserHome = () => {
             <span ref={welcomeNameRef} className={styles.welcomeName} />
             <span ref={welcomeExclamationRef} />
           </span>
-          <span className={styles.welcomeText}>
-            You have {filteredRegisteredEventsWithArtistNames.length} upcoming events.
-          </span>
+          <span className={styles.welcomeText}>You have {memoizedCardData.length} upcoming events.</span>
         </div>
         <div className={styles.userHomeRegisteredEventsContainer}>
           {isLoading ? (
             <div className={styles.userHomeRegisteredEventsLoading}>
               <LoadingWithPagination />
             </div>
-          ) : numberOfRegistrations === 0 || filteredRegisteredEventsWithArtistNames.length === 0 ? (
+          ) : numberOfRegistrations === 0 || memoizedCardData.length === 0 ? (
             <FriendlyScreenWithPagination
               friendlyScreenHeight="500px"
               friendlyScreenMessage="No upcoming registrations."
@@ -157,8 +151,7 @@ const UserHome = () => {
           <div className={styles.loadMoreRegistrationsContainer}>
             <div className={styles.loadMoreRegistrationsWrapper}>
               <span className={styles.registrationsInfo}>
-                Total Events:{' '}
-                <span className={styles.registrationsCount}>{filteredRegisteredEventsWithArtistNames.length}</span>
+                Total Events: <span className={styles.registrationsCount}>{memoizedCardData.length}</span>
               </span>
               <span className={styles.registrationsInfo}>
                 Visible Events: <span className={styles.registrationsCount}>{mappedCardData.length}</span>
