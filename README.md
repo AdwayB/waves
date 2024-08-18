@@ -27,3 +27,8 @@ It is designed to be performant, modular, scalable and adheres to strict code st
 ### **State Management**
 - **Redux Integration**: Manage global state for user sessions and event data.
 - **React Query**: Efficient data fetching and caching.
+
+## Other `waves-ems` Components
+- [**`waves-server`**](https://github.com/AdwayB/waves-server)
+- [**`waves-users`**](https://github.com/AdwayB/waves-users)
+- [**`waves-events`**](https://github.com/AdwayB/waves-events)
