@@ -1,6 +1,6 @@
 @import '../../styles/variables.scss';
 
-.delete-modal {
+.modal {
   :global(.MuiPaper-root) {
     background-color: $delete-modal-bg-color !important;
     padding: 0.5rem 1rem;

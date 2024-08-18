@@ -1,10 +1,10 @@
 import { FC, ReactNode } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Button } from '../Button';
-import styles from './deleteModal.module.scss';
+import styles from './modal.module.scss';
 
-interface DeleteModalProps {
-  eventId: string;
+interface ModalProps {
+  actionId: string;
   open: boolean;
   handleClose: (e: object, reason: string) => void;
   handleConfirm: (id: string) => void;
@@ -14,9 +14,18 @@ interface DeleteModalProps {
   content?: ReactNode;
 }
 
-const DeleteModal: FC<DeleteModalProps> = (props) => {
+/**
+ * A styled Modal component.
+ * Fully customizable Title and Content, defaults to Delete configuration.
+ * Contains Close and Confirm actions.
+ *
+ * @param actionId - The ID sent in the Confirm callback function to identify the subject of action (eg: EventId, UserId).
+ *
+ * @param {ModalProps} props - The props for configuring the Menu.
+ */
+const Modal: FC<ModalProps> = (props) => {
   const {
-    eventId = '',
+    actionId = '',
     open = false,
     handleClose,
     handleConfirm,
@@ -27,7 +36,7 @@ const DeleteModal: FC<DeleteModalProps> = (props) => {
   } = props;
 
   const handleConfirmClick = () => {
-    handleConfirm(eventId);
+    handleConfirm(actionId);
   };
 
   return (
@@ -36,7 +45,7 @@ const DeleteModal: FC<DeleteModalProps> = (props) => {
       onClose={(e: object, reason: string) => handleClose(e, reason)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      className={styles.deleteModal}
+      className={styles.modal}
     >
       <DialogTitle id="alert-dialog-title" className={styles.title}>
         {title}
@@ -61,4 +70,4 @@ const DeleteModal: FC<DeleteModalProps> = (props) => {
   );
 };
 
-export { DeleteModal };
+export { Modal };

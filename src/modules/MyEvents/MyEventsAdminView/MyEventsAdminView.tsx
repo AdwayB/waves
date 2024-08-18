@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { Button, Checkbox, ColumnType, DeleteModal, RowType, Table } from '../../../components';
+import { Button, Checkbox, ColumnType, Modal, RowType, Table } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import { useGetEventsByUser } from '../../../hooks';
 import dayjs from 'dayjs';
@@ -121,8 +121,8 @@ const MyEventsAdminView: FC<MyEventsAdminViewProps> = (props) => {
 
   return (
     <>
-      <DeleteModal
-        eventId={deleteEventId}
+      <Modal
+        actionId={deleteEventId}
         open={showDeleteModal}
         content={deleteModalContent}
         handleClose={handleCloseDeleteDialog}
