@@ -1,6 +1,17 @@
 import { Dayjs } from 'dayjs';
 import { Discount, Event, Location } from './Responses';
 
+enum EventStatus {
+  Scheduled = 'Scheduled',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
+}
+
+enum UserType {
+  User = 'User',
+  Admin = 'Admin',
+}
+
 interface DateHighlight {
   date: Dayjs;
   count: number;
@@ -26,18 +37,7 @@ interface CreateEvent {
 }
 
 interface UserData {
-  UserId?: string;
-  Username?: string;
-  Password?: string;
-  LegalName?: string;
-  Email: string;
-  MobileNumber?: string;
-  Country?: string;
-  Type: string;
-}
-
-interface UserDataResponse {
-  userId: string;
+  userId?: string;
   userName?: string;
   password?: string;
   legalName?: string;
@@ -46,6 +46,26 @@ interface UserDataResponse {
   country?: string;
   type: string;
 }
+
+interface LoginResponse {
+  user: UserData;
+  token: string;
+}
+
+const UserDataInit: UserData = {
+  userName: '',
+  legalName: '',
+  email: '',
+  password: '',
+  mobileNumber: '',
+  type: UserType.User,
+};
+
+const UserLoginInit: UserLoginRequest = {
+  email: '',
+  password: '',
+  type: UserType.User,
+};
 
 interface UserLoginRequest {
   email: string;
@@ -138,23 +158,12 @@ interface RegistrationResponse {
   Status: string;
 }
 
-enum EventStatus {
-  Scheduled = 'Scheduled',
-  Completed = 'Completed',
-  Cancelled = 'Cancelled',
-}
-
-enum UserType {
-  User = 'User',
-  Admin = 'Admin',
-}
-
-export { EventStatus, UserType };
+export { UserDataInit, UserLoginInit, EventStatus, UserType };
 export type {
   DateHighlight,
   CreateEvent,
   UserData,
-  UserDataResponse,
+  LoginResponse,
   UserLoginRequest,
   UserSavedEvents,
   UserEventRegistrations,

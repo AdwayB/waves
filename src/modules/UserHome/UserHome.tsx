@@ -19,8 +19,8 @@ import dayjs from 'dayjs';
 const UserHome = () => {
   document.title = 'Home - Waves';
   const currentUser = useSelector(selectCurrentUser);
-  const currentUserName = currentUser?.LegalName ?? 'User';
-  const currentUserId = currentUser?.UserId;
+  const currentUserName = currentUser?.legalName ?? 'User';
+  const currentUserId = currentUser?.userId;
 
   const [page, setPage] = useState<number>(1);
   const [pageLength, setPageLength] = useState<number>(1);

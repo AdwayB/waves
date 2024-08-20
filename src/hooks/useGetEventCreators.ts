@@ -1,9 +1,9 @@
 import { useMemo, useEffect, useState } from 'react';
 import { getUserByIDList } from '../utils';
-import { Event, UserDataResponse } from '../helpers';
+import { Event, UserData } from '../helpers';
 
 const useGetEventCreators = (eventData: Event[]) => {
-  const [userData, setUserData] = useState<UserDataResponse[]>([]);
+  const [userData, setUserData] = useState<UserData[]>([]);
 
   const uniqueUserIds = useMemo(() => {
     const userIds = new Set<string>();
@@ -20,7 +20,7 @@ const useGetEventCreators = (eventData: Event[]) => {
       if (uniqueUserIds.length > 0) {
         try {
           const usersResponse = await getUserByIDList(uniqueUserIds);
-          setUserData(usersResponse.data as UserDataResponse[]);
+          setUserData(usersResponse.data as UserData[]);
         } catch (error) {
           console.error('Failed to fetch user data:', error);
         }

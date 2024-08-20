@@ -1,21 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './signupOrLogin.module.scss';
 import { Button, Loading } from '../../components';
-import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsAuthenticated, setIsAuthenticated, setUser } from '../../redux';
 import { useEffect } from 'react';
+import { getUserCookie } from '../../helpers';
 
 const SignupOrLogin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const isUserAuthenticated = useSelector(selectIsAuthenticated);
+  const user = getUserCookie();
 
   useEffect(() => {
     if (isUserAuthenticated) {
       navigate('/user');
+    } else if (user) {
+      dispatch(setUser(user));
+      dispatch(setIsAuthenticated(true));
     }
-  }, [navigate, isUserAuthenticated]);
+  }, [dispatch, isUserAuthenticated, navigate, user]);
 
-  return isUserAuthenticated ? (
+  return user ? (
     <Loading loading />
   ) : (
     <>

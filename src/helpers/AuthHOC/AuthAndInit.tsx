@@ -8,7 +8,7 @@ import { Navigate } from 'react-router-dom';
 const AuthAndInit = <T extends object>(WrappedComponent: ComponentType<T>) => {
   const AuthenticatedComponent = (props: T) => {
     const dispatch = useDispatch();
-    const [userId, setUserId] = useState<string | null>(useSelector(selectCurrentUser)?.UserId ?? null);
+    const [userId, setUserId] = useState<string | null>(useSelector(selectCurrentUser)?.userId ?? null);
     const isAuth = useSelector(selectIsAuthenticated);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const AuthAndInit = <T extends object>(WrappedComponent: ComponentType<T>) => {
         const user = getUserCookie();
         if (!user) return;
         dispatch(setUser(user));
-        setUserId(user.UserId ?? null);
+        setUserId(user.userId ?? null);
         dispatch(setIsAuthenticated(true));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

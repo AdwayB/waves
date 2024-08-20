@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Event, UserDataResponse, UserEventRegistrations } from '../helpers';
+import { Event, UserData, UserEventRegistrations } from '../helpers';
 import { getUserByIDList, getUserRegistrations } from '../utils';
 import { useQuery } from 'react-query';
 
@@ -18,7 +18,7 @@ const fetchUsers = async (artistIds: string[]) => {
   console.log('fetching users');
 
   const { data } = await getUserByIDList(artistIds);
-  return data as UserDataResponse[];
+  return data as UserData[];
 };
 
 const useGetUserRegisteredEventData = (userID: string) => {
@@ -60,7 +60,7 @@ const useGetUserRegisteredEventData = (userID: string) => {
     data: userData,
     isLoading: usersLoading,
     isError: usersError,
-  } = useQuery(['getUsers'], memoizedFetchUsers, {
+  } = useQuery(['getUsers', memoizedArtistIds], memoizedFetchUsers, {
     enabled: memoizedArtistIds.length > 0,
     keepPreviousData: true,
   });

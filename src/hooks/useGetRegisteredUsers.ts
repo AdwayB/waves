@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { EventRegistrations, UserDataResponse } from '../helpers';
+import { EventRegistrations, UserData } from '../helpers';
 import { getEventRegistrations, getUserByIDList } from '../utils';
 import { useQuery } from 'react-query';
 
@@ -18,7 +18,7 @@ const fetchUsers = async (artistIds: string[]) => {
   console.log('fetching users');
 
   const { data } = await getUserByIDList(artistIds);
-  return data as UserDataResponse[];
+  return data as UserData[];
 };
 
 const useGetRegisteredUsers = (eventId: string) => {

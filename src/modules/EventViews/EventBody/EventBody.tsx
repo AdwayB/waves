@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { Event, UserDataResponse } from '../../../helpers';
+import { Event, UserData } from '../../../helpers';
 import { Chip, Rating } from '../../../components';
 import styles from './eventBody.module.scss';
 import dayjs from 'dayjs';
 
 interface EventBodyProps {
   eventInfo: Event;
-  userInfo: UserDataResponse;
+  userInfo: UserData;
   rating: string;
 }
 

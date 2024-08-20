@@ -60,7 +60,7 @@ const EventAdminView: FC = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    if (eventData?.eventCreatedBy !== currentUser?.UserId) {
+    if (eventData?.eventCreatedBy !== currentUser?.userId) {
       navigate(`/user/view-event/${eventId}`);
     }
   }, [eventData, currentUser, eventId, navigate]);

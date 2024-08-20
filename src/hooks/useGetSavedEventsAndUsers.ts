@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useState, useEffect, useCallback } from 'react';
-import { Event, UserDataResponse } from '../helpers';
+import { Event, UserData } from '../helpers';
 import { getEventsByIDList, getUserByIDList } from '../utils';
 
 const fetchEvents = async (ids: string[]) => {
@@ -22,7 +22,7 @@ const fetchUsers = async (artistIds: string[]) => {
   console.log('fetching users');
 
   const { data } = await getUserByIDList(artistIds);
-  return data as UserDataResponse[];
+  return data as UserData[];
 };
 
 const useGetSavedEventsAndUsers = (savedEventIDs: string[]) => {

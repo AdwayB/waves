@@ -7,7 +7,7 @@ import { selectCurrentUser } from '../../redux';
 import { FC } from 'react';
 
 const AppLayout: FC = () => {
-  const userName = useSelector(selectCurrentUser)?.LegalName;
+  const userName = useSelector(selectCurrentUser)?.legalName;
 
   return (
     <div className={styles.appLayout}>

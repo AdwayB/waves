@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { CardProps, EventCardProps } from '../components';
 import { Event } from './Responses';
-import { UserDataResponse, UserType } from './Types';
+import { UserData, UserType } from './Types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Method = (...args: any[]) => void;
@@ -35,7 +35,7 @@ const calculateDistance = (coords1: [number, number], coords2: [number, number])
   return R * c;
 };
 
-const getCardData = (eventData: Event[], userData: UserDataResponse[]): CardProps[] => {
+const getCardData = (eventData: Event[], userData: UserData[]): CardProps[] => {
   return eventData.map((event) => {
     const artistInfo = userData.find((user) => user.userId === event.eventCreatedBy && user.type === UserType.Admin);
     return {
@@ -51,7 +51,7 @@ const getCardData = (eventData: Event[], userData: UserDataResponse[]): CardProp
 
 const getRegisteredEventsCardData = (
   eventData: Event[],
-  userData: UserDataResponse[],
+  userData: UserData[],
   date: Dayjs = dayjs(),
 ): EventCardProps[] => {
   const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
@@ -75,11 +75,7 @@ const getRegisteredEventsCardData = (
     });
 };
 
-const getSavedEventsCardData = (
-  eventData: Event[],
-  userData: UserDataResponse[],
-  date: Dayjs = dayjs(),
-): EventCardProps[] => {
+const getSavedEventsCardData = (eventData: Event[], userData: UserData[], date: Dayjs = dayjs()): EventCardProps[] => {
   const filteredEvents = eventData.filter((event) => dayjs(event.eventStartDate).isSame(date.utc(), 'day'));
 
   if (filteredEvents.length === 0) {

@@ -28,28 +28,28 @@ const Profile: FC = () => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserData>({
-    UserId: '',
-    Username: '',
-    LegalName: '',
-    Email: '',
-    Password: '',
-    MobileNumber: '',
-    Country: '',
-    Type: '',
+    userId: '',
+    userName: '',
+    legalName: '',
+    email: '',
+    password: '',
+    mobileNumber: '',
+    country: '',
+    type: '',
   });
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
   const [logoutError, setLogoutError] = useState<boolean>(false);
 
   useEffect(() => {
     setProfileData({
-      UserId: UserData?.UserId,
-      Username: UserData?.Username,
-      LegalName: UserData?.LegalName,
-      Email: UserData?.Email ?? '',
-      Password: UserData?.Password,
-      MobileNumber: UserData?.MobileNumber,
-      Country: UserData?.Country,
-      Type: UserData?.Type ?? 'User',
+      userId: UserData?.userId ?? '',
+      userName: UserData?.userName,
+      legalName: UserData?.legalName,
+      email: UserData?.email ?? '',
+      password: UserData?.password,
+      mobileNumber: UserData?.mobileNumber,
+      country: UserData?.country,
+      type: UserData?.type ?? 'User',
     });
   }, [UserData]);
 
@@ -64,9 +64,9 @@ const Profile: FC = () => {
   const handleLogoutClick = async () => {
     setLogoutLoading(true);
     const responseStatus = await sendLogout({
-      email: profileData.Email,
-      password: profileData.Password ?? '',
-      type: profileData.Type,
+      email: profileData.email,
+      password: profileData.password ?? '',
+      type: profileData.type,
     });
     if (responseStatus !== 200) {
       setLogoutError(true);

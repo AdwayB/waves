@@ -62,7 +62,7 @@ const EventUserView: FC = () => {
   const registeredEvents = useSelector(selectRegisteredEvents);
 
   useEffect(() => {
-    if (eventData?.eventCreatedBy === currentUser?.UserId) {
+    if (eventData?.eventCreatedBy === currentUser?.userId) {
       navigate(`/user/view-event/admin/${eventId}`);
     }
   }, [eventData, currentUser, eventId, navigate]);
@@ -98,9 +98,9 @@ const EventUserView: FC = () => {
     }
     setIsRegisterLoading(true);
     const registrationRequest: RegistrationRequest = {
-      UserId: currentUser?.UserId ?? '',
+      UserId: currentUser?.userId ?? '',
       EventId: eventData.eventId ?? '',
-      UserEmail: currentUser?.Email ?? '',
+      UserEmail: currentUser?.email ?? '',
     };
     const response = await registerForEvent(registrationRequest);
     if (response.status !== 200) {

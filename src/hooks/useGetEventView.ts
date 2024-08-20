@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useCallback } from 'react';
-import { Event, EventFeedbackResponse, UserDataResponse, UserFeedback } from '../helpers';
+import { Event, EventFeedbackResponse, UserData, UserFeedback } from '../helpers';
 import {
   getEventById,
   getUserByID,
@@ -28,7 +28,7 @@ const fetchUser = async (artistId: string) => {
   console.log('fetching user');
 
   const { data } = await getUserByID(artistId);
-  return data as UserDataResponse;
+  return data as UserData;
 };
 
 const fetchEventFeedback = async (eventId: string) => {

@@ -1,10 +1,9 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './signup.module.scss';
 import { Alert, Button, Checkbox, InputField } from '../../../components';
-import { UserType, UserData, UserDataInit } from '../dataModels';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { getUserCookie } from '../../../helpers';
+import { LoginResponse, UserData, UserDataInit, UserType } from '../../../helpers';
 import { signupUser } from '../../../utils';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setUser } from '../../../redux';
@@ -108,7 +107,7 @@ const Signup: FC = () => {
 
   const handleRecheckPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRecheckPassword(e.target.value);
-    if (e.target.value !== formFields.Password) {
+    if (e.target.value !== formFields.password) {
       setRecheckPasswordError(true);
     } else {
       setRecheckPasswordError(false);
@@ -116,15 +115,15 @@ const Signup: FC = () => {
   };
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
-    async (formData: UserData): Promise<void> => {
-      await signupUser(formData);
+    async (formData: UserData): Promise<UserData> => {
+      const user = await signupUser(formData);
+      const userData = (user.data as LoginResponse).user;
+      return userData;
     },
     {
-      onSuccess: () => {
-        const user = getUserCookie();
-
-        if (user) {
-          dispatch(setUser(user));
+      onSuccess: (userData) => {
+        if (userData) {
+          dispatch(setUser(userData));
           dispatch(setIsAuthenticated(true));
           navigate('/user');
         } else {
@@ -222,8 +221,8 @@ const Signup: FC = () => {
                 <InputField
                   type="text"
                   label="Enter GMail ID"
-                  id="Email"
-                  value={formFields.Email}
+                  id="email"
+                  value={formFields.email}
                   onChange={handleFieldChange}
                   error={emailError}
                   helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
@@ -234,8 +233,8 @@ const Signup: FC = () => {
                 <InputField
                   type="text"
                   label="Enter Phone Number"
-                  id="MobileNumber"
-                  value={formFields.MobileNumber ?? ''}
+                  id="mobileNumber"
+                  value={formFields.mobileNumber ?? ''}
                   onChange={handleFieldChange}
                   required
                   error={mobileNumberError}
@@ -250,8 +249,8 @@ const Signup: FC = () => {
                 <InputField
                   type="password"
                   label="Enter Password"
-                  id="Password"
-                  value={formFields.Password ?? ''}
+                  id="password"
+                  value={formFields.password ?? ''}
                   onChange={handleFieldChange}
                   error={passwordError}
                   helperText={

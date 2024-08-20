@@ -15,8 +15,8 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
   const { userData } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [firstName, setFirstName] = useState<string>(userData.LegalName?.split(' ')[0] ?? '');
-  const [lastName, setLastName] = useState<string>(userData.LegalName?.split(' ')[1] ?? '');
+  const [firstName, setFirstName] = useState<string>(userData.legalName?.split(' ')[0] ?? '');
+  const [lastName, setLastName] = useState<string>(userData.legalName?.split(' ')[1] ?? '');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [mobileNumberError, setMobileNumberError] = useState<boolean>(false);
   const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
@@ -111,7 +111,7 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
 
   const handleRecheckPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRecheckPassword(e.target.value);
-    if (e.target.value !== formFields.Password) {
+    if (e.target.value !== formFields.password) {
       setRecheckPasswordError(true);
     } else {
       setRecheckPasswordError(false);
@@ -126,7 +126,7 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
       setIsLoading(false);
       return;
     }
-    const newUserData = await getUserByID(data.UserId ?? '12');
+    const newUserData = await getUserByID(data.userId ?? '12');
     dispatch(setUser(newUserData.data as UserData));
     setIsLoading(false);
     setIsSuccess(true);
@@ -190,8 +190,8 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
               <InputField
                 type="text"
                 label="Enter GMail ID"
-                id="Email"
-                value={formFields.Email}
+                id="email"
+                value={formFields.email}
                 onChange={handleFieldChange}
                 error={emailError}
                 helperText={emailError ? 'Email must be a valid GMail ID. Ex: foo.bar@example.com' : ' '}
@@ -202,8 +202,8 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
               <InputField
                 type="text"
                 label="Enter Phone Number"
-                id="MobileNumber"
-                value={formFields.MobileNumber ?? ''}
+                id="mobileNumber"
+                value={formFields.mobileNumber ?? ''}
                 onChange={handleFieldChange}
                 required
                 error={mobileNumberError}
@@ -222,8 +222,8 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
                 <InputField
                   type="password"
                   label="Enter Password"
-                  id="Password"
-                  value={formFields.Password ?? ''}
+                  id="password"
+                  value={formFields.password ?? ''}
                   onChange={handleFieldChange}
                   error={passwordError}
                   helperText={
@@ -254,12 +254,12 @@ const EditProfileForm: FC<EditProfileFormProps> = (props) => {
             items={[
               {
                 label: UserType.Admin,
-                checked: formFields.Type === UserType.Admin,
+                checked: formFields.type === UserType.Admin,
                 onClick: () => handleUserTypeChange(true),
               },
               {
                 label: UserType.User,
-                checked: formFields.Type === UserType.User,
+                checked: formFields.type === UserType.User,
                 onClick: () => handleUserTypeChange(false),
               },
             ]}

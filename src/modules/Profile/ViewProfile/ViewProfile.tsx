@@ -19,7 +19,7 @@ const ViewProfile: FC<ViewProfileProps> = (props) => {
             type="text"
             label="First Name"
             id="firstName"
-            value={userData.LegalName?.split(' ')[0] ?? ''}
+            value={userData.legalName?.split(' ')[0] ?? ''}
             readOnly
           />
         </div>
@@ -28,28 +28,28 @@ const ViewProfile: FC<ViewProfileProps> = (props) => {
             type="text"
             label="Last Name"
             id="lastName"
-            value={userData.LegalName?.split(' ').at(-1) ?? ''}
+            value={userData.legalName?.split(' ').at(-1) ?? ''}
             readOnly
           />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="Username" id="Username" value={userData?.Username ?? ''} readOnly />
+          <InputField type="text" label="Username" id="userName" value={userData?.userName ?? ''} readOnly />
         </div>
         <div className={styles.inputFieldContainer}>
-          <InputField type="text" label="GMail ID" id="Email" value={userData?.Email} readOnly />
+          <InputField type="text" label="GMail ID" id="email" value={userData?.email} readOnly />
         </div>
         <div className={styles.inputFieldContainer}>
           <InputField
             type="text"
             label="Phone Number"
-            id="MobileNumber"
-            value={userData?.MobileNumber ?? ''}
+            id="mobileNumber"
+            value={userData?.mobileNumber ?? ''}
             readOnly
           />
         </div>
         <div className={styles.userTypeContainer}>
           <span className={styles.userTypeTitle}>Account Type:&nbsp;</span>
-          <span className={styles.userTypeText}>{userData.Type}</span>
+          <span className={styles.userTypeText}>{userData.type}</span>
         </div>
       </div>
     </div>

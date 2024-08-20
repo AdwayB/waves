@@ -1,10 +1,9 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './login.module.scss';
 import { Alert, Button, Checkbox, InputField } from '../../../components';
-import { UserLoginInit, UserLoginRequest, UserType } from '../dataModels';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { getUserCookie } from '../../../helpers';
+import { LoginResponse, UserData, UserLoginInit, UserLoginRequest, UserType } from '../../../helpers';
 import { setIsAuthenticated, setUser } from '../../../redux';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../utils';
@@ -76,14 +75,15 @@ const Login: FC = () => {
   };
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
-    async (formData: UserLoginRequest): Promise<void> => {
-      await loginUser(formData);
+    async (formData: UserLoginRequest): Promise<UserData> => {
+      const user = await loginUser(formData);
+      const userData = (user.data as LoginResponse).user;
+      return userData;
     },
     {
-      onSuccess: () => {
-        const user = getUserCookie();
-        if (user) {
-          dispatch(setUser(user));
+      onSuccess: (userData) => {
+        if (userData) {
+          dispatch(setUser(userData));
           dispatch(setIsAuthenticated(true));
           navigate('/user');
         } else {

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useState } from 'react';
 import { Alert, Button, DatePicker, InputField, InputNumber, TimeField } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import styles from './eventCreateView.module.scss';
-import { CreateEvent, Event, EventStatus, UserType } from '../../../helpers';
+import { CreateEvent, Event, EventStatus } from '../../../helpers';
 import { EventBody } from '../EventBody';
 import dayjs, { Dayjs } from 'dayjs';
 import { useSelector } from 'react-redux';
@@ -31,7 +31,7 @@ const EventCreateView: FC = () => {
     eventEndDate: '',
     eventLocation: { Type: 'Point', Coordinates: [78.486671, 17.385044] },
     eventStatus: EventStatus.Scheduled,
-    eventCreatedBy: currentUser?.UserId || '',
+    eventCreatedBy: currentUser?.userId || '',
     eventAgeRestriction: 0,
     eventCountry: 'IND',
     eventDiscounts: [],
@@ -191,20 +191,7 @@ const EventCreateView: FC = () => {
       </div>
       <div className={styles.eventCreateBody}>
         <div className={styles.eventViewBody}>
-          <EventBody
-            eventInfo={eventInfo}
-            rating={'0'}
-            userInfo={{
-              userId: currentUser?.UserId ?? '',
-              legalName: currentUser?.LegalName,
-              email: currentUser?.Email ?? '',
-              type: currentUser?.Type ?? UserType.User,
-              mobileNumber: currentUser?.MobileNumber,
-              country: currentUser?.Country,
-              password: currentUser?.Password,
-              userName: currentUser?.Username,
-            }}
-          />
+          <EventBody eventInfo={eventInfo} rating={'0'} userInfo={currentUser!} />
         </div>
         <div className={styles.eventCreateFields}>
           <span className={styles.eventCreateFieldsTitle}>Event Fields</span>

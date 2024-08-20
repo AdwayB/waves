@@ -23,10 +23,10 @@ const MyEvents: FC = () => {
         <div className={styles.myEventsHeading}>
           <span className={styles.myEventsTitle}>My Events</span>
           <span className={styles.myEventsText}>
-            {currentUser?.Type === UserType.Admin ? 'View your events.' : 'View your registrations.'}
+            {currentUser?.type === UserType.Admin ? 'View your events.' : 'View your registrations.'}
           </span>
         </div>
-        {currentUser?.Type === UserType.Admin && (
+        {currentUser?.type === UserType.Admin && (
           <div className={styles.createEventButton}>
             <Button
               label="Create Event"
@@ -38,10 +38,10 @@ const MyEvents: FC = () => {
         )}
       </div>
       <div className={styles.myEventsTable}>
-        {currentUser?.Type === UserType.Admin ? (
-          <MyEventsAdminView userId={currentUser?.UserId ?? ''} />
+        {currentUser?.type === UserType.Admin ? (
+          <MyEventsAdminView userId={currentUser?.userId ?? ''} />
         ) : (
-          <MyEventsUserView userId={currentUser?.UserId ?? ''} />
+          <MyEventsUserView userId={currentUser?.userId ?? ''} />
         )}
       </div>
     </div>

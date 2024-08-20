@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useState, useCallback, useMemo } from 'react';
-import { BulkEventsResponse, Event, UserDataResponse } from '../helpers';
+import { BulkEventsResponse, Event, UserData } from '../helpers';
 import { getBulkEvents, getUserByIDList } from '../utils';
 
 const fetchEvents = async (apiPage: number) => {
@@ -18,7 +18,7 @@ const fetchUsers = async (artistIds: string[]) => {
   console.log('fetching users');
 
   const { data } = await getUserByIDList(artistIds);
-  return data as UserDataResponse[];
+  return data as UserData[];
 };
 
 const useGetEventsAndUsers = () => {
