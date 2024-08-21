@@ -158,7 +158,16 @@ interface RegistrationResponse {
   Status: string;
 }
 
-export { UserDataInit, UserLoginInit, EventStatus, UserType };
+interface AddFeedbackRequest {
+  eventId: string;
+  userId: string;
+  rating: number;
+  comment?: string;
+}
+
+type UpdateFeedbackRequest = UserFeedback & { eventId: string };
+
+export { EventStatus, UserType, UserDataInit, UserLoginInit };
 export type {
   DateHighlight,
   CreateEvent,
@@ -176,4 +185,6 @@ export type {
   UserDetailsWithEventIdList,
   RegistrationRequest,
   RegistrationResponse,
+  AddFeedbackRequest,
+  UpdateFeedbackRequest,
 };

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { APIResponse } from '../../helpers';
+import { AddFeedbackRequest, APIResponse, UpdateFeedbackRequest } from '../../helpers';
 import { feedbackAPI } from './apiObjects';
 
 const getFeedbackForEventId = async (eventID: string): Promise<APIResponse> => {
@@ -35,4 +35,26 @@ const getAverageRatingForEvent = async (eventId: string): Promise<APIResponse> =
   return { status: response.status, data: response.data };
 };
 
-export { getFeedbackForEventId, getFeedbackByEventAndUser, getAverageRatingForEvent };
+const addFeedback = async (feedbackRequest: AddFeedbackRequest): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await feedbackAPI.post('/add-feedback', feedbackRequest);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+const updateFeedback = async (feedbackRequest: UpdateFeedbackRequest): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await feedbackAPI.patch('/update-feedback', feedbackRequest);
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+export { getFeedbackForEventId, getFeedbackByEventAndUser, getAverageRatingForEvent, addFeedback, updateFeedback };

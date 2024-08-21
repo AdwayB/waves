@@ -69,7 +69,7 @@ const fetchEventFeedbackByUser = async (eventId: string, userId: string) => {
   return data as UserFeedback;
 };
 
-const useGetEventView = (eventId: string, admin: boolean = false, edit: boolean = false) => {
+const useGetEventView = (eventId: string, admin: boolean = false, edit: boolean = false, userId?: string) => {
   const memoizedFetchEvent = useCallback(() => fetchEvent(eventId), [eventId]);
 
   const {
@@ -87,8 +87,8 @@ const useGetEventView = (eventId: string, admin: boolean = false, edit: boolean 
   const memoizedFetchEventFeedback = useCallback(() => fetchEventFeedback(eventData?.eventId ?? ''), [eventData]);
   const memoizedFetchAverageRating = useCallback(() => fetchAverageRating(eventData?.eventId ?? ''), [eventData]);
   const memoizedFetchEventFeedbackByUser = useCallback(
-    () => fetchEventFeedbackByUser(eventData?.eventId ?? '', artistId),
-    [eventData, artistId],
+    () => fetchEventFeedbackByUser(eventData?.eventId ?? '', userId ?? ''),
+    [eventData, userId],
   );
 
   const {
@@ -122,8 +122,8 @@ const useGetEventView = (eventId: string, admin: boolean = false, edit: boolean 
     data: feedbackByUserData,
     isLoading: feedbackByUserLoading,
     isError: feedbackByUserError,
-  } = useQuery(['getEventFeedbackByUser', eventData, artistId, !admin], memoizedFetchEventFeedbackByUser, {
-    enabled: !!eventData?.eventId && artistId.length > 0 && !admin,
+  } = useQuery(['getEventFeedbackByUser', eventData, userId], memoizedFetchEventFeedbackByUser, {
+    enabled: !!eventData?.eventId && !!userId && userId.length > 0,
     keepPreviousData: true,
   });
 

@@ -214,7 +214,6 @@ const MemoizedSavedEvents: FC = () => {
   };
 
   const handleSortChange = (sort: SortMethods) => {
-    console.log(sort);
     setSortMethod(sort);
     setPage(1);
   };
