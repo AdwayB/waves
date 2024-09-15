@@ -40,6 +40,12 @@
       .profile-image {
         height: inherit;
         width: inherit;
+
+        .image-element {
+          aspect-ratio: 1;
+          height: 20rem;
+          object-fit: contain;
+        }
       }
     }
 

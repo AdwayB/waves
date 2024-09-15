@@ -52,7 +52,7 @@ const ImageUploadModal: FC<ImageUploadModalProps> = (props) => {
       buttonDisabled={buttonDisabled || !selectedImage}
       title="Upload Profile Photo"
       content={
-        <>
+        <div className={styles.imageUploadContainer}>
           <input
             type="file"
             accept={validFileTypes.join(', ')}
@@ -60,7 +60,7 @@ const ImageUploadModal: FC<ImageUploadModalProps> = (props) => {
             className={styles.imageUpload}
           />
           {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-        </>
+        </div>
       }
     />
   );

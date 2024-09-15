@@ -4,7 +4,7 @@ import ProfilePlaceholder from '../../assets/profile_placeholder.svg';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button, Loading } from '../../components';
-import { UserData, UserLoginRequest } from '../../helpers';
+import { ProfilePhotoResponse, UserData, UserLoginRequest } from '../../helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setIsAuthenticated, setUser } from '../../redux';
 import { deleteProfilePhoto, getProfilePhoto, logoutUser, setProfilePhoto } from '../../utils';
@@ -73,9 +73,10 @@ const Profile: FC = () => {
     setIsImageLoading(true);
     try {
       const response = await getProfileImage();
-      if (response.status === 200) {
+      if (response.status.toString()[0] === '2') {
         if (!!response.data) {
-          setImgSource(response.data as string);
+          const profileImage = (response.data as ProfilePhotoResponse).photo;
+          setImgSource(profileImage);
         } else {
           setImgSource(ProfilePlaceholder as File);
         }
@@ -213,9 +214,9 @@ const Profile: FC = () => {
           <div className={styles.profileImageContainer}>
             <div className={styles.profileImage}>
               {isImageLoading || isImageUploading ? (
-                <Loading />
+                <Loading type="progress" />
               ) : (
-                <img src={imgSource as string} alt="Profile Placeholder" className={styles.profilePlaceholder} />
+                <img src={imgSource as string} alt="Profile Placeholder" className={styles.imageElement} />
               )}
             </div>
           </div>

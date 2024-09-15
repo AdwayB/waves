@@ -169,7 +169,7 @@ type UpdateFeedbackRequest = UserFeedback & { eventId: string };
 
 interface ProfilePhotoResponse {
   userId: string;
-  profilePhoto: string;
+  photo: string;
 }
 
 export { EventStatus, UserType, UserDataInit, UserLoginInit };
