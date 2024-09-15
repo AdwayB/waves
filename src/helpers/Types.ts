@@ -167,6 +167,11 @@ interface AddFeedbackRequest {
 
 type UpdateFeedbackRequest = UserFeedback & { eventId: string };
 
+interface ProfilePhotoResponse {
+  userId: string;
+  profilePhoto: string;
+}
+
 export { EventStatus, UserType, UserDataInit, UserLoginInit };
 export type {
   DateHighlight,
@@ -187,4 +192,5 @@ export type {
   RegistrationResponse,
   AddFeedbackRequest,
   UpdateFeedbackRequest,
+  ProfilePhotoResponse,
 };

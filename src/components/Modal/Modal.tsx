@@ -70,4 +70,4 @@ const Modal: FC<ModalProps> = (props) => {
   );
 };
 
-export { Modal };
+export { Modal, ModalProps };

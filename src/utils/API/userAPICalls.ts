@@ -62,4 +62,46 @@ const saveEvent = async (dataWithEventIds: UserDetailsWithEventIdList): Promise<
   return { status: response.status, data: response.data };
 };
 
-export { getUserByID, getUserByIDList, getSavedEvents, updateUserInfo, saveEvent };
+const getProfilePhoto = async (): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await usersAPI.get('/get-profile-photo');
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+const setProfilePhoto = async (profilePhotoAsString: string): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await usersAPI.post('/set-profile-photo', { profilePhotoAsString });
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+const deleteProfilePhoto = async (): Promise<APIResponse> => {
+  let response: AxiosResponse;
+  try {
+    response = await usersAPI.delete('/delete-profile-photo');
+  } catch (error: unknown) {
+    const requestError: AxiosError = error as AxiosError;
+    return { status: requestError.response?.status ?? 500, data: requestError.response?.data };
+  }
+  return { status: response.status, data: response.data };
+};
+
+export {
+  getUserByID,
+  getUserByIDList,
+  getSavedEvents,
+  updateUserInfo,
+  saveEvent,
+  getProfilePhoto,
+  setProfilePhoto,
+  deleteProfilePhoto,
+};
