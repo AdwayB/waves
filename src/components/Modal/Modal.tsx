@@ -8,8 +8,9 @@ interface ModalProps {
   open: boolean;
   handleClose: (e: object, reason: string) => void;
   handleConfirm: (id: string) => void;
-  buttonloading: boolean;
-  buttonDisabled: boolean;
+  buttonloading?: boolean;
+  buttonDisabled?: boolean;
+  confirmVisible?: boolean;
   title?: ReactNode;
   content?: ReactNode;
 }
@@ -31,6 +32,7 @@ const Modal: FC<ModalProps> = (props) => {
     handleConfirm,
     buttonloading = false,
     buttonDisabled = false,
+    confirmVisible = true,
     title = 'Delete Event',
     content = 'Are you sure you want to delete this event? This is an irreversible action.',
   } = props;
@@ -56,14 +58,16 @@ const Modal: FC<ModalProps> = (props) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions className={styles.actions}>
-        <Button
-          label="Confirm"
-          buttontype="secondary"
-          buttonloading={buttonloading}
-          disabled={buttonDisabled}
-          onClick={handleConfirmClick}
-          className={styles.button}
-        />
+        {confirmVisible && (
+          <Button
+            label="Confirm"
+            buttontype="secondary"
+            buttonloading={buttonloading}
+            disabled={buttonDisabled}
+            onClick={handleConfirmClick}
+            className={styles.button}
+          />
+        )}
         <Button label="Cancel" onClick={() => handleClose({}, 'cancelClicked')} className={styles.button} />
       </DialogActions>
     </Dialog>

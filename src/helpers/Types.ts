@@ -172,6 +172,11 @@ interface ProfilePhotoResponse {
   photo: string;
 }
 
+interface BulkUploadResponse {
+  successCount: number;
+  failedEvents: string[];
+}
+
 export { EventStatus, UserType, UserDataInit, UserLoginInit };
 export type {
   DateHighlight,
@@ -193,4 +198,5 @@ export type {
   AddFeedbackRequest,
   UpdateFeedbackRequest,
   ProfilePhotoResponse,
+  BulkUploadResponse,
 };

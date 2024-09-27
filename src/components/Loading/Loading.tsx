@@ -6,6 +6,7 @@ import { CircularProgress } from '@mui/material';
 interface LoadingProps {
   loading?: boolean;
   type?: 'spinner' | 'progress';
+  value?: number;
 }
 
 /**
@@ -13,7 +14,7 @@ interface LoadingProps {
  * @param {LoadingProps} props - The props for the component.
  */
 const Loading: FC<LoadingProps> = (props) => {
-  const { loading = true, type = 'spinner' } = props;
+  const { loading = true, type = 'spinner', value = 0 } = props;
   const [loaderSize, setLoaderSize] = useState('4rem');
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Loading: FC<LoadingProps> = (props) => {
       case 'spinner':
         return <img src={spinner} alt={loading ? 'Loading...' : 'Loaded!'} className={styles.spinner} />;
       case 'progress':
-        return <CircularProgress size={loaderSize} color="inherit" />;
+        return <CircularProgress size={loaderSize} color="inherit" value={value} />;
       default:
         return <img src={spinner} alt={loading ? 'Loading...' : 'Loaded!'} className={styles.spinner} />;
     }
