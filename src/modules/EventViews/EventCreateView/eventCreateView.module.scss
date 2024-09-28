@@ -60,10 +60,8 @@
     }
 
     .event-info-header-right {
-      .event-actions {
-        .create-button {
-          padding: 0.5rem 1rem;
-        }
+      .upload-bulk-button {
+        padding: 0.5rem 1rem;
       }
     }
   }
@@ -78,8 +76,18 @@
     padding: 1rem;
 
     .event-view-body {
+      display: flex;
+      flex-direction: column;
       align-self: flex-start;
       max-width: 52rem;
+
+      .event-actions {
+        margin-top: 2rem;
+        align-self: center;
+        .create-button {
+          padding: 0.5rem 1rem;
+        }
+      }
     }
 
     .event-create-fields {

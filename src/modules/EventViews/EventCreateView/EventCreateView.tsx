@@ -8,6 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux';
 import { createEvent } from '../../../utils';
+import { BulkUploadModal } from './EventsBulkUpload/BulkUploadModal';
 
 const sendCreateEvent = async (eventData: Event) => {
   const response = await createEvent(eventData);
@@ -47,6 +48,7 @@ const EventCreateView: FC = () => {
   const [eventCreateSuccess, setEventCreateSuccess] = useState<boolean>(false);
   const [formDataError, setFormDataError] = useState<boolean>(false);
   const [createLoading, setCreateLoading] = useState<boolean>(false);
+  const [showBulkModal, setShowBulkModal] = useState<boolean>(false);
 
   if (!eventInfo) {
     return (
@@ -177,6 +179,12 @@ const EventCreateView: FC = () => {
           <span className={styles.eventSubTitle}>See how your event will appear to users.</span>
         </div>
         <div className={styles.eventInfoHeaderRight}>
+          <Button label="Upload Bulk Data" onClick={() => setShowBulkModal(true)} className={styles.uploadBulkButton} />
+        </div>
+      </div>
+      <div className={styles.eventCreateBody}>
+        <div className={styles.eventViewBody}>
+          <EventBody eventInfo={eventInfo} rating={'0'} userInfo={currentUser!} />
           <div className={styles.eventActions}>
             <Button
               label="Create Event"
@@ -187,11 +195,6 @@ const EventCreateView: FC = () => {
               buttonloading={createLoading}
             />
           </div>
-        </div>
-      </div>
-      <div className={styles.eventCreateBody}>
-        <div className={styles.eventViewBody}>
-          <EventBody eventInfo={eventInfo} rating={'0'} userInfo={currentUser!} />
         </div>
         <div className={styles.eventCreateFields}>
           <span className={styles.eventCreateFieldsTitle}>Event Fields</span>
@@ -273,6 +276,7 @@ const EventCreateView: FC = () => {
           </div>
         </div>
       </div>
+      <BulkUploadModal open={showBulkModal} handleClose={() => setShowBulkModal(false)} />
     </div>
   );
 };

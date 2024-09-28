@@ -11,7 +11,7 @@ import { BulkUploadResponse } from '../../../../helpers';
 import { useNavigate } from 'react-router-dom';
 import * as signalR from '@microsoft/signalr';
 
-interface BulkUploadModalProps extends ModalProps {}
+interface BulkUploadModalProps extends Omit<ModalProps, 'actionId' | 'handleConfirm'> {}
 
 const getBulkTemplate = async () => {
   const response = await getBulkUploadTemplate();
@@ -39,68 +39,72 @@ const BulkUploadModalContent = (
     <div className={styles.modalContentHeading}>
       <span className={styles.headingText}>Download Template File:</span>
       {isDownloadedTemplate ? (
-        <Button label={<FileDownloadDoneIcon />} className={styles.headingIcon} onClick={() => {}} />
+        <Button label={<FileDownloadDoneIcon className={styles.headingIcon} />} onClick={() => {}} />
       ) : (
         <Button
-          label={<FileDownloadIcon />}
-          className={styles.headingIcon}
+          label={<FileDownloadIcon className={styles.headingIcon} />}
           onClick={onClickDownloadTemplate}
           buttonloading={isDownloadingTemplate}
         />
       )}
       {isDownloadTemplateError && (
-        <Button label={<FileDownloadOffIcon />} className={styles.headingIcon} onClick={() => {}} />
+        <Button label={<FileDownloadOffIcon className={styles.headingIcon} />} onClick={() => {}} />
       )}
     </div>
+    <span className={styles.modalContentBodyTextHeading}>
+      Please ensure you adhere to the Events Bulk Upload template strictly, do not delete any existing rows or columns
+      (legend and sample data included).
+    </span>
     <div className={styles.modalContentBody}>
-      <div className={styles.modalContentBodyText}>
-        <span className={styles.modalContentBodyTextHeading}>
-          Please ensure you adhere to the Events Bulk Upload template strictly, do not delete any existing rows or
-          columns (legend and sample data included).
+      <div className={styles.modalContentBodyUploadSection}>
+        <span className={styles.modalContentBodyUploadSectionHeadingText}>
+          Upload Bulk Data File (Accepted Format: .xlsx):
         </span>
-        <div className={styles.modalContentBodyUploadSection}>
-          <div className={styles.modalContentBodyUploadSectionHeading}>
-            <span className={styles.modalContentBodyUploadSectionHeadingText}>
-              Upload Bulk Data File (Accepted Format: .xlsx):
-            </span>
-            <span className={styles.modalContentBodyUploadSectionHeadingIcon}>
-              {isUploadedFile ? (
-                <Button label={<CloudDoneIcon />} className={styles.headingIcon} onClick={() => {}} />
-              ) : (
-                <>
-                  <Button
-                    label={<UploadFileIcon />}
-                    className={styles.headingIcon}
-                    onClick={() => document.getElementById('fileInput')?.click()}
-                    buttonloading={isUploadingFile}
-                  />
-                  <input
-                    id="fileInput"
-                    type="file"
-                    accept=".xlsx"
-                    style={{ display: 'none' }}
-                    onChange={onFileChange}
-                  />
-                </>
-              )}
-              {isUploadFileError && (
-                <Button label={<FileDownloadOffIcon />} className={styles.headingIcon} onClick={() => {}} />
-              )}
-            </span>
-          </div>
+        <span className={styles.modalContentBodyUploadSectionHeadingIcon}>
+          {isUploadedFile ? (
+            <Button label={<CloudDoneIcon className={styles.headingIcon} />} onClick={() => {}} />
+          ) : (
+            <>
+              <Button
+                label={<UploadFileIcon className={styles.headingIcon} />}
+                onClick={() => document.getElementById('fileInput')?.click()}
+                buttonloading={isUploadingFile}
+              />
+              <input id="fileInput" type="file" accept=".xlsx" style={{ display: 'none' }} onChange={onFileChange} />
+            </>
+          )}
+          {isUploadFileError && (
+            <Button label={<FileDownloadOffIcon className={styles.headingIcon} />} onClick={() => {}} />
+          )}
+        </span>
+      </div>
+      {isUploadingFile && (
+        <div className={styles.modalContentBodyProgressSection}>
+          <Loading type="progress" value={loadingPercentage} />
         </div>
-        {isUploadingFile && (
-          <div className={styles.modalContentBodyProgressSection}>
-            <Loading type="progress" value={loadingPercentage} />
-          </div>
-        )}
+      )}
+      {/* Uncomment to test */}
+      {/* <div className={styles.modalContentBodyProgressSection}>
+        <Loading type="progress" value={70} />
+      </div> */}
+      {!!failedEventNames && failedEventNames.length > 0 && (
         <div className={styles.modalContentBodyErrorSection}>
           <span className={styles.modalContentBodyErrorSectionHeading}>
             The following events were parsed unsuccessfully, please verify that the data entered is valid.
           </span>
           <span className={styles.modalContentBodyErrorSectionText}>{failedEventNames}</span>
         </div>
-      </div>
+      )}
+      {/* Uncomment to test */}
+      {/* <div className={styles.modalContentBodyErrorSection}>
+        <span className={styles.modalContentBodyErrorSectionHeading}>
+          The following events were parsed unsuccessfully, please verify that the data entered is valid.
+        </span>
+        <span className={styles.modalContentBodyErrorSectionText}>
+          sdvpueabhpaeur, vqrwpuovbqpw9u, vwrpoiuvghwpubw, vwrpouhwqrpovubqwrv, vqwp9roiuhwprovbqwpr98uvgrw,
+          qvwpourghwrpovugqwrpvnbqwpr9u
+        </span>
+      </div> */}
     </div>
   </div>
 );

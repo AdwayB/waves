@@ -1,1 +1,65 @@
 @import '../../../../styles/variables.scss';
+
+.heading-icon {
+  font-size: 1.2rem !important;
+}
+
+.modal-content {
+  min-height: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: 1rem;
+
+  .modal-content-heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
+    .heading-text {
+      font: $tall-text-font;
+    }
+  }
+
+  .modal-content-body-text-heading {
+    font: $small-text-font;
+    text-align: center;
+    opacity: 0.7;
+    text-wrap: balance;
+  }
+
+  .modal-content-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .modal-content-body-upload-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      .modal-content-body-upload-section-heading-text {
+        font: $tall-text-font;
+      }
+    }
+
+    // .modal-content-body-progress-section {
+    // }
+
+    // .modal-content-body-error-section {
+    //   .modal-content-body-error-section-heading {
+    //   }
+
+    //   .modal-content-body-error-section-text {
+    //   }
+    // }
+  }
+}
